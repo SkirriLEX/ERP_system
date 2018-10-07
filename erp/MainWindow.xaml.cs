@@ -1,4 +1,6 @@
-﻿namespace erp
+﻿using System.Windows;
+
+namespace erp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -8,6 +10,11 @@
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            MessageBox.Show("1234567");
         }
     }
 }
