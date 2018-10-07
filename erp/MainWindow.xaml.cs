@@ -15,6 +15,7 @@ namespace erp
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             MessageBox.Show("1234567");
+            MessageBox.Show("yjrjhfjgjhb,jbk");
         }
     }
 }

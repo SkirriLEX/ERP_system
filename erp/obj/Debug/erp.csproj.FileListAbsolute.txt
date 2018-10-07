@@ -13,3 +13,18 @@ E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\erp.csproj.Generat
 E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\erp.csproj.CoreCompileInputs.cache
 E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\erp.exe
 E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\erp.pdb
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\bin\Debug\erp.exe.config
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\bin\Debug\erp.exe
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\bin\Debug\erp.pdb
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\erp.csprojAssemblyReference.cache
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\MainWindow.g.cs
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\App.g.cs
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\erp_MarkupCompile.cache
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\erp_MarkupCompile.lref
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\MainWindow.baml
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\erp.g.resources
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\erp.Properties.Resources.resources
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\erp.csproj.GenerateResource.cache
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\erp.csproj.CoreCompileInputs.cache
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\erp.exe
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\erp.pdb
