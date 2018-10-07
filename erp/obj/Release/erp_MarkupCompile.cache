@@ -4,11 +4,11 @@
 winexe
 C#
 .cs
-C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Release\
 erp
 none
 false
-DEBUG;TRACE
+TRACE
 C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\App.xaml
 11151548125
 
@@ -16,5 +16,5 @@ C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\er
 91244218623
 MainWindow.xaml;
 
-False
+True
 

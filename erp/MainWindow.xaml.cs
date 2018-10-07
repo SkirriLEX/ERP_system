@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Data.SqlClient;
+using System.Windows;
 
 namespace erp
 {
@@ -12,9 +13,9 @@ namespace erp
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)// Run initialization
         {
-            MessageBox.Show("1234567");
+            
         }
     }
 }
