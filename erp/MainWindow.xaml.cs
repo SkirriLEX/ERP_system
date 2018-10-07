@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Windows;
 
 namespace erp
 {
@@ -14,8 +17,29 @@ namespace erp
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            MessageBox.Show("1234567");
-            MessageBox.Show("yjrjhfjgjhb,jbk");
+            var dataQ = new DataQ();
+            try
+            {
+                Debug.WriteLine(@"Connecting to SQL Server ... ");
+                using (var connection = new SqlConnection(dataQ.Builder.ConnectionString))
+                {
+                    connection.Open();
+                    Debug.WriteLine(@"Done.");
+                }
+            }
+            catch (SqlException exception)
+            {
+                DataQ.DisplaySqlErrors(exception);
+                Debug.WriteLine(exception.ToString());
+            }
+            finally
+            {
+                using (var connection = new SqlConnection(dataQ.Builder.ConnectionString))
+                {
+                    connection.Close();
+                    Debug.WriteLine(@"Close.");
+                }
+            }
         }
     }
 }
