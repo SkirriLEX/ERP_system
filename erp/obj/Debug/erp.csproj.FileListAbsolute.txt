@@ -28,3 +28,5 @@ C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\er
 C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\erp.exe
 C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\erp.pdb
 E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\erp.csprojAssemblyReference.cache
+E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\LoginScreen.g.cs
+E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\LoginScreen.baml
