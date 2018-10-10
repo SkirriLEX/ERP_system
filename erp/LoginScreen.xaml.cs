@@ -28,8 +28,8 @@ namespace erp
             ClearPassError();
             if (true)
             {
-                textBox.BorderBrush = 
-                textBox.Foreground = 
+                textBox.BorderBrush =
+                textBox.Foreground =
                 passwordBox.BorderBrush =
                 passwordBox.Foreground = Brushes.IndianRed;
             }
@@ -44,7 +44,7 @@ namespace erp
         {
             textBox.BorderBrush = Brushes.Gray;
             textBox.Foreground = Brushes.Black;
-        }        
+        }
 
         private void GotFocus_Event(object sender, RoutedEventArgs e)
         {
