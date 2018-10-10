@@ -17,11 +17,10 @@ namespace erp
 
         public DataQ()
         {
-            ConnStr = "tcp.178.136.14.234,1433";
+            ConnStr = "178.136.14.234:1433";
             Builder.DataSource = ConnStr;
             Builder.UserID = "resto1";
             Builder.Password = "RfrPft,fkjFqrj.11"; //WIN-NALRE9SA668
-            Builder.InitialCatalog = "ERP_system";
             //Builder.InitialCatalog = "WIN-NALRE9SA668\\SQLEXPRESS";
         }
 
