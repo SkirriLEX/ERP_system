@@ -1,7 +1,6 @@
 E:\Education\Institution\ScienceWork\ERP_system\erp\bin\Debug\erp.exe.config
 E:\Education\Institution\ScienceWork\ERP_system\erp\bin\Debug\erp.exe
 E:\Education\Institution\ScienceWork\ERP_system\erp\bin\Debug\erp.pdb
-E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\erp.csprojResolveAssemblyReference.cache
 E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\MainWindow.g.cs
 E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\App.g.cs
 E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\erp_MarkupCompile.cache
@@ -28,3 +27,4 @@ C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\er
 C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\erp.csproj.CoreCompileInputs.cache
 C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\erp.exe
 C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\erp.pdb
+E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\erp.csprojAssemblyReference.cache
