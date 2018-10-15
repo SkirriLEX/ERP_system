@@ -72,6 +72,14 @@ namespace erp {
             {
             case 1:
             
+            #line 8 "..\..\MainWindow.xaml"
+            ((erp.MainWindow)(target)).Loaded += new System.Windows.RoutedEventHandler(this.Window_Loaded);
+            
+            #line default
+            #line hidden
+            return;
+            case 2:
+            
             #line 10 "..\..\MainWindow.xaml"
             ((System.Windows.Controls.Button)(target)).Click += new System.Windows.RoutedEventHandler(this.Button_Click);
             
