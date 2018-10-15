@@ -30,3 +30,5 @@ C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\er
 E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\erp.csprojAssemblyReference.cache
 E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\LoginScreen.g.cs
 E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\LoginScreen.baml
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\LoginScreen.g.cs
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\LoginScreen.baml
