@@ -16,6 +16,8 @@ namespace erp
         private void Confirm_Button(object sender, RoutedEventArgs e)//Click Generall Button
         {
             ClearPassError();
+            var data = new DataQ();
+            data.tryConnect();
             if (true)
             {
                 textBox.BorderBrush =

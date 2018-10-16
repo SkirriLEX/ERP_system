@@ -7,7 +7,7 @@ namespace erp{
     public class DataQ // all Function in our data connection 
     {
         protected readonly string ConnStr;
-        public static readonly SqlConnectionStringBuilder Builder = new SqlConnectionStringBuilder();
+        public readonly SqlConnectionStringBuilder Builder = new SqlConnectionStringBuilder();
 
         public DataQ()
         {
@@ -15,7 +15,7 @@ namespace erp{
             Builder.DataSource = ConnStr;
             Builder.UserID = "resto";
             Builder.Password = "Resto#test01";
-            Builder.InitialCatalog = "WIN-NALRE9SA668\\SQLEXPRESS";
+            //Builder.InitialCatalog = "WIN-NALRE9SA668\\SQLEXPRESS";
         }
 
         public SqlConnectionStringBuilder getBuilder()
@@ -48,7 +48,7 @@ namespace erp{
                 }
             }
         }
-        private static void DisplaySqlErrors(SqlException exception)
+        public static void DisplaySqlErrors(SqlException exception)
         {
             for (var i = 0; i < exception.Errors.Count; i++)
             {
