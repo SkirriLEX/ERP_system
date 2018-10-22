@@ -15,7 +15,7 @@
                      BorderBrush="Gray" Foreground="Black"
                      TextChanged="TextBox_TextChanged"/>
             <Label Content="Password" Foreground="White"/>
-            
+
             <PasswordBox Height="23" Name="passwordBox"
                          BorderBrush="Gray" Foreground="Black"
                          GotFocus="GotFocus_Event"/>
