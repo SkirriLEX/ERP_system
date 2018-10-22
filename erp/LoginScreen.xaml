@@ -11,7 +11,7 @@
             <Label Content="Confirm" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Top" FontSize="24"/>
             <Separator></Separator>
             <Label Content="Username" Foreground="White"/>
-            <TextBox Height="23" TextWrapping="Wrap" Text="dawd" Name="textBox"
+            <TextBox Height="23" TextWrapping="Wrap" Text="dawd" Name="loginText"
                      BorderBrush="Gray" Foreground="Black"
                      TextChanged="TextBox_TextChanged"/>
             <Label Content="Password" Foreground="White"/>

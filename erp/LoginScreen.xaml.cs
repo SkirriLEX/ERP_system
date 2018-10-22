@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 
@@ -18,24 +18,23 @@ namespace erp
             ClearPassError();
             var data = new DataQ();
             data.tryConnect();
-            if (true)
+            if (data.Check(loginText.Text, passwordBox.Password))
             {
-                textBox.BorderBrush =
-                textBox.Foreground =
-                passwordBox.BorderBrush =
-                passwordBox.Foreground = Brushes.IndianRed;
+                Debug.WriteLine("My congratulate");
             }
             else
             {
-                Console.WriteLine("My congratulate");
+                loginText.BorderBrush = loginText.Foreground =
+                passwordBox.BorderBrush = passwordBox.Foreground = 
+                    Brushes.IndianRed;
             }
         }
 
         //-------- Fancy Block
         private void TextBox_TextChanged(object sender, RoutedEventArgs e)
         {
-            textBox.BorderBrush = Brushes.Gray;
-            textBox.Foreground = Brushes.Black;
+            loginText.BorderBrush = Brushes.Gray;
+            loginText.Foreground = Brushes.Black;
         }
 
         private void GotFocus_Event(object sender, RoutedEventArgs e)
