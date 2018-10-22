@@ -68,11 +68,13 @@ namespace erp{
             if (!tryConnect()) return false;
             using (var connection = new SqlConnection(Builder.ConnectionString))
             {
-                var cmdText = "use ERP_system" +
-                              $"select count(1) from Login where loginStr like {login} and pass like {pass}";//Заменить табличку!!!
+                connection.Open();
+                var cmdText = "use ERP_system;\n" +
+                              $"select count(1) from Logn where loginStr like '{login}' and pass like '{pass}'";//Заменить табличку!!!
                 var command = new SqlCommand(cmdText, connection);
                 // Add the parameters.
                 command.Parameters.Add(new SqlParameter("0", 1));
+
                 using (var reader = command.ExecuteReader())
                 {
                     // while there is another record present
