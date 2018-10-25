@@ -67,7 +67,32 @@ namespace erp{
     public class dbInteract
     {
         private readonly DataQ _connect = new DataQ();
-        public bool CheckLog(string login, string pass)
+        private int getCountTuples(string tableName)
+        {
+            var count = 0;
+            using (var connection = new SqlConnection(_connect.Builder.ConnectionString))
+            {
+                connection.Open();
+                var cmdText = "use ERP_system;\n" +
+                              $"select count(1) from {tableName}'";
+                var command = new SqlCommand(cmdText, connection);
+                // Add the parameters.
+                command.Parameters.Add(new SqlParameter("0", 1));
+
+                using (var reader = command.ExecuteReader())
+                {
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        count = Convert.ToInt32(reader[0]);
+                        // call the objects from their index
+                        //reader[0], reader[1], reader[2], reader[3]));
+                    }
+                }
+            }
+            return count;
+        }
+        public bool CheckLog(string login, string pass)//поменять тут табличку
         {
             if (!_connect.tryConnect()) return false;
             using (var connection = new SqlConnection(_connect.Builder.ConnectionString))
@@ -92,6 +117,7 @@ namespace erp{
             }
             return false;
         }
+
         public Dictionary<string, string> getSpeciality()
         {
             var connection = new SqlConnection(_connect.Builder.ConnectionString);
@@ -141,5 +167,68 @@ namespace erp{
                 connection.Close();
             }
         }
+
+        public string[,] getSpecialization()
+        {
+            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            var tuples = getCountTuples("Specialization");
+            var retSpecialization = new string[3, tuples];
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM Specialization", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    int i = 0, j = 0;
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        var specialityCode = Convert.ToInt32(reader[0]);
+                        retSpecialization[i, j] = specialityCode.ToString();
+                        j += 1;
+                        var specializationCode = Convert.ToInt32(reader[0]);
+                        retSpecialization[i, j] = specializationCode.ToString();
+                        j += 1;
+                        var nameSpecialization = Convert.ToString(reader[0]);
+                        retSpecialization[i, j] = nameSpecialization;
+                        j += 1;
+                        Debug.WriteLine($"{specialityCode} \t | {specializationCode} \t | {nameSpecialization}");
+                        i += 1;
+                    }
+                }
+                return retSpecialization;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return null;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void insertSpecialization(int specialityCode, int specializationCode, int nameSpecialization)
+        {
+            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("INSERT INTO Specialization" +
+                                             "(specialityCode, specializationCode, )" +
+                                             $"VALUES ({specialityCode}, {specializationCode}, {nameSpecialization})", connection);
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
+
 }
