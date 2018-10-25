@@ -187,10 +187,10 @@ namespace erp{
                         var specialityCode = Convert.ToInt32(reader[0]);
                         retSpecialization[i, j] = specialityCode.ToString();
                         j += 1;
-                        var specializationCode = Convert.ToInt32(reader[0]);
+                        var specializationCode = Convert.ToInt32(reader[1]);
                         retSpecialization[i, j] = specializationCode.ToString();
                         j += 1;
-                        var nameSpecialization = Convert.ToString(reader[0]);
+                        var nameSpecialization = Convert.ToString(reader[2]);
                         retSpecialization[i, j] = nameSpecialization;
                         j += 1;
                         Debug.WriteLine($"{specialityCode} \t | {specializationCode} \t | {nameSpecialization}");
@@ -249,10 +249,10 @@ namespace erp{
                         var departamentCode = Convert.ToInt32(reader[0]);
                         retDepartment[i, j] = departamentCode.ToString();
                         j += 1;
-                        var nameDepartment = reader[0].ToString();
+                        var nameDepartment = reader[1].ToString();
                         retDepartment[i, j] = nameDepartment;
                         j += 1;
-                        var specialityCode = Convert.ToInt32(reader[0]);
+                        var specialityCode = Convert.ToInt32(reader[2]);
                         retDepartment[i, j] = specialityCode.ToString();
                         j += 1;
                         Debug.WriteLine($"{departamentCode} \t | {nameDepartment} \t | {specialityCode}");
@@ -330,6 +330,164 @@ namespace erp{
                 var command = new SqlCommand("INSERT INTO Positions" +
                                              "(codePosition, namePosition)" +
                                              $"VALUES ({code}, {name})", connection);
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public string[,] getPerson()
+        {
+            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            var tuples = getCountTuples("Person");
+            var retPerson = new string[11, tuples];
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM Person", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    int i = 0, j = 0;
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        var codePerson = Convert.ToInt32(reader[0]);
+                        retPerson[i, j] = codePerson.ToString();
+                        j += 1;
+                        var firstName = reader[1].ToString();
+                        retPerson[i, j] = firstName;
+                        j += 1;
+                        var lastName = reader[2].ToString();
+                        retPerson[i, j] = lastName;
+                        j += 1;
+                        var midName = reader[3].ToString();
+                        retPerson[i, j] = midName;
+                        j += 1;
+                        var dateofBirth = Convert.ToDateTime(reader[4]);
+                        retPerson[i, j] = dateofBirth.ToLongDateString();
+                        j += 1;
+                        var positionCode = Convert.ToInt32(reader[5]);
+                        retPerson[i, j] = positionCode.ToString();
+                        j += 1;
+                        var departamentCode = Convert.ToInt32(reader[6]);
+                        retPerson[i, j] = departamentCode.ToString();
+                        j += 1;
+                        var addrr = reader[7].ToString();
+                        retPerson[i, j] = addrr;
+                        j += 1;
+                        var phoneNum = Convert.ToInt32(reader[8]);
+                        retPerson[i, j] = phoneNum.ToString();
+                        j += 1;
+                        var email = reader[9].ToString();
+                        retPerson[i, j] = email;
+                        j += 1;
+                        var dateBegin = Convert.ToDateTime(reader[10]);
+                        retPerson[i, j] = dateBegin.ToLongDateString();
+                        j += 1;
+                        var dateEnd = Convert.ToDateTime(reader[11]);
+                        retPerson[i, j] = dateEnd.ToLongDateString();
+                        j += 1;
+                        
+                        Debug.WriteLine(retPerson.ToString());
+                        i += 1;
+                    }
+                }
+                return retPerson;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return null;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void insertPerson(int codePerson, string firstName, string lastName, string midName,
+            DateTime dateofBirth, int positionCode, int departamentCode, string addrr, int phoneNum,
+            string email, DateTime dateBegin, DateTime dateEnd)
+        {
+            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("INSERT INTO Person" +
+                                             "(codePerson, firstName, lastName, midName, dateofBirth, " +
+                                             "positionCode, departamentCode, addrr, phoneNum, email, " +
+                                             "dateBegin, dateEnd)" +
+                                             $"VALUES ({codePerson}, {firstName}, {lastName}, {midName}, {dateofBirth}, " +
+                                             $"{positionCode}, {departamentCode}, {addrr}, {phoneNum}, {email}, " +
+                                             $"{dateBegin}, {dateEnd})", connection);
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public string[,] getInfLogin()
+        {
+            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            var tuples = getCountTuples("InfLogin");
+            var retInfLogin = new string[3, tuples];
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM InfLogin", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    int i = 0, j = 0;
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        var tabNumPerson = Convert.ToInt32(reader[0]);
+                        retInfLogin[i, j] = tabNumPerson.ToString();
+                        j += 1;
+                        var loginStr = reader[1].ToString();
+                        retInfLogin[i, j] = loginStr;
+                        j += 1;
+                        var pass = Convert.ToInt32(reader[2]);
+                        retInfLogin[i, j] = pass.ToString();
+                        j += 1;
+                        Debug.WriteLine(retInfLogin.ToString());
+                        i += 1;
+                    }
+                }
+                return retInfLogin;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return null;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void insertInfLogin(int tabNumPerson, string loginStr, string pass)
+        {
+            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("INSERT INTO InfLogin" +
+                                             "(tabNumPerson, loginStr, pass)" +
+                                             $"VALUES ({tabNumPerson}, {loginStr}, {pass})", connection);
                 command.ExecuteNonQuery();
             }
             catch (Exception ex)
