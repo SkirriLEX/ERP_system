@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Windows;
@@ -17,7 +18,6 @@ namespace erp{
             Builder.Password = "Resto#test01";
             //Builder.InitialCatalog = "WIN-NALRE9SA668\\SQLEXPRESS";
         }
-
         public SqlConnectionStringBuilder getBuilder()
         {
             return Builder;
@@ -34,7 +34,6 @@ namespace erp{
                     connection.Open();
                     Debug.WriteLine("Done.");
                     return true;
-
                 }
                 catch (SqlException exception)
                 {
@@ -63,14 +62,19 @@ namespace erp{
                                 "LineNumber: " + exception.Errors[i].LineNumber);
             }
         }
-        public bool Check(string login, string pass)
+    }
+
+    public class dbInteract
+    {
+        private readonly DataQ _connect = new DataQ();
+        public bool CheckLog(string login, string pass)
         {
-            if (!tryConnect()) return false;
-            using (var connection = new SqlConnection(Builder.ConnectionString))
+            if (!_connect.tryConnect()) return false;
+            using (var connection = new SqlConnection(_connect.Builder.ConnectionString))
             {
                 connection.Open();
                 var cmdText = "use ERP_system;\n" +
-                              $"select count(1) from Logn where loginStr like '{login}' and pass like '{pass}'";//Заменить табличку!!!
+                              $"select count(1) from Logn where loginStr like '{login}' and pass like '{pass}'";
                 var command = new SqlCommand(cmdText, connection);
                 // Add the parameters.
                 command.Parameters.Add(new SqlParameter("0", 1));
@@ -87,6 +91,36 @@ namespace erp{
                 }
             }
             return false;
+        }
+        public Dictionary<string, string> getSpeciality()
+        {
+            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            var specStrings = new Dictionary<string, string>();
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM Speciality", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        specStrings.Add(reader[0].ToString(), reader[1].ToString());
+                        Debug.WriteLine($"{reader[0]} \t | {reader[1]} ");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            return specStrings;
         }
     }
 }
