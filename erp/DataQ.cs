@@ -119,8 +119,27 @@ namespace erp{
             {
                 connection.Close();
             }
-
             return specStrings;
+        }
+        public void insertSpeciality(string code, string name)
+        {
+            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("INSERT INTO Speciality" +
+                                             "(specialityCode, nameSpec)" +
+                                             $"VALUES ({code}, {name})", connection);
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
         }
     }
 }
