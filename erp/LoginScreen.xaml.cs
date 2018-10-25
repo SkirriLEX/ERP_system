@@ -17,6 +17,7 @@ namespace erp
         {
             ClearPassError();
             var data = new dbInteract();
+            data.getSpec();
             if (data.CheckLog(loginText.Text, passwordBox.Password))
             {
                 Debug.WriteLine("My congratulate");
