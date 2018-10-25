@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:erp"
         mc:Ignorable="d"
-        Title="Sing in" Height="400" Width="300" FontSize="14" FontFamily ="Verdana"  Background="#FF95A8A8" ResizeMode ="CanMinimize">
+        
+        Title="Sing in" Icon="Icons-images/loginIcon.ico"  Height="400" Width="300" FontSize="14" FontFamily ="Verdana"  Background="#FF95A8A8" ResizeMode ="CanMinimize" KeyDown="Window_KeyDown">
     <Border Margin="20" CornerRadius="15" Background="#FF575757">
         <StackPanel Margin="20">
             <Label Content="Confirm" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Top" FontSize="24"/>
             <Separator></Separator>
             <Label Content="Username" Foreground="White"/>
-            <TextBox Height="23" TextWrapping="Wrap" Text="dawd" Name="loginText"
+            <TextBox Height="23" TextWrapping="Wrap" Text="" Name="loginText"
                      BorderBrush="Gray" Foreground="Black"
                      TextChanged="TextBox_TextChanged"/>
             <Label Content="Password" Foreground="White"/>
