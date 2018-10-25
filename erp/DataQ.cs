@@ -229,6 +229,67 @@ namespace erp{
                 connection.Close();
             }
         }
-    }
 
+        public string[,] getDep()
+        {
+            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            var tuples = getCountTuples("Department");
+            var retDepartment = new string[3, tuples];
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM Department", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    int i = 0, j = 0;
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        var departamentCode = Convert.ToInt32(reader[0]);
+                        retDepartment[i, j] = departamentCode.ToString();
+                        j += 1;
+                        var nameDepartment = reader[0].ToString();
+                        retDepartment[i, j] = nameDepartment;
+                        j += 1;
+                        var specialityCode = Convert.ToInt32(reader[0]);
+                        retDepartment[i, j] = specialityCode.ToString();
+                        j += 1;
+                        Debug.WriteLine($"{departamentCode} \t | {nameDepartment} \t | {specialityCode}");
+                        i += 1;
+                    }
+                }
+                return retDepartment;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return null;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void insertDep(int departamentCode, string nameDepartment, int specialityCode)
+        {
+            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("INSERT INTO Department" +
+                                             "(departamentCode, nameDepartment, specialityCode)" +
+                                             $"VALUES ({departamentCode}, {nameDepartment}, {specialityCode})", connection);
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
 }
