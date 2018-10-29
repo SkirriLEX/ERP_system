@@ -167,6 +167,35 @@ namespace erp{
                 connection.Close();
             }
         }
+        public Dictionary<string, string> searchSpeciality(string arg)
+        {
+            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            var specStrings = new Dictionary<string, string>();
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand($"SELECT * FROM Speciality where specialityCode like {arg} or nameSpec like {arg}", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        specStrings.Add(reader[0].ToString(), reader[1].ToString());
+                        Debug.WriteLine($"{reader[0]} \t | {reader[1]} ");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return specStrings;
+        }
 
         public string[,] getSpecialization()
         {
