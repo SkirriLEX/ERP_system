@@ -32,3 +32,9 @@ E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\LoginScreen.baml
 C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\LoginScreen.g.cs
 C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\LoginScreen.baml
 E:\Education\Institution\ScienceWork\ERP_system\erp\obj\Debug\erp.csprojAssemblyReference.cache
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\bin\Debug\MaterialDesignColors.dll
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\bin\Debug\MaterialDesignThemes.Wpf.dll
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\bin\Debug\MaterialDesignThemes.Wpf.pdb
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\bin\Debug\MaterialDesignThemes.Wpf.xml
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\App.baml
+C:\Users\emets\OneDrive\Edu\University\3 курс\научная работа\erp\erp\obj\Debug\erp.csproj.CopyComplete

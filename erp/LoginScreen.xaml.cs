@@ -22,7 +22,7 @@ namespace erp
             if (data.Check(loginText.Text, passwordBox.Password))
             {
                 Debug.WriteLine("My congratulate");
-                MainWindow mainWindow = new MainWindow();
+                var mainWindow = new MainWindow();
                 mainWindow.Show();
                 this.Close();
             }
@@ -43,7 +43,7 @@ namespace erp
 
         private void GotFocus_Event(object sender, RoutedEventArgs e)
         {
-            if (passwordBox.BorderBrush == Brushes.IndianRed)
+            if (Equals(passwordBox.BorderBrush, Brushes.IndianRed))
                 passwordBox.Password = "";
             ClearPassError();
         }
@@ -61,11 +61,9 @@ namespace erp
 
         private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.Enter)
-            {
-                Confirm_Button(sender, e);
-                Debug.WriteLine("Press");
-            }
+            if (e.Key != System.Windows.Input.Key.Enter) return;
+            Confirm_Button(sender, e);
+            Debug.WriteLine("Press");
         }
     }
 }
