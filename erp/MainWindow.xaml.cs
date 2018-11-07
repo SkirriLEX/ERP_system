@@ -55,6 +55,11 @@ namespace erp
             ButtonCloseMenu.Visibility = Visibility.Collapsed;
 
         }
+
+        private void click_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            
+        }
     }
 
 }

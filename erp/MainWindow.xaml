@@ -36,10 +36,10 @@
         </EventTrigger>
 
     </Window.Triggers>
-    
+
     <Grid Background="LightGray">
         <Grid  Name="title" VerticalAlignment="Top" Height="30" Background="#FF4357B2">
-            <TextBlock Text="Best system in the world !!! : )" Margin="4" FontSize="20" HorizontalAlignment="Center" Foreground="LightGray">
+            <TextBlock Text="2г" Margin="4" FontSize="20" HorizontalAlignment="Center" Foreground="LightGray">
             </TextBlock>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <TextBlock Name="textBlocklogin" Text="Admin" MaxWidth="150" HorizontalAlignment="Right" Margin="4" FontSize="20" Foreground="#DDFFFFFF"/>
@@ -66,39 +66,39 @@
                 </Grid>
                 <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="150" VerticalAlignment="Bottom">
                     <ListViewItem>
-                        <StackPanel Orientation="Horizontal" >
+                        <StackPanel x:Name="click" Orientation="Horizontal" MouseEnter="click_MouseEnter" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
+                            <TextBlock Text="Специальность" Margin="6"/>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem >
                         <StackPanel Orientation="Horizontal" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
+                            <TextBlock Text="Специализация" Margin="6"/>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem >
                         <StackPanel Orientation="Horizontal" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
+                            <TextBlock Text="Должность" Margin="6"/>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem >
                         <StackPanel Orientation="Horizontal" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
+                            <TextBlock Text="Сотрудник" Margin="6"/>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem >
                         <StackPanel Orientation="Horizontal" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
+                            <TextBlock Text="Предмет" Margin="6"/>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem >
                         <StackPanel Orientation="Horizontal" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
+                            <TextBlock Text="Данные для входа" Margin="6"/>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem >
@@ -170,5 +170,6 @@
                 </ListView>
             </StackPanel>
         </Grid>
+        <Grid Name="dataGrid" HorizontalAlignment="Left" Height="100" Margin="225,121,0,0" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </Window>

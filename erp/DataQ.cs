@@ -61,15 +61,10 @@ namespace erp{
                                 "LineNumber: " + exception.Errors[i].LineNumber);
             }
         }
-    }
-    public class DbInteract
-    {
-        private readonly DataQ _connect = new DataQ();
-        
-        public bool CheckLog(string login, string pass)//поменять тут табличку
+        public bool CheckLog(string login, string pass)
         {
-            if (!_connect.TryConnect()) return false;
-            using (var connection = new SqlConnection(_connect.Builder.ConnectionString))
+            if (!Utils.Connect.TryConnect()) return false;
+            using (var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString))
             {
                 connection.Open();
                 var cmdText = "use ERP_system;\n" +
@@ -88,13 +83,30 @@ namespace erp{
                         //reader[0], reader[1], reader[2], reader[3]));
                     }
                 }
+                cmdText = "use ERP_system;\n" +
+                          $"select count(1) from InfLogin where loginStr like '{login}' and pass like '{pass}'";
+                command = new SqlCommand(cmdText, connection);
+                // Add the parameters.
+                command.Parameters.Add(new SqlParameter("0", 1));
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        return Convert.ToInt32(reader[0]) > 0;
+                    }
+                }
+                connection.Close();
             }
             return false;
         }
-        protected int GetCountTuples(string tableName)
+    }
+    internal static class Utils
+    {
+        public static readonly DataQ Connect = new DataQ();
+        public static int GetCountTuples(string tableName)
         {
             var count = 0;
-            using (var connection = new SqlConnection(_connect.Builder.ConnectionString))
+            using (var connection = new SqlConnection(Connect.Builder.ConnectionString))
             {
                 connection.Open();
                 var cmdText = "use ERP_system;\n" +
@@ -116,10 +128,12 @@ namespace erp{
             }
             return count;
         }
-
+    }
+    public class Speciality//all done
+    {
         public Dictionary<int, string> GetTableSpeciality()
         {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             var specStrings = new Dictionary<int, string>();
             try
             {
@@ -149,7 +163,7 @@ namespace erp{
         }
         public void InsertSpeciality(string code, string name)
         {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
                 connection.Open();
@@ -170,7 +184,7 @@ namespace erp{
         }
         public Dictionary<string, string> SearchSpeciality(string arg)//return an array with defined argument
         {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             var specStrings = new Dictionary<string, string>();
             try
             {
@@ -197,11 +211,13 @@ namespace erp{
             }
             return specStrings;
         }
-
+    }
+    public class Specialization//all done
+    {
         public string[,] GetSpecialization()
         {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
-            var tuples = GetCountTuples("Specialization");
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            var tuples = Utils.GetCountTuples("Specialization");
             var retSpecialization = new string[3, tuples];
             try
             {
@@ -241,7 +257,7 @@ namespace erp{
         }
         public void InsertSpecialization(int specialityCode, int specializationCode, int nameSpecialization)
         {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
                 connection.Open();
@@ -261,8 +277,8 @@ namespace erp{
         }
         public string[,] SearchSpecialization(string arg)//return an array with defined argument
         {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
-            var tuples = GetCountTuples("Specialization");
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            var tuples = Utils.GetCountTuples("Specialization");
             var retSpecialization = new string[3, tuples];
             try
             {
@@ -303,11 +319,119 @@ namespace erp{
 
             return retSpecialization;
         }
-
+    }
+    public class InfLogin//all done
+    {
+        public string[,] GetInfLogin()
+        {
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            var tuples = Utils.GetCountTuples("InfLogin");
+            var retInfLogin = new string[3, tuples];
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM InfLogin", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    int i = 0, j = 0;
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        var tabNumPerson = Convert.ToInt32(reader[0]);
+                        retInfLogin[i, j] = tabNumPerson.ToString();
+                        j += 1;
+                        var loginStr = reader[1].ToString();
+                        retInfLogin[i, j] = loginStr;
+                        j += 1;
+                        var pass = Convert.ToInt32(reader[2]);
+                        retInfLogin[i, j] = pass.ToString();
+                        j += 1;
+                        Debug.WriteLine(retInfLogin.ToString());
+                        i += 1;
+                    }
+                }
+                return retInfLogin;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return null;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void InsertInfLogin(int tabNumPerson, string loginStr, string pass)
+        {
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("INSERT INTO InfLogin" +
+                                             "(tabNumPerson, loginStr, pass)" +
+                                             $"VALUES ({tabNumPerson}, {loginStr}, {pass})", connection);
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public string[,] SearchInfLogin(string arg)
+        {
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            var tuples = Utils.GetCountTuples("InfLogin");
+            var retInfLogin = new string[3, tuples];
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM InfLogin" +
+                                            $"where loginStr like {arg}", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    int i = 0, j = 0;
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        var tabNumPerson = Convert.ToInt32(reader[0]);
+                        retInfLogin[i, j] = tabNumPerson.ToString();
+                        j += 1;
+                        var loginStr = reader[1].ToString();
+                        retInfLogin[i, j] = loginStr;
+                        j += 1;
+                        var pass = Convert.ToInt32(reader[2]);
+                        retInfLogin[i, j] = pass.ToString();
+                        j += 1;
+                        Debug.WriteLine(retInfLogin.ToString());
+                        i += 1;
+                    }
+                }
+                return retInfLogin;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return null;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    public class Department//all done
+    {
         public string[,] GetDep()
         {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
-            var tuples = GetCountTuples("Department");
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            var tuples = Utils.GetCountTuples("Department");
             var retDepartment = new string[3, tuples];
             try
             {
@@ -347,7 +471,7 @@ namespace erp{
         }
         public void InsertDep(int departamentCode, string nameDepartment, int specialityCode)
         {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
                 connection.Open();
@@ -367,8 +491,8 @@ namespace erp{
         }
         public string[,] SearchDepartament(string arg)//return an array with defined argument
         {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
-            var tuples = GetCountTuples("Department");
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            var tuples = Utils.GetCountTuples("Department");
             var retDepartment = new string[3, tuples];
             try
             {
@@ -408,10 +532,12 @@ namespace erp{
             }
             return retDepartment;
         }
-
+    }
+    public class Position//all done
+    {
         public Dictionary<string, string> GetPositions()
         {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             var specStrings = new Dictionary<string, string>();
             try
             {
@@ -440,7 +566,7 @@ namespace erp{
         }
         public void InsertPositions(string code, string name)
         {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
                 connection.Open();
@@ -460,7 +586,7 @@ namespace erp{
         }
         public Dictionary<string, string> SearchPositions(string arg)
         {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             var specStrings = new Dictionary<string, string>();
             try
             {
@@ -489,11 +615,13 @@ namespace erp{
             }
             return specStrings;
         }
-
+    }
+    public class Person
+    {
         public string[,] GetPerson()
         {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
-            var tuples = GetCountTuples("Person");
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            var tuples = Utils.GetCountTuples("Person");
             var retPerson = new string[11, tuples];
             try
             {
@@ -563,7 +691,7 @@ namespace erp{
             DateTime dateofBirth, int positionCode, int departamentCode, string addrr, int phoneNum,
             string email, DateTime dateBegin, DateTime dateEnd)
         {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
                 connection.Open();
@@ -587,8 +715,8 @@ namespace erp{
         }
         public string[,] SearchPerson(string arg)
         {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
-            var tuples = GetCountTuples("Person");
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            var tuples = Utils.GetCountTuples("Person");
             var retPerson = new string[11, tuples];
             try
             {
@@ -667,108 +795,6 @@ namespace erp{
             }
         }
 
-        public string[,] GetInfLogin()
-        {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
-            var tuples = GetCountTuples("InfLogin");
-            var retInfLogin = new string[3, tuples];
-            try
-            {
-                connection.Open();
-                var command = new SqlCommand("SELECT * FROM InfLogin", connection);
-                using (var reader = command.ExecuteReader())
-                {
-                    int i = 0, j = 0;
-                    // while there is another record present
-                    while (reader.Read())
-                    {
-                        // write the data on to the screen
-                        var tabNumPerson = Convert.ToInt32(reader[0]);
-                        retInfLogin[i, j] = tabNumPerson.ToString();
-                        j += 1;
-                        var loginStr = reader[1].ToString();
-                        retInfLogin[i, j] = loginStr;
-                        j += 1;
-                        var pass = Convert.ToInt32(reader[2]);
-                        retInfLogin[i, j] = pass.ToString();
-                        j += 1;
-                        Debug.WriteLine(retInfLogin.ToString());
-                        i += 1;
-                    }
-                }
-                return retInfLogin;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
-                return null;
-            }
-            finally
-            {
-                connection.Close();
-            }
-        }
-        public void InsertInfLogin(int tabNumPerson, string loginStr, string pass)
-        {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
-            try
-            {
-                connection.Open();
-                var command = new SqlCommand("INSERT INTO InfLogin" +
-                                             "(tabNumPerson, loginStr, pass)" +
-                                             $"VALUES ({tabNumPerson}, {loginStr}, {pass})", connection);
-                command.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
-            }
-            finally
-            {
-                connection.Close();
-            }
-        }
-        public string[,] SearchInfLogin(string arg)
-        {
-            var connection = new SqlConnection(_connect.Builder.ConnectionString);
-            var tuples = GetCountTuples("InfLogin");
-            var retInfLogin = new string[3, tuples];
-            try
-            {
-                connection.Open();
-                var command = new SqlCommand("SELECT * FROM InfLogin"+
-                                            $"where loginStr like {arg}", connection);
-                using (var reader = command.ExecuteReader())
-                {
-                    int i = 0, j = 0;
-                    // while there is another record present
-                    while (reader.Read())
-                    {
-                        // write the data on to the screen
-                        var tabNumPerson = Convert.ToInt32(reader[0]);
-                        retInfLogin[i, j] = tabNumPerson.ToString();
-                        j += 1;
-                        var loginStr = reader[1].ToString();
-                        retInfLogin[i, j] = loginStr;
-                        j += 1;
-                        var pass = Convert.ToInt32(reader[2]);
-                        retInfLogin[i, j] = pass.ToString();
-                        j += 1;
-                        Debug.WriteLine(retInfLogin.ToString());
-                        i += 1;
-                    }
-                }
-                return retInfLogin;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
-                return null;
-            }
-            finally
-            {
-                connection.Close();
-            }
-        }
+        
     }
 }
