@@ -7,13 +7,12 @@ using System.Windows;
 namespace erp{
     public class DataQ // all Function in our data connection 
     {
-        protected readonly string ConnStr;
         public readonly SqlConnectionStringBuilder Builder = new SqlConnectionStringBuilder();
 
         public DataQ()
         {
-            ConnStr = "178.136.14.234";
-            Builder.DataSource = ConnStr;
+            const string connStr = "178.136.14.234";
+            Builder.DataSource = connStr;
             Builder.UserID = "resto";
             Builder.Password = "Resto#test01";
             //Builder.InitialCatalog = "WIN-NALRE9SA668\\SQLEXPRESS";
@@ -131,10 +130,26 @@ namespace erp{
     }
     public class Speciality//all done
     {
-        public Dictionary<int, string> GetTableSpeciality()
+        private int Code { get; set; }
+        private string Name { get; set; }
+
+        private Speciality()
+        {
+            Code = 0;
+            Name = "none";
+        } 
+        private Speciality(int code, string name)
+        {
+            Code = code;
+            Name = name;
+        }
+
+        public int GetCode(){ return Code; }
+        public string GetName(){ return Name; }
+
+        public void GetTableSpeciality()
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            var specStrings = new Dictionary<int, string>();
             try
             {
                 connection.Open();
@@ -145,7 +160,8 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        specStrings.Add(Convert.ToInt32(reader[0]), reader[1].ToString());
+                        Code = Convert.ToInt32(reader[0]);
+                        Name = reader[1].ToString();
                         Debug.WriteLine($"{reader[0]} \t | {reader[1]} ");
                     }
                 }
@@ -159,9 +175,8 @@ namespace erp{
             {
                 connection.Close();
             }
-            return specStrings;
         }
-        public void InsertSpeciality(string code, string name)
+        public void InsertToTableSpeciality(string code, string name)
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
@@ -182,21 +197,23 @@ namespace erp{
                 connection.Close();
             }
         }
-        public Dictionary<string, string> SearchSpeciality(string arg)//return an array with defined argument
+        public void SearchInTableSpeciality(string arg)//return an array with defined argument
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            var specStrings = new Dictionary<string, string>();
             try
             {
                 connection.Open();
-                var command = new SqlCommand($"SELECT * FROM Speciality where specialityCode like {arg} or nameSpec like {arg}", connection);
+                var command = new SqlCommand("SELECT * FROM Speciality where " +
+                                             $"specialityCode like {arg} " +
+                                             $"or nameSpec like {arg}", connection);
                 using (var reader = command.ExecuteReader())
                 {
                     // while there is another record present
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        specStrings.Add(reader[0].ToString(), reader[1].ToString());
+                        Code = Convert.ToInt32(reader[0]);
+                        Name = reader[1].ToString();
                         Debug.WriteLine($"{reader[0]} \t | {reader[1]} ");
                     }
                 }
@@ -209,53 +226,60 @@ namespace erp{
             {
                 connection.Close();
             }
-            return specStrings;
         }
     }
     public class Specialization//all done
     {
-        public string[,] GetSpecialization()
+        private int _specialityCode;
+        private int _specializationCode;
+        private string _nameSpecialization;
+
+        private Specialization()
+        {
+            _specialityCode = _specializationCode = 0;
+            _nameSpecialization = "none";
+        }
+        private Specialization(int specialityCode, int specializationCode, string nameSpecialization)
+        {
+            _specialityCode = specialityCode;
+            _specializationCode = specializationCode;
+            _nameSpecialization = nameSpecialization;
+        }
+
+        public int GetSpecialityCode() { return _specialityCode;}
+        public int GetSpecializationCode() { return _specializationCode;}
+        public string GetNameSpecialization() { return _nameSpecialization;}
+        
+        public void GetTableSpecialization()
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            var tuples = Utils.GetCountTuples("Specialization");
-            var retSpecialization = new string[3, tuples];
             try
             {
                 connection.Open();
                 var command = new SqlCommand("SELECT * FROM Specialization", connection);
                 using (var reader = command.ExecuteReader())
                 {
-                    int i = 0, j = 0;
                     // while there is another record present
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        var specialityCode = Convert.ToInt32(reader[0]);
-                        retSpecialization[i, j] = specialityCode.ToString();
-                        j += 1;
-                        var specializationCode = Convert.ToInt32(reader[1]);
-                        retSpecialization[i, j] = specializationCode.ToString();
-                        j += 1;
-                        var nameSpecialization = Convert.ToString(reader[2]);
-                        retSpecialization[i, j] = nameSpecialization;
-                        j += 1;
-                        Debug.WriteLine($"{specialityCode} \t | {specializationCode} \t | {nameSpecialization}");
-                        i += 1;
+                        _specialityCode = Convert.ToInt32(reader[0]);
+                        _specializationCode = Convert.ToInt32(reader[1]);
+                        _nameSpecialization = Convert.ToString(reader[2]);
+                        Debug.WriteLine($"{_specialityCode} \t | {_specializationCode} \t | {_nameSpecialization}");
                     }
                 }
-                return retSpecialization;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
-                return null;
             }
             finally
             {
                 connection.Close();
             }
         }
-        public void InsertSpecialization(int specialityCode, int specializationCode, int nameSpecialization)
+        public void InsertToTableSpecialization(int specialityCode, int specializationCode, int nameSpecialization)
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
@@ -263,7 +287,9 @@ namespace erp{
                 connection.Open();
                 var command = new SqlCommand("INSERT INTO Specialization" +
                                              "(specialityCode, specializationCode, )" +
-                                             $"VALUES ({specialityCode}, {specializationCode}, {nameSpecialization})", connection);
+                                             $"VALUES ({specialityCode}, " +
+                                             $"{specializationCode}, " +
+                                             $"{nameSpecialization})", connection);
                 command.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -275,11 +301,9 @@ namespace erp{
                 connection.Close();
             }
         }
-        public string[,] SearchSpecialization(string arg)//return an array with defined argument
+        public void SearchInTableSpecialization(string arg)//return an array with defined argument
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            var tuples = Utils.GetCountTuples("Specialization");
-            var retSpecialization = new string[3, tuples];
             try
             {
                 connection.Open();
@@ -289,22 +313,14 @@ namespace erp{
                                              $"nameSpecialization like {arg}", connection);
                 using (var reader = command.ExecuteReader())
                 {
-                    int i = 0, j = 0;
                     // while there is another record present
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        var specialityCode = Convert.ToInt32(reader[0]);
-                        retSpecialization[i, j] = specialityCode.ToString();
-                        j += 1;
-                        var specializationCode = Convert.ToInt32(reader[1]);
-                        retSpecialization[i, j] = specializationCode.ToString();
-                        j += 1;
-                        var nameSpecialization = Convert.ToString(reader[2]);
-                        retSpecialization[i, j] = nameSpecialization;
-                        j += 1;
-                        Debug.WriteLine($"{specialityCode} \t | {specializationCode} \t | {nameSpecialization}");
-                        i += 1;
+                        _specialityCode = Convert.ToInt32(reader[0]);
+                        _specializationCode = Convert.ToInt32(reader[1]);
+                        _nameSpecialization = Convert.ToString(reader[2]);
+                        Debug.WriteLine($"{_specialityCode} \t | {_specializationCode} \t | {_nameSpecialization}");
                     }
                 }
             }
@@ -316,54 +332,63 @@ namespace erp{
             {
                 connection.Close();
             }
-
-            return retSpecialization;
         }
     }
     public class InfLogin//all done
     {
-        public string[,] GetInfLogin()
+        private int _tabNumPerson;
+        private string _loginStr;
+        private string _pass;
+
+        public InfLogin()
+        {
+            _tabNumPerson = 0;
+            _loginStr = _pass = "none";
+        }
+        public InfLogin(int tabNumPerson, string loginStr, string pass)
+        {
+            _tabNumPerson = tabNumPerson;
+            _loginStr = loginStr;
+            _pass = pass;
+        }
+
+        public int GetTabNaumPerson() { return _tabNumPerson;}
+        public string GetLoginStr() { return _loginStr;}
+        public string GetPass() { return _pass;}
+        
+        public void GetTableInfLogin()
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            var tuples = Utils.GetCountTuples("InfLogin");
-            var retInfLogin = new string[3, tuples];
             try
             {
                 connection.Open();
                 var command = new SqlCommand("SELECT * FROM InfLogin", connection);
                 using (var reader = command.ExecuteReader())
                 {
-                    int i = 0, j = 0;
                     // while there is another record present
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        var tabNumPerson = Convert.ToInt32(reader[0]);
-                        retInfLogin[i, j] = tabNumPerson.ToString();
-                        j += 1;
-                        var loginStr = reader[1].ToString();
-                        retInfLogin[i, j] = loginStr;
-                        j += 1;
-                        var pass = Convert.ToInt32(reader[2]);
-                        retInfLogin[i, j] = pass.ToString();
-                        j += 1;
-                        Debug.WriteLine(retInfLogin.ToString());
-                        i += 1;
+                        _tabNumPerson = Convert.ToInt32(reader[0]);
+                        
+                        _loginStr = reader[1].ToString();
+                        
+                        _pass = reader[2].ToString();
+                        
+                        Debug.WriteLine($"{_tabNumPerson}\t|{_loginStr}\t|{_pass} ");
                     }
                 }
-                return retInfLogin;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
-                return null;
             }
             finally
             {
                 connection.Close();
             }
         }
-        public void InsertInfLogin(int tabNumPerson, string loginStr, string pass)
+        public void InsertToTableInfLogin(int tabNumPerson, string loginStr, string pass)
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
@@ -383,7 +408,7 @@ namespace erp{
                 connection.Close();
             }
         }
-        public string[,] SearchInfLogin(string arg)
+        public string[,] SearchInTableInfLogin(string arg)
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             var tuples = Utils.GetCountTuples("InfLogin");
@@ -428,48 +453,59 @@ namespace erp{
     }
     public class Department//all done
     {
-        public string[,] GetDep()
+        private int _depCode;
+        private string _nameDep;
+        private int _specCode;
+
+        public Department()
+        {
+            _depCode = _specCode = 0;
+            _nameDep = "none";
+        }
+        public Department(int depCode, string nameDep, int specCode)
+        {
+            _depCode = depCode;
+            _nameDep = nameDep;
+            _specCode = specCode;
+        }
+        
+        public int GetDepCode(){return _depCode;}
+        public string GetNameDep(){return _nameDep;}
+        public int GetSpecCode(){return _specCode;}
+        
+        public void GetTableDep()
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            var tuples = Utils.GetCountTuples("Department");
-            var retDepartment = new string[3, tuples];
             try
             {
                 connection.Open();
                 var command = new SqlCommand("SELECT * FROM Department", connection);
                 using (var reader = command.ExecuteReader())
                 {
-                    int i = 0, j = 0;
                     // while there is another record present
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        var departamentCode = Convert.ToInt32(reader[0]);
-                        retDepartment[i, j] = departamentCode.ToString();
-                        j += 1;
-                        var nameDepartment = reader[1].ToString();
-                        retDepartment[i, j] = nameDepartment;
-                        j += 1;
-                        var specialityCode = Convert.ToInt32(reader[2]);
-                        retDepartment[i, j] = specialityCode.ToString();
-                        j += 1;
-                        Debug.WriteLine($"{departamentCode} \t | {nameDepartment} \t | {specialityCode}");
-                        i += 1;
+                        _depCode = Convert.ToInt32(reader[0]);
+                        
+                        _nameDep = reader[1].ToString();
+                        
+                        _specCode = Convert.ToInt32(reader[2]);
+                        
+                        Debug.WriteLine($"{_depCode} \t | {_nameDep} \t | {_specCode}");
                     }
                 }
-                return retDepartment;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
-                return null;
             }
             finally
             {
                 connection.Close();
             }
         }
-        public void InsertDep(int departamentCode, string nameDepartment, int specialityCode)
+        public void InsertToTableDep(int departamentCode, string nameDepartment, int specialityCode)
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
@@ -489,11 +525,10 @@ namespace erp{
                 connection.Close();
             }
         }
-        public string[,] SearchDepartament(string arg)//return an array with defined argument
+        public void SearchInTableDepartament(string arg)//return an array with defined argument
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            var tuples = Utils.GetCountTuples("Department");
-            var retDepartment = new string[3, tuples];
+            
             try
             {
                 connection.Open();
@@ -503,22 +538,17 @@ namespace erp{
                                              $"specialityCode like {arg}", connection);
                 using (var reader = command.ExecuteReader())
                 {
-                    int i = 0, j = 0;
                     // while there is another record present
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        var departamentCode = Convert.ToInt32(reader[0]);
-                        retDepartment[i, j] = departamentCode.ToString();
-                        j += 1;
-                        var nameDepartment = reader[1].ToString();
-                        retDepartment[i, j] = nameDepartment;
-                        j += 1;
-                        var specialityCode = Convert.ToInt32(reader[2]);
-                        retDepartment[i, j] = specialityCode.ToString();
-                        j += 1;
-                        Debug.WriteLine($"{departamentCode} \t | {nameDepartment} \t | {specialityCode}");
-                        i += 1;
+                        _depCode = Convert.ToInt32(reader[0]);
+                        
+                        _nameDep = reader[1].ToString();
+                        
+                        _specCode = Convert.ToInt32(reader[2]);
+                        
+                        Debug.WriteLine($"{_depCode} \t | {_nameDep} \t | {_specCode}");
                     }
                 }
             }
@@ -530,15 +560,30 @@ namespace erp{
             {
                 connection.Close();
             }
-            return retDepartment;
         }
     }
-    public class Position//all done
+    public class Position
     {
-        public Dictionary<string, string> GetPositions()
+        private int _codePosition;
+        private string _namePosition;
+
+        public Position()
+        {
+            _codePosition = 0;
+            _namePosition = "none";
+        }
+        public Position(int codePosition, string namePosition)
+        {
+            _codePosition = codePosition;
+            _namePosition = namePosition;
+        }
+        
+        public int GetCodePos(){return _codePosition;}
+        public string GetNamePos(){return _namePosition;}
+        
+        public void GetTablePositions()
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            var specStrings = new Dictionary<string, string>();
             try
             {
                 connection.Open();
@@ -549,7 +594,8 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        specStrings.Add(reader[0].ToString(), reader[1].ToString());
+                        _codePosition = Convert.ToInt32(reader[0]);
+                        _namePosition = reader[1].ToString();
                         Debug.WriteLine($"{reader[0]} \t | {reader[1]} ");
                     }
                 }
@@ -562,9 +608,8 @@ namespace erp{
             {
                 connection.Close();
             }
-            return specStrings;
         }
-        public void InsertPositions(string code, string name)
+        public void InsertToTablePositions(string code, string name)
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
@@ -584,10 +629,9 @@ namespace erp{
                 connection.Close();
             }
         }
-        public Dictionary<string, string> SearchPositions(string arg)
+        public void SearchInTablePositions(string arg)
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            var specStrings = new Dictionary<string, string>();
             try
             {
                 connection.Open();
@@ -600,7 +644,8 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        specStrings.Add(reader[0].ToString(), reader[1].ToString());
+                        _codePosition = Convert.ToInt32(reader[0]);
+                        _namePosition = reader[1].ToString();
                         Debug.WriteLine($"{reader[0]} \t | {reader[1]} ");
                     }
                 }
@@ -613,11 +658,23 @@ namespace erp{
             {
                 connection.Close();
             }
-            return specStrings;
         }
     }
     public class Person
     {
+        private int CodePerson;
+        private string FirstName;
+        private string LastName;
+        private string MidName;
+        private DateTime DateOfBirth;
+        private int PosCode;
+        private int DepCode;
+        private string Addrr;
+        private long PhoneNum;
+        private string Email;
+        private DateTime DateBegin;
+        private DateTime DateEnd;
+        
         public string[,] GetPerson()
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
@@ -794,7 +851,5 @@ namespace erp{
                 connection.Close();
             }
         }
-
-        
     }
 }
