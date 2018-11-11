@@ -136,7 +136,7 @@ namespace erp{
         private Speciality()
         {
             Code = 0;
-            Name = "none";
+            Name = String.Empty;
         } 
         private Speciality(int code, string name)
         {
@@ -237,7 +237,7 @@ namespace erp{
         private Specialization()
         {
             _specialityCode = _specializationCode = 0;
-            _nameSpecialization = "none";
+            _nameSpecialization = String.Empty;
         }
         private Specialization(int specialityCode, int specializationCode, string nameSpecialization)
         {
@@ -343,7 +343,7 @@ namespace erp{
         public InfLogin()
         {
             _tabNumPerson = 0;
-            _loginStr = _pass = "none";
+            _loginStr = _pass = String.Empty;
         }
         public InfLogin(int tabNumPerson, string loginStr, string pass)
         {
@@ -460,7 +460,7 @@ namespace erp{
         public Department()
         {
             _depCode = _specCode = 0;
-            _nameDep = "none";
+            _nameDep = String.Empty;
         }
         public Department(int depCode, string nameDep, int specCode)
         {
@@ -570,7 +570,7 @@ namespace erp{
         public Position()
         {
             _codePosition = 0;
-            _namePosition = "none";
+            _namePosition = String.Empty;
         }
         public Position(int codePosition, string namePosition)
         {
@@ -675,69 +675,65 @@ namespace erp{
         private DateTime DateBegin;
         private DateTime DateEnd;
         
-        public string[,] GetPerson()
+        public Person()
+        {
+            CodePerson = PosCode = DepCode = 0;
+            FirstName = LastName = MidName = Addrr = Email = String.Empty;
+            DateOfBirth = DateBegin = DateEnd = DateTime.MinValue;
+            PhoneNum = 0;
+        }
+        public Person(int CodePerson, string FirstName, string LastName, string MidName, DateTime DateOfBirth,
+            int PosCode, int DepCode, string Addrr, long PhoneNum, string Email, DateTime DateBegin, DateTime DateEnd)
+        {
+            this.Addrr = Addrr;
+            this.CodePerson = CodePerson;
+            this.DateBegin = DateBegin;
+            this.DateEnd = DateEnd;
+            this.DateOfBirth = DateOfBirth;
+            this.DepCode = DepCode;
+            this.Email = Email;
+            this.FirstName = FirstName;
+            this.LastName = LastName;
+            this.MidName = MidName;
+            this.PhoneNum = PhoneNum;
+            this.PosCode = PosCode;
+        }
+        
+        public void GetPerson()
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            var tuples = Utils.GetCountTuples("Person");
-            var retPerson = new string[11, tuples];
             try
             {
                 connection.Open();
                 var command = new SqlCommand("SELECT * FROM Person", connection);
                 using (var reader = command.ExecuteReader())
                 {
-                    int i = 0, j = 0;
                     // while there is another record present
                     while (reader.Read())
                     {
                         // write the data on to the screen
                         var codePerson = Convert.ToInt32(reader[0]);
-                        retPerson[i, j] = codePerson.ToString();
-                        j += 1;
-                        var firstName = reader[1].ToString();
-                        retPerson[i, j] = firstName;
-                        j += 1;
-                        var lastName = reader[2].ToString();
-                        retPerson[i, j] = lastName;
-                        j += 1;
-                        var midName = reader[3].ToString();
-                        retPerson[i, j] = midName;
-                        j += 1;
-                        var dateofBirth = Convert.ToDateTime(reader[4]);
-                        retPerson[i, j] = dateofBirth.ToLongDateString();
-                        j += 1;
-                        var positionCode = Convert.ToInt32(reader[5]);
-                        retPerson[i, j] = positionCode.ToString();
-                        j += 1;
-                        var departamentCode = Convert.ToInt32(reader[6]);
-                        retPerson[i, j] = departamentCode.ToString();
-                        j += 1;
-                        var addrr = reader[7].ToString();
-                        retPerson[i, j] = addrr;
-                        j += 1;
-                        var phoneNum = Convert.ToInt32(reader[8]);
-                        retPerson[i, j] = phoneNum.ToString();
-                        j += 1;
-                        var email = reader[9].ToString();
-                        retPerson[i, j] = email;
-                        j += 1;
-                        var dateBegin = Convert.ToDateTime(reader[10]);
-                        retPerson[i, j] = dateBegin.ToLongDateString();
-                        j += 1;
-                        var dateEnd = Convert.ToDateTime(reader[11]);
-                        retPerson[i, j] = dateEnd.ToLongDateString();
-                        j += 1;
+                        CodePerson = Convert.ToInt32(codePerson);
                         
-                        Debug.WriteLine(retPerson.ToString());
-                        i += 1;
+                        FirstName = reader[1].ToString();
+                        LastName = reader[2].ToString();
+                        MidName = reader[3].ToString();
+                        DateOfBirth = Convert.ToDateTime(reader[4]);
+                        PosCode = Convert.ToInt32(reader[5]);
+                        DepCode = Convert.ToInt32(reader[6]);
+                        Addrr = reader[7].ToString();
+                        PhoneNum = Convert.ToInt32(reader[8]);
+                        Email = reader[9].ToString();
+                        DateBegin = Convert.ToDateTime(reader[10]);
+                        DateEnd = Convert.ToDateTime(reader[11]);
+                        Debug.WriteLine($"{FirstName}|{LastName}|{MidName}|{DateOfBirth}|{PosCode}|" +
+                                        $"{DepCode}|{Addrr}|{PhoneNum}|{Email}|{DateBegin}|{DateEnd}");
                     }
                 }
-                return retPerson;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
-                return null;
             }
             finally
             {
@@ -770,11 +766,9 @@ namespace erp{
                 connection.Close();
             }
         }
-        public string[,] SearchPerson(string arg)
+        public void SearchPerson(string arg)
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            var tuples = Utils.GetCountTuples("Person");
-            var retPerson = new string[11, tuples];
             try
             {
                 connection.Open();
@@ -793,58 +787,32 @@ namespace erp{
                                              $"dateEnd like {arg}", connection);
                 using (var reader = command.ExecuteReader())
                 {
-                    int i = 0, j = 0;
                     // while there is another record present
                     while (reader.Read())
                     {
                         // write the data on to the screen
                         var codePerson = Convert.ToInt32(reader[0]);
-                        retPerson[i, j] = codePerson.ToString();
-                        j += 1;
-                        var firstName = reader[1].ToString();
-                        retPerson[i, j] = firstName;
-                        j += 1;
-                        var lastName = reader[2].ToString();
-                        retPerson[i, j] = lastName;
-                        j += 1;
-                        var midName = reader[3].ToString();
-                        retPerson[i, j] = midName;
-                        j += 1;
-                        var dateofBirth = Convert.ToDateTime(reader[4]);
-                        retPerson[i, j] = dateofBirth.ToLongDateString();
-                        j += 1;
-                        var positionCode = Convert.ToInt32(reader[5]);
-                        retPerson[i, j] = positionCode.ToString();
-                        j += 1;
-                        var departamentCode = Convert.ToInt32(reader[6]);
-                        retPerson[i, j] = departamentCode.ToString();
-                        j += 1;
-                        var addrr = reader[7].ToString();
-                        retPerson[i, j] = addrr;
-                        j += 1;
-                        var phoneNum = Convert.ToInt32(reader[8]);
-                        retPerson[i, j] = phoneNum.ToString();
-                        j += 1;
-                        var email = reader[9].ToString();
-                        retPerson[i, j] = email;
-                        j += 1;
-                        var dateBegin = Convert.ToDateTime(reader[10]);
-                        retPerson[i, j] = dateBegin.ToLongDateString();
-                        j += 1;
-                        var dateEnd = Convert.ToDateTime(reader[11]);
-                        retPerson[i, j] = dateEnd.ToLongDateString();
-                        j += 1;
-
-                        Debug.WriteLine(retPerson.ToString());
-                        i += 1;
+                        CodePerson = Convert.ToInt32(codePerson);
+                        
+                        FirstName = reader[1].ToString();
+                        LastName = reader[2].ToString();
+                        MidName = reader[3].ToString();
+                        DateOfBirth = Convert.ToDateTime(reader[4]);
+                        PosCode = Convert.ToInt32(reader[5]);
+                        DepCode = Convert.ToInt32(reader[6]);
+                        Addrr = reader[7].ToString();
+                        PhoneNum = Convert.ToInt32(reader[8]);
+                        Email = reader[9].ToString();
+                        DateBegin = Convert.ToDateTime(reader[10]);
+                        DateEnd = Convert.ToDateTime(reader[11]);
+                        Debug.WriteLine($"{FirstName}|{LastName}|{MidName}|{DateOfBirth}|{PosCode}|" +
+                                        $"{DepCode}|{Addrr}|{PhoneNum}|{Email}|{DateBegin}|{DateEnd}");
                     }
                 }
-                return retPerson;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
-                return null;
             }
             finally
             {
@@ -852,4 +820,32 @@ namespace erp{
             }
         }
     }
+    /*create table Gruppa(
+	specializationCode int foreign key references Specialization(specializationCode),
+	codeGrup int primary key,
+	nameGroup varchar(7),
+	tutor varchar(20)
+);
+create table Subjects(
+	codeTeacher int foreign key references Person(codePerson) not null,
+	codeSpec int foreign key references Specialization(specializationCode) not null,
+	nameSubj varchar(25) not null,
+	codeSubj int primary key,
+	hoursForSubj float not null
+);
+create table Student(
+	codePerson int primary key not null,
+	firstName varchar(20) not null,
+	midName varchar(20),
+	lastName varchar(20) not null,
+	dateofBirth date,
+	grupCode int foreign key references Gruppa(codeGrup) not null,
+	roleStud varchar(25) not null,
+	addrr varchar(25),
+	phoneNum int unique,
+	email varchar(20) unique, 
+	dateBegin datetime not null,
+	dateEnd datetime
+);
+*/
 }
