@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Windows;
@@ -21,7 +20,7 @@ namespace erp{
         {
             return Builder;
         }
-        public bool TryConnect()
+        private bool TryConnect()
         {
             using (var connection = new SqlConnection(Builder.ConnectionString))
             {
@@ -60,7 +59,7 @@ namespace erp{
                                 "LineNumber: " + exception.Errors[i].LineNumber);
             }
         }
-        public bool CheckLog(string login, string pass)
+        public static bool CheckLog(string login, string pass)
         {
             if (!Utils.Connect.TryConnect()) return false;
             using (var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString))
@@ -136,7 +135,7 @@ namespace erp{
         private Speciality()
         {
             Code = 0;
-            Name = String.Empty;
+            Name = string.Empty;
         } 
         private Speciality(int code, string name)
         {
@@ -286,7 +285,7 @@ namespace erp{
             {
                 connection.Open();
                 var command = new SqlCommand("INSERT INTO Specialization" +
-                                             "(specialityCode, specializationCode, )" +
+                                             "(specialityCode, specializationCode, nameSpecialization)" +
                                              $"VALUES ({specialityCode}, " +
                                              $"{specializationCode}, " +
                                              $"{nameSpecialization})", connection);
@@ -352,7 +351,7 @@ namespace erp{
             _pass = pass;
         }
 
-        public int GetTabNaumPerson() { return _tabNumPerson;}
+        public int GetTabNumPerson() { return _tabNumPerson;}
         public string GetLoginStr() { return _loginStr;}
         public string GetPass() { return _pass;}
         
@@ -460,7 +459,7 @@ namespace erp{
         public Department()
         {
             _depCode = _specCode = 0;
-            _nameDep = String.Empty;
+            _nameDep = string.Empty;
         }
         public Department(int depCode, string nameDep, int specCode)
         {
@@ -570,7 +569,7 @@ namespace erp{
         public Position()
         {
             _codePosition = 0;
-            _namePosition = String.Empty;
+            _namePosition = string.Empty;
         }
         public Position(int codePosition, string namePosition)
         {
@@ -662,42 +661,55 @@ namespace erp{
     }
     public class Person
     {
-        private int CodePerson;
-        private string FirstName;
-        private string LastName;
-        private string MidName;
-        private DateTime DateOfBirth;
-        private int PosCode;
-        private int DepCode;
-        private string Addrr;
-        private long PhoneNum;
-        private string Email;
-        private DateTime DateBegin;
-        private DateTime DateEnd;
+        private int _codePerson;
+        private string _firstName;
+        private string _lastName;
+        private string _midName;
+        private DateTime _dateOfBirth;
+        private int _posCode;
+        private int _depCode;
+        private string _addrr;
+        private long _phoneNum;
+        private string _email;
+        private DateTime _dateBegin;
+        private DateTime _dateEnd;
         
         public Person()
         {
-            CodePerson = PosCode = DepCode = 0;
-            FirstName = LastName = MidName = Addrr = Email = String.Empty;
-            DateOfBirth = DateBegin = DateEnd = DateTime.MinValue;
-            PhoneNum = 0;
+            _codePerson = _posCode = _depCode = 0;
+            _firstName = _lastName = _midName = _addrr = _email = string.Empty;
+            _dateOfBirth = _dateBegin = _dateEnd = DateTime.MinValue;
+            _phoneNum = 0;
         }
-        public Person(int CodePerson, string FirstName, string LastName, string MidName, DateTime DateOfBirth,
-            int PosCode, int DepCode, string Addrr, long PhoneNum, string Email, DateTime DateBegin, DateTime DateEnd)
+        public Person(int codePerson, string firstName, string lastName, string midName, DateTime dateOfBirth,
+            int posCode, int depCode, string addrr, long phoneNum, string email, DateTime dateBegin, DateTime dateEnd)
         {
-            this.Addrr = Addrr;
-            this.CodePerson = CodePerson;
-            this.DateBegin = DateBegin;
-            this.DateEnd = DateEnd;
-            this.DateOfBirth = DateOfBirth;
-            this.DepCode = DepCode;
-            this.Email = Email;
-            this.FirstName = FirstName;
-            this.LastName = LastName;
-            this.MidName = MidName;
-            this.PhoneNum = PhoneNum;
-            this.PosCode = PosCode;
+            _addrr = addrr;
+            _codePerson = codePerson;
+            _dateBegin = dateBegin;
+            _dateEnd = dateEnd;
+            _dateOfBirth = dateOfBirth;
+            _depCode = depCode;
+            _email = email;
+            _firstName = firstName;
+            _lastName = lastName;
+            _midName = midName;
+            _phoneNum = phoneNum;
+            _posCode = posCode;
         }
+        
+        public int GetCodePerson(){return _codePerson;}
+        public string GetFirstName(){return _firstName;}
+        public string GetLastName(){return _lastName;}
+        public string GetMidName(){return _midName;}
+        public DateTime GetDateBirth(){return _dateOfBirth;}
+        public int GetPositionCode(){return _posCode;}
+        public int GetDepartmentCode(){return _depCode;}
+        public string GetAddrress(){return _addrr;}
+        public long GetPhone(){return _phoneNum;}
+        public string GetEmail(){return _email;}
+        public DateTime GetDateBegin(){return _dateBegin;}
+        public DateTime GetDateEnd(){return _dateEnd;}
         
         public void GetPerson()
         {
@@ -713,21 +725,21 @@ namespace erp{
                     {
                         // write the data on to the screen
                         var codePerson = Convert.ToInt32(reader[0]);
-                        CodePerson = Convert.ToInt32(codePerson);
+                        _codePerson = Convert.ToInt32(codePerson);
                         
-                        FirstName = reader[1].ToString();
-                        LastName = reader[2].ToString();
-                        MidName = reader[3].ToString();
-                        DateOfBirth = Convert.ToDateTime(reader[4]);
-                        PosCode = Convert.ToInt32(reader[5]);
-                        DepCode = Convert.ToInt32(reader[6]);
-                        Addrr = reader[7].ToString();
-                        PhoneNum = Convert.ToInt32(reader[8]);
-                        Email = reader[9].ToString();
-                        DateBegin = Convert.ToDateTime(reader[10]);
-                        DateEnd = Convert.ToDateTime(reader[11]);
-                        Debug.WriteLine($"{FirstName}|{LastName}|{MidName}|{DateOfBirth}|{PosCode}|" +
-                                        $"{DepCode}|{Addrr}|{PhoneNum}|{Email}|{DateBegin}|{DateEnd}");
+                        _firstName = reader[1].ToString();
+                        _lastName = reader[2].ToString();
+                        _midName = reader[3].ToString();
+                        _dateOfBirth = Convert.ToDateTime(reader[4]);
+                        _posCode = Convert.ToInt32(reader[5]);
+                        _depCode = Convert.ToInt32(reader[6]);
+                        _addrr = reader[7].ToString();
+                        _phoneNum = Convert.ToInt32(reader[8]);
+                        _email = reader[9].ToString();
+                        _dateBegin = Convert.ToDateTime(reader[10]);
+                        _dateEnd = Convert.ToDateTime(reader[11]);
+                        Debug.WriteLine($"{_firstName}|{_lastName}|{_midName}|{_dateOfBirth}|{_posCode}|" +
+                                        $"{_depCode}|{_addrr}|{_phoneNum}|{_email}|{_dateBegin}|{_dateEnd}");
                     }
                 }
             }
@@ -792,21 +804,21 @@ namespace erp{
                     {
                         // write the data on to the screen
                         var codePerson = Convert.ToInt32(reader[0]);
-                        CodePerson = Convert.ToInt32(codePerson);
+                        _codePerson = Convert.ToInt32(codePerson);
                         
-                        FirstName = reader[1].ToString();
-                        LastName = reader[2].ToString();
-                        MidName = reader[3].ToString();
-                        DateOfBirth = Convert.ToDateTime(reader[4]);
-                        PosCode = Convert.ToInt32(reader[5]);
-                        DepCode = Convert.ToInt32(reader[6]);
-                        Addrr = reader[7].ToString();
-                        PhoneNum = Convert.ToInt32(reader[8]);
-                        Email = reader[9].ToString();
-                        DateBegin = Convert.ToDateTime(reader[10]);
-                        DateEnd = Convert.ToDateTime(reader[11]);
-                        Debug.WriteLine($"{FirstName}|{LastName}|{MidName}|{DateOfBirth}|{PosCode}|" +
-                                        $"{DepCode}|{Addrr}|{PhoneNum}|{Email}|{DateBegin}|{DateEnd}");
+                        _firstName = reader[1].ToString();
+                        _lastName = reader[2].ToString();
+                        _midName = reader[3].ToString();
+                        _dateOfBirth = Convert.ToDateTime(reader[4]);
+                        _posCode = Convert.ToInt32(reader[5]);
+                        _depCode = Convert.ToInt32(reader[6]);
+                        _addrr = reader[7].ToString();
+                        _phoneNum = Convert.ToInt32(reader[8]);
+                        _email = reader[9].ToString();
+                        _dateBegin = Convert.ToDateTime(reader[10]);
+                        _dateEnd = Convert.ToDateTime(reader[11]);
+                        Debug.WriteLine($"{_firstName}|{_lastName}|{_midName}|{_dateOfBirth}|{_posCode}|" +
+                                        $"{_depCode}|{_addrr}|{_phoneNum}|{_email}|{_dateBegin}|{_dateEnd}");
                     }
                 }
             }
@@ -820,19 +832,250 @@ namespace erp{
             }
         }
     }
-    /*create table Gruppa(
-	specializationCode int foreign key references Specialization(specializationCode),
-	codeGrup int primary key,
-	nameGroup varchar(7),
-	tutor varchar(20)
-);
-create table Subjects(
-	codeTeacher int foreign key references Person(codePerson) not null,
-	codeSpec int foreign key references Specialization(specializationCode) not null,
-	nameSubj varchar(25) not null,
-	codeSubj int primary key,
-	hoursForSubj float not null
-);
+    public class Gruppa
+    {
+        private int _specializationCode;
+        private int _codeGrup;
+        private string _nameGroup;
+        private string _tutor;
+
+        public Gruppa()
+        {
+            _specializationCode = _codeGrup = 0;
+            _nameGroup = _tutor = String.Empty;
+        }
+        public Gruppa(int specializationCode, int codeGrup, string nameGroup, string tutor)
+        {
+            _specializationCode = specializationCode;
+            _codeGrup = codeGrup;
+            _nameGroup = nameGroup;
+            _tutor = tutor;
+        }
+        
+        public int GetSpecCode() { return _specializationCode;}
+        public int GetCodeGroup() { return _codeGrup;}
+        public string GetNameGroup() { return _nameGroup;}
+        public string GetTutor() { return _tutor;}
+        
+        public void GetTableGroup()
+        {
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM Gruppa", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        _specializationCode = Convert.ToInt32(reader[0]);
+                        
+                        _codeGrup = Convert.ToInt32(reader[1]);
+                        
+                        _nameGroup = reader[2].ToString();
+
+                        _tutor = reader[3].ToString();
+                        
+                        Debug.WriteLine($"{_specializationCode}\t|{_codeGrup}\t|{_nameGroup}\t|{_tutor} ");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void InsertToTableGruppa(int specializationCode, int codeGrup, string nameGroup, string tutor)
+        {
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("INSERT INTO Gruppa" +
+                                             "(specializationCode, codeGrup, nameGroup, tutor)" +
+                                             $"VALUES ({specializationCode}, {codeGrup}, {nameGroup}, {tutor})", connection);
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void SearchInTableInfLogin(string arg)
+        {
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM InfLogin" +
+                                            $"where loginStr like {arg}", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        _specializationCode = Convert.ToInt32(reader[0]);
+                        
+                        _codeGrup = Convert.ToInt32(reader[1]);
+                        
+                        _nameGroup = reader[2].ToString();
+
+                        _tutor = reader[3].ToString();
+                        
+                        Debug.WriteLine($"{_specializationCode}\t|{_codeGrup}\t|{_nameGroup}\t|{_tutor} ");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    public class Subjects
+    {
+        private int _codeTeacher;
+        private int _codeSpec;
+        private string _nameSubj;
+        private int _codeSubj;
+        private float _hoursForSubj;
+
+        public Subjects()
+        {
+            _codeSpec = _codeTeacher = _codeSubj = 0;
+            _hoursForSubj = 0;
+            _nameSubj = string.Empty;
+        }
+        public Subjects(int codeTeacher, int codeSpec, int codeSubj, 
+            string nameSubj, float hoursForSubj)
+        {
+            _codeTeacher = codeTeacher;
+            _codeSpec = codeSpec;
+            _codeSubj = codeSubj;
+            _nameSubj = nameSubj;
+            _hoursForSubj = hoursForSubj;
+        }
+        
+        public int GetCodeTeacher(){return _codeTeacher;}
+        public int GetCodeSpec(){return _codeSpec;}
+        public string GetNameSubj(){return _nameSubj;}
+        public int GetCodeSubj(){return _codeSubj;}
+        public float GetHours(){return _hoursForSubj;}
+        
+        public void GetTableSubj()
+        {
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM Subjects", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        _codeTeacher = Convert.ToInt32(reader[0]);
+                        
+                        _codeSpec = Convert.ToInt32(reader[1]);
+                        
+                        _nameSubj = reader[2].ToString();
+
+                        _codeSubj = Convert.ToInt32(reader[3]);
+                        
+                        _hoursForSubj = Convert.ToSingle(reader[4]);
+                        
+                        Debug.WriteLine($"{_codeTeacher}\t|{_codeSpec}\t|{_nameSubj}\t|" +
+                                        $"{_codeSubj}\t|{_hoursForSubj}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void InsertToTableSubj(int codeTeacher, int codeSpec, int codeSubj, 
+            string nameSubj, float hoursForSubj)
+        {
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("INSERT INTO Subjects" +
+                                             "(codeTeacher, codeSpec, nameSubj, codeSubj, hoursForSubj)" +
+                                             $"VALUES ({codeTeacher}, {codeSpec}, {nameSubj}, {codeSubj}, " +
+                                             $"{hoursForSubj})", connection);
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void SearchInTableSubject(string arg)
+        {
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM Subjects" +
+                                            $"where loginStr like {arg}", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        _codeTeacher = Convert.ToInt32(reader[0]);
+                        
+                        _codeSpec = Convert.ToInt32(reader[1]);
+                        
+                        _nameSubj = reader[2].ToString();
+
+                        _codeSubj = Convert.ToInt32(reader[3]);
+                        
+                        _hoursForSubj = Convert.ToSingle(reader[4]);
+                        
+                        Debug.WriteLine($"{_codeTeacher}\t|{_codeSpec}\t|{_nameSubj}\t|" +
+                                        $"{_codeSubj}\t|{_hoursForSubj}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+    /*
 create table Student(
 	codePerson int primary key not null,
 	firstName varchar(20) not null,

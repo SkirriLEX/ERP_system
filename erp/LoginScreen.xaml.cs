@@ -17,7 +17,7 @@ namespace erp
         {
             ClearPassError();
             var data = new DataQ();
-            if (data.CheckLog(loginText.Text, passwordBox.Password))
+            if (DataQ.CheckLog(loginText.Text, passwordBox.Password))
             {
                 Debug.WriteLine("My congratulate");
             }
