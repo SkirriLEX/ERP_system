@@ -1075,7 +1075,6 @@ namespace erp{
             }
         }
     }
-
     public class Student
     {
         private int _codePerson;
