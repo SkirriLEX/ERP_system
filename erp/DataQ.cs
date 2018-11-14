@@ -1075,20 +1075,178 @@ namespace erp{
             }
         }
     }
-    /*
-create table Student(
-	codePerson int primary key not null,
-	firstName varchar(20) not null,
-	midName varchar(20),
-	lastName varchar(20) not null,
-	dateofBirth date,
-	grupCode int foreign key references Gruppa(codeGrup) not null,
-	roleStud varchar(25) not null,
-	addrr varchar(25),
-	phoneNum int unique,
-	email varchar(20) unique, 
-	dateBegin datetime not null,
-	dateEnd datetime
-);
-*/
+
+    public class Student
+    {
+        private int _codePerson;
+        private string _firstName;
+        private string _midName;
+        private string _lastName;
+        private DateTime _dateofBirth;
+        private int _grupCode;
+        private string _roleStud;
+        private string _addrr;
+        private int _phoneNum;
+        private string _email;
+        private DateTime _dateBegin;
+        private DateTime _dateEnd;
+
+        public Student()
+        {
+            _codePerson = _grupCode = _phoneNum = 0;
+            _firstName = _midName = _lastName = _roleStud = _addrr = _email = string.Empty;
+            _dateBegin = _dateEnd = _dateofBirth = DateTime.MinValue;
+        }
+        public Student(int codePerson, string firstName, string midName, 
+            string lastName, DateTime dateofBirth, int grupCode, string roleStud, 
+            string addrr, int phoneNum, string email, DateTime dateBegin, DateTime dateEnd)
+        {
+            this._codePerson = codePerson;
+            this._firstName = firstName;
+            this._midName = midName;
+            this._lastName = lastName;
+            this._dateofBirth = dateofBirth;
+            this._grupCode = grupCode;
+            this._roleStud = roleStud;
+            this._addrr = addrr;
+            this._phoneNum = phoneNum;
+            this._email = email;
+            this._dateBegin = dateBegin;
+            this._dateEnd = dateEnd;
+        }
+        
+        public int GetCodePerson(){return _codePerson;}
+        public string GetFirstName(){return _firstName;}
+        public string GetLastName(){return _lastName;}
+        public string GetMidName(){return _midName;}
+        public DateTime GetDateBirth(){return _dateofBirth;}
+        public int GetGroupCode(){return _grupCode;}
+        public string GetRole(){return _roleStud;}
+        public string GetAddrress(){return _addrr;}
+        public long GetPhone(){return _phoneNum;}
+        public string GetEmail(){return _email;}
+        public DateTime GetDateBegin(){return _dateBegin;}
+        public DateTime GetDateEnd(){return _dateEnd;}
+        
+        public void GetStud()
+        {
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM Student", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        _codePerson = Convert.ToInt32(reader[0]);
+                        _firstName = reader[1].ToString();
+                        _midName = reader[2].ToString();
+                        _lastName = reader[3].ToString();
+                        _dateofBirth = Convert.ToDateTime(reader[4]);
+                        _grupCode = Convert.ToInt32(reader[5]);
+                        _roleStud = reader[6].ToString();
+                        _addrr = reader[7].ToString();
+                        _phoneNum = Convert.ToInt32(reader[8]);
+                        _email = reader[9].ToString();
+                        _dateBegin = Convert.ToDateTime(reader[10]);
+                        _dateEnd = Convert.ToDateTime(reader[11]);
+                        
+                        Debug.WriteLine($"{_codePerson}\t|{_firstName}\t|{_midName}\t|" +
+                                        $"{_lastName}\t|{_dateofBirth}\t|{_grupCode}\t|{_roleStud}\t|" +
+                                        $"{_addrr}\t|{_phoneNum}\t|{_email}\t|{_dateBegin}\t|{_dateEnd}\t");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void InsertStud(int codePerson, string firstName, string midName, 
+            string lastName, DateTime dateofBirth, int grupCode, string roleStud, 
+            string addrr, int phoneNum, string email, DateTime dateBegin, DateTime dateEnd)
+        {
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("INSERT INTO Student" +
+                                             "(codePerson, firstName, midName, lastName, dateofBirth, grupCode, " +
+                                             "roleStud, addrr, phoneNum, email, dateBegin, dateEnd)" +
+                                             $"VALUES ({codePerson}, {firstName}, {midName}, {lastName}, " +
+                                             $"{dateofBirth}, {grupCode}, {roleStud}, {addrr}, {phoneNum}, " +
+                                             $"{email}, {dateBegin}, {dateEnd})", connection);
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void SearchStud(string arg)
+        {
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                
+                var command = new SqlCommand("SELECT * FROM Student where" +
+                                             $"codePerson like {arg}" +
+                                             $"firstName like {arg}" +
+                                             $"midName like {arg}" +
+                                             $"lastName like {arg}" +
+                                             $"dateofBirth like {arg}" +
+                                             $"grupCode like {arg}" +
+                                             $"roleStud like {arg}" +
+                                             $"addrr like {arg}" +
+                                             $"phoneNum like {arg}" +
+                                             $"email like {arg}" +
+                                             $"dateBegin like {arg}" +
+                                             $"dateEnd like {arg}", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        _codePerson = Convert.ToInt32(reader[0]);
+                        _firstName = reader[1].ToString();
+                        _midName = reader[2].ToString();
+                        _lastName = reader[3].ToString();
+                        _dateofBirth = Convert.ToDateTime(reader[4]);
+                        _grupCode = Convert.ToInt32(reader[5]);
+                        _roleStud = reader[6].ToString();
+                        _addrr = reader[7].ToString();
+                        _phoneNum = Convert.ToInt32(reader[8]);
+                        _email = reader[9].ToString();
+                        _dateBegin = Convert.ToDateTime(reader[10]);
+                        _dateEnd = Convert.ToDateTime(reader[11]);
+                        
+                        Debug.WriteLine($"{_codePerson}\t|{_firstName}\t|{_midName}\t|" +
+                                        $"{_lastName}\t|{_dateofBirth}\t|{_grupCode}\t|{_roleStud}\t|" +
+                                        $"{_addrr}\t|{_phoneNum}\t|{_email}\t|{_dateBegin}\t|{_dateEnd}\t");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
 }
