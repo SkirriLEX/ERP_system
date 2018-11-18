@@ -2,12 +2,15 @@
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Windows;
+using System.Collections.Generic;
+using ASimpleName = System.Collections.Generic.Dictionary<string, 
+    System.Collections.Generic.Dictionary <string, 
+        System.Windows.Documents.List>>;
 
 namespace erp{
     public class DataQ // all Function in our data connection 
     {
         public readonly SqlConnectionStringBuilder Builder = new SqlConnectionStringBuilder();
-
         public DataQ()
         {
             const string connStr = "178.136.14.234";
@@ -127,27 +130,30 @@ namespace erp{
             return count;
         }
     }
-    public class Speciality//all done
+    public class Speciality//list
     {
-        private int Code { get; set; }
-        private string Name { get; set; }
+        private List<int> Code { get; }
+        private List<string> Name { get; }
 
         private Speciality()
         {
-            Code = 0;
-            Name = string.Empty;
+            Code.Clear();
+            Name.Clear();
         } 
         private Speciality(int code, string name)
         {
-            Code = code;
-            Name = name;
+            Code.Clear();
+            Name.Clear();
+            Code?.Add(code);
+            Name?.Add(name);
         }
 
-        public int GetCode(){ return Code; }
-        public string GetName(){ return Name; }
+        public List<int> GetCode(){ return Code; }
+        public List<string> GetName(){ return Name; }
 
         public void GetTableSpeciality()
         {
+            Code.Clear();Name.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -159,8 +165,8 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        Code = Convert.ToInt32(reader[0]);
-                        Name = reader[1].ToString();
+                        Code.Add(Convert.ToInt32(reader[0]));
+                        Name.Add(reader[1].ToString());
                         Debug.WriteLine($"{reader[0]} \t | {reader[1]} ");
                     }
                 }
@@ -198,6 +204,8 @@ namespace erp{
         }
         public void SearchInTableSpeciality(string arg)//return an array with defined argument
         {
+            Code.Clear();
+            Name.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -211,8 +219,8 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        Code = Convert.ToInt32(reader[0]);
-                        Name = reader[1].ToString();
+                        Code.Add(Convert.ToInt32(reader[0]));
+                        Name.Add(reader[1].ToString());
                         Debug.WriteLine($"{reader[0]} \t | {reader[1]} ");
                     }
                 }
@@ -227,30 +235,37 @@ namespace erp{
             }
         }
     }
-    public class Specialization//all done
+    public class Specialization//list
     {
-        private int _specialityCode;
-        private int _specializationCode;
-        private string _nameSpecialization;
+        private List<int> _specialityCode;
+        private List<int> _specializationCode;
+        private List<string> _nameSpecialization;
 
         private Specialization()
         {
-            _specialityCode = _specializationCode = 0;
-            _nameSpecialization = String.Empty;
+            _specialityCode.Clear();
+            _specializationCode.Clear();
+            _nameSpecialization.Clear();
         }
         private Specialization(int specialityCode, int specializationCode, string nameSpecialization)
         {
-            _specialityCode = specialityCode;
-            _specializationCode = specializationCode;
-            _nameSpecialization = nameSpecialization;
+            _specialityCode.Clear();
+            _specializationCode.Clear();
+            _nameSpecialization.Clear();
+            _specialityCode.Add(specialityCode);
+            _specializationCode.Add(specializationCode);
+            _nameSpecialization.Add(nameSpecialization);
         }
 
-        public int GetSpecialityCode() { return _specialityCode;}
-        public int GetSpecializationCode() { return _specializationCode;}
-        public string GetNameSpecialization() { return _nameSpecialization;}
+        public List<int> GetSpecialityCode() { return _specialityCode;}
+        public List<int> GetSpecializationCode() { return _specializationCode;}
+        public List<string> GetNameSpecialization() { return _nameSpecialization;}
         
         public void GetTableSpecialization()
         {
+            _specialityCode.Clear();
+            _specializationCode.Clear();
+            _nameSpecialization.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -262,9 +277,9 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        _specialityCode = Convert.ToInt32(reader[0]);
-                        _specializationCode = Convert.ToInt32(reader[1]);
-                        _nameSpecialization = Convert.ToString(reader[2]);
+                        _specialityCode.Add(Convert.ToInt32(reader[0]));
+                        _specializationCode.Add(Convert.ToInt32(reader[1]));
+                        _nameSpecialization.Add(Convert.ToString(reader[2]));
                         Debug.WriteLine($"{_specialityCode} \t | {_specializationCode} \t | {_nameSpecialization}");
                     }
                 }
@@ -300,8 +315,11 @@ namespace erp{
                 connection.Close();
             }
         }
-        public void SearchInTableSpecialization(string arg)//return an array with defined argument
+        public void SearchInTableSpecialization(string arg)
         {
+            _specialityCode.Clear();
+            _specializationCode.Clear();
+            _nameSpecialization.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -316,9 +334,9 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        _specialityCode = Convert.ToInt32(reader[0]);
-                        _specializationCode = Convert.ToInt32(reader[1]);
-                        _nameSpecialization = Convert.ToString(reader[2]);
+                        _specialityCode.Add(Convert.ToInt32(reader[0]));
+                        _specializationCode.Add(Convert.ToInt32(reader[1]));
+                        _nameSpecialization.Add(Convert.ToString(reader[2]));
                         Debug.WriteLine($"{_specialityCode} \t | {_specializationCode} \t | {_nameSpecialization}");
                     }
                 }
@@ -333,30 +351,37 @@ namespace erp{
             }
         }
     }
-    public class InfLogin//all done
+    public class InfLogin//list
     {
-        private int _tabNumPerson;
-        private string _loginStr;
-        private string _pass;
+        private List<int> _tabNumPerson;
+        private List<string> _loginStr;
+        private List<string> _pass;
 
         public InfLogin()
         {
-            _tabNumPerson = 0;
-            _loginStr = _pass = String.Empty;
+            _tabNumPerson.Clear();
+            _loginStr.Clear();
+            _pass.Clear();
         }
         public InfLogin(int tabNumPerson, string loginStr, string pass)
         {
-            _tabNumPerson = tabNumPerson;
-            _loginStr = loginStr;
-            _pass = pass;
+            _tabNumPerson.Clear();
+            _loginStr.Clear();
+            _pass.Clear();
+            _tabNumPerson.Add(tabNumPerson);
+            _loginStr.Add(loginStr);
+            _pass.Add(pass);
         }
 
-        public int GetTabNumPerson() { return _tabNumPerson;}
-        public string GetLoginStr() { return _loginStr;}
-        public string GetPass() { return _pass;}
+        public List<int> GetTabNumPerson() { return _tabNumPerson;}
+        public List<string> GetLoginStr() { return _loginStr;}
+        public List<string> GetPass() { return _pass;}
         
         public void GetTableInfLogin()
         {
+            _tabNumPerson.Clear();
+            _loginStr.Clear();
+            _pass.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -368,11 +393,11 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        _tabNumPerson = Convert.ToInt32(reader[0]);
+                        _tabNumPerson.Add(Convert.ToInt32(reader[0]));
                         
-                        _loginStr = reader[1].ToString();
+                        _loginStr.Add(reader[1].ToString());
                         
-                        _pass = reader[2].ToString();
+                        _pass.Add(reader[2].ToString());
                         
                         Debug.WriteLine($"{_tabNumPerson}\t|{_loginStr}\t|{_pass} ");
                     }
@@ -407,11 +432,12 @@ namespace erp{
                 connection.Close();
             }
         }
-        public string[,] SearchInTableInfLogin(string arg)
+        public void SearchInTableInfLogin(string arg)
         {
+            _tabNumPerson.Clear();
+            _loginStr.Clear();
+            _pass.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            var tuples = Utils.GetCountTuples("InfLogin");
-            var retInfLogin = new string[3, tuples];
             try
             {
                 connection.Open();
@@ -424,25 +450,19 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        var tabNumPerson = Convert.ToInt32(reader[0]);
-                        retInfLogin[i, j] = tabNumPerson.ToString();
-                        j += 1;
-                        var loginStr = reader[1].ToString();
-                        retInfLogin[i, j] = loginStr;
-                        j += 1;
-                        var pass = Convert.ToInt32(reader[2]);
-                        retInfLogin[i, j] = pass.ToString();
-                        j += 1;
-                        Debug.WriteLine(retInfLogin.ToString());
-                        i += 1;
+                        _tabNumPerson.Add(Convert.ToInt32(reader[0]));
+                        
+                        _loginStr.Add(reader[1].ToString());
+                        
+                        _pass.Add(reader[2].ToString());
+                        
+                        Debug.WriteLine($"{_tabNumPerson}\t|{_loginStr}\t|{_pass} ");
                     }
                 }
-                return retInfLogin;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
-                return null;
             }
             finally
             {
@@ -450,30 +470,37 @@ namespace erp{
             }
         }
     }
-    public class Department//all done
+    public class Department//list
     {
-        private int _depCode;
-        private string _nameDep;
-        private int _specCode;
+        private List<int> _depCode;
+        private List<string> _nameDep;
+        private List<int> _specCode;
 
         public Department()
         {
-            _depCode = _specCode = 0;
-            _nameDep = string.Empty;
+            _depCode.Clear();
+            _nameDep.Clear();
+            _specCode.Clear();
         }
         public Department(int depCode, string nameDep, int specCode)
         {
-            _depCode = depCode;
-            _nameDep = nameDep;
-            _specCode = specCode;
+            _depCode.Clear();
+            _nameDep.Clear();
+            _specCode.Clear();
+            _depCode.Add(depCode);
+            _nameDep.Add(nameDep);
+            _specCode.Add(specCode);
         }
         
-        public int GetDepCode(){return _depCode;}
-        public string GetNameDep(){return _nameDep;}
-        public int GetSpecCode(){return _specCode;}
+        public List<int> GetDepCode(){return _depCode;}
+        public List<string> GetNameDep(){return _nameDep;}
+        public List<int> GetSpecCode(){return _specCode;}
         
         public void GetTableDep()
         {
+            _depCode.Clear();
+            _nameDep.Clear();
+            _specCode.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -485,11 +512,11 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        _depCode = Convert.ToInt32(reader[0]);
+                        _depCode.Add(Convert.ToInt32(reader[0]));
                         
-                        _nameDep = reader[1].ToString();
+                        _nameDep.Add(reader[1].ToString());
                         
-                        _specCode = Convert.ToInt32(reader[2]);
+                        _specCode.Add(Convert.ToInt32(reader[2]));
                         
                         Debug.WriteLine($"{_depCode} \t | {_nameDep} \t | {_specCode}");
                     }
@@ -526,8 +553,10 @@ namespace erp{
         }
         public void SearchInTableDepartament(string arg)//return an array with defined argument
         {
+            _depCode.Clear();
+            _nameDep.Clear();
+            _specCode.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            
             try
             {
                 connection.Open();
@@ -541,11 +570,11 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        _depCode = Convert.ToInt32(reader[0]);
+                        _depCode.Add(Convert.ToInt32(reader[0]));
                         
-                        _nameDep = reader[1].ToString();
+                        _nameDep.Add(reader[1].ToString());
                         
-                        _specCode = Convert.ToInt32(reader[2]);
+                        _specCode.Add(Convert.ToInt32(reader[2]));
                         
                         Debug.WriteLine($"{_depCode} \t | {_nameDep} \t | {_specCode}");
                     }
@@ -561,27 +590,31 @@ namespace erp{
             }
         }
     }
-    public class Position
+    public class Position//list
     {
-        private int _codePosition;
-        private string _namePosition;
+        private List<int> _codePosition;
+        private List<string> _namePosition;
 
         public Position()
         {
-            _codePosition = 0;
-            _namePosition = string.Empty;
+            _codePosition.Clear();
+            _namePosition.Clear();
         }
         public Position(int codePosition, string namePosition)
         {
-            _codePosition = codePosition;
-            _namePosition = namePosition;
+            _codePosition.Clear();
+            _namePosition.Clear();
+            _codePosition.Add(codePosition);
+            _namePosition.Add(namePosition);
         }
         
-        public int GetCodePos(){return _codePosition;}
-        public string GetNamePos(){return _namePosition;}
+        public List<int> GetCodePos(){return _codePosition;}
+        public List<string> GetNamePos(){return _namePosition;}
         
         public void GetTablePositions()
         {
+            _codePosition.Clear();
+            _namePosition.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -593,8 +626,8 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        _codePosition = Convert.ToInt32(reader[0]);
-                        _namePosition = reader[1].ToString();
+                        _codePosition.Add(Convert.ToInt32(reader[0]));
+                        _namePosition.Add(reader[1].ToString());
                         Debug.WriteLine($"{reader[0]} \t | {reader[1]} ");
                     }
                 }
@@ -630,6 +663,8 @@ namespace erp{
         }
         public void SearchInTablePositions(string arg)
         {
+            _codePosition.Clear();
+            _namePosition.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -643,8 +678,8 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        _codePosition = Convert.ToInt32(reader[0]);
-                        _namePosition = reader[1].ToString();
+                        _codePosition.Add(Convert.ToInt32(reader[0]));
+                        _namePosition.Add(reader[1].ToString());
                         Debug.WriteLine($"{reader[0]} \t | {reader[1]} ");
                     }
                 }
@@ -659,60 +694,92 @@ namespace erp{
             }
         }
     }
-    public class Person
+    public class Person//list
     {
-        private int _codePerson;
-        private string _firstName;
-        private string _lastName;
-        private string _midName;
-        private DateTime _dateOfBirth;
-        private int _posCode;
-        private int _depCode;
-        private string _addrr;
-        private long _phoneNum;
-        private string _email;
-        private DateTime _dateBegin;
-        private DateTime _dateEnd;
+        private List<int> _codePerson;
+        private List<string> _firstName;
+        private List<string> _lastName;
+        private List<string> _midName;
+        private List<DateTime> _dateOfBirth;
+        private List<int> _posCode;
+        private List<int> _depCode;
+        private List<string> _addrr;
+        private List<long> _phoneNum;
+        private List<string> _email;
+        private List<DateTime> _dateBegin;
+        private List<DateTime> _dateEnd;
         
         public Person()
         {
-            _codePerson = _posCode = _depCode = 0;
-            _firstName = _lastName = _midName = _addrr = _email = string.Empty;
-            _dateOfBirth = _dateBegin = _dateEnd = DateTime.MinValue;
-            _phoneNum = 0;
+            _codePerson.Clear();
+            _posCode.Clear();
+            _depCode.Clear();
+            _firstName.Clear();
+            _lastName.Clear();
+            _midName.Clear();
+            _addrr.Clear();
+            _email.Clear();
+            _dateOfBirth.Clear();
+            _dateBegin.Clear();
+            _dateEnd.Clear();
+            _phoneNum.Clear();
         }
         public Person(int codePerson, string firstName, string lastName, string midName, DateTime dateOfBirth,
             int posCode, int depCode, string addrr, long phoneNum, string email, DateTime dateBegin, DateTime dateEnd)
         {
-            _addrr = addrr;
-            _codePerson = codePerson;
-            _dateBegin = dateBegin;
-            _dateEnd = dateEnd;
-            _dateOfBirth = dateOfBirth;
-            _depCode = depCode;
-            _email = email;
-            _firstName = firstName;
-            _lastName = lastName;
-            _midName = midName;
-            _phoneNum = phoneNum;
-            _posCode = posCode;
+            _codePerson.Clear();
+            _posCode.Clear();
+            _depCode.Clear();
+            _firstName.Clear();
+            _lastName.Clear();
+            _midName.Clear();
+            _addrr.Clear();
+            _email.Clear();
+            _dateOfBirth.Clear();
+            _dateBegin.Clear();
+            _dateEnd.Clear();
+            _phoneNum.Clear();
+            _addrr.Add(addrr);
+            _codePerson.Add(codePerson);
+            _dateBegin.Add(dateBegin);
+            _dateEnd.Add(dateEnd);
+            _dateOfBirth.Add(dateOfBirth);
+            _depCode.Add(depCode);
+            _email.Add(email);
+            _firstName.Add(firstName);
+            _lastName.Add(lastName);
+            _midName.Add(midName);
+            _phoneNum.Add(phoneNum);
+            _posCode.Add(posCode);
         }
         
-        public int GetCodePerson(){return _codePerson;}
-        public string GetFirstName(){return _firstName;}
-        public string GetLastName(){return _lastName;}
-        public string GetMidName(){return _midName;}
-        public DateTime GetDateBirth(){return _dateOfBirth;}
-        public int GetPositionCode(){return _posCode;}
-        public int GetDepartmentCode(){return _depCode;}
-        public string GetAddrress(){return _addrr;}
-        public long GetPhone(){return _phoneNum;}
-        public string GetEmail(){return _email;}
-        public DateTime GetDateBegin(){return _dateBegin;}
-        public DateTime GetDateEnd(){return _dateEnd;}
+        public List<int> GetCodePerson(){return _codePerson;}
+        public List<string> GetFirstName(){return _firstName;}
+        public List<string> GetLastName(){return _lastName;}
+        public List<string> GetMidName(){return _midName;}
+        public List<DateTime> GetDateBirth(){return _dateOfBirth;}
+        public List<int> GetPositionCode(){return _posCode;}
+        public List<int> GetDepartmentCode(){return _depCode;}
+        public List<string> GetAddrress(){return _addrr;}
+        public List<long> GetPhone(){return _phoneNum;}
+        public List<string> GetEmail(){return _email;}
+        public List<DateTime> GetDateBegin(){return _dateBegin;}
+        public List<DateTime> GetDateEnd(){return _dateEnd;}
         
         public void GetPerson()
         {
+            _codePerson.Clear();
+            _posCode.Clear();
+            _depCode.Clear();
+            _firstName.Clear();
+            _lastName.Clear();
+            _midName.Clear();
+            _addrr.Clear();
+            _email.Clear();
+            _dateOfBirth.Clear();
+            _dateBegin.Clear();
+            _dateEnd.Clear();
+            _phoneNum.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -724,20 +791,18 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        var codePerson = Convert.ToInt32(reader[0]);
-                        _codePerson = Convert.ToInt32(codePerson);
-                        
-                        _firstName = reader[1].ToString();
-                        _lastName = reader[2].ToString();
-                        _midName = reader[3].ToString();
-                        _dateOfBirth = Convert.ToDateTime(reader[4]);
-                        _posCode = Convert.ToInt32(reader[5]);
-                        _depCode = Convert.ToInt32(reader[6]);
-                        _addrr = reader[7].ToString();
-                        _phoneNum = Convert.ToInt32(reader[8]);
-                        _email = reader[9].ToString();
-                        _dateBegin = Convert.ToDateTime(reader[10]);
-                        _dateEnd = Convert.ToDateTime(reader[11]);
+                        _codePerson.Add(Convert.ToInt32(reader[0]));
+                        _firstName.Add(reader[1].ToString());
+                        _lastName.Add(reader[2].ToString());
+                        _midName.Add(reader[3].ToString());
+                        _dateOfBirth.Add(Convert.ToDateTime(reader[4]));
+                        _posCode.Add(Convert.ToInt32(reader[5]));
+                        _depCode.Add(Convert.ToInt32(reader[6]));
+                        _addrr.Add(reader[7].ToString());
+                        _phoneNum.Add(Convert.ToInt64(reader[8]));
+                        _email.Add(reader[9].ToString());
+                        _dateBegin.Add(Convert.ToDateTime(reader[10]));
+                        _dateEnd.Add(Convert.ToDateTime(reader[11]));
                         Debug.WriteLine($"{_firstName}|{_lastName}|{_midName}|{_dateOfBirth}|{_posCode}|" +
                                         $"{_depCode}|{_addrr}|{_phoneNum}|{_email}|{_dateBegin}|{_dateEnd}");
                     }
@@ -780,6 +845,18 @@ namespace erp{
         }
         public void SearchPerson(string arg)
         {
+            _codePerson.Clear();
+            _posCode.Clear();
+            _depCode.Clear();
+            _firstName.Clear();
+            _lastName.Clear();
+            _midName.Clear();
+            _addrr.Clear();
+            _email.Clear();
+            _dateOfBirth.Clear();
+            _dateBegin.Clear();
+            _dateEnd.Clear();
+            _phoneNum.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -803,20 +880,18 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        var codePerson = Convert.ToInt32(reader[0]);
-                        _codePerson = Convert.ToInt32(codePerson);
-                        
-                        _firstName = reader[1].ToString();
-                        _lastName = reader[2].ToString();
-                        _midName = reader[3].ToString();
-                        _dateOfBirth = Convert.ToDateTime(reader[4]);
-                        _posCode = Convert.ToInt32(reader[5]);
-                        _depCode = Convert.ToInt32(reader[6]);
-                        _addrr = reader[7].ToString();
-                        _phoneNum = Convert.ToInt32(reader[8]);
-                        _email = reader[9].ToString();
-                        _dateBegin = Convert.ToDateTime(reader[10]);
-                        _dateEnd = Convert.ToDateTime(reader[11]);
+                        _codePerson.Add(Convert.ToInt32(reader[0]));
+                        _firstName.Add(reader[1].ToString());
+                        _lastName.Add(reader[2].ToString());
+                        _midName.Add(reader[3].ToString());
+                        _dateOfBirth.Add(Convert.ToDateTime(reader[4]));
+                        _posCode.Add(Convert.ToInt32(reader[5]));
+                        _depCode.Add(Convert.ToInt32(reader[6]));
+                        _addrr.Add(reader[7].ToString());
+                        _phoneNum.Add(Convert.ToInt64(reader[8]));
+                        _email.Add(reader[9].ToString());
+                        _dateBegin.Add(Convert.ToDateTime(reader[10]));
+                        _dateEnd.Add(Convert.ToDateTime(reader[11]));
                         Debug.WriteLine($"{_firstName}|{_lastName}|{_midName}|{_dateOfBirth}|{_posCode}|" +
                                         $"{_depCode}|{_addrr}|{_phoneNum}|{_email}|{_dateBegin}|{_dateEnd}");
                     }
@@ -832,33 +907,43 @@ namespace erp{
             }
         }
     }
-    public class Gruppa
+    public class Gruppa//list
     {
-        private int _specializationCode;
-        private int _codeGrup;
-        private string _nameGroup;
-        private string _tutor;
+        private List<int> _specializationCode;
+        private List<int> _codeGrup;
+        private List<string> _nameGroup;
+        private List<string> _tutor;
 
         public Gruppa()
         {
-            _specializationCode = _codeGrup = 0;
-            _nameGroup = _tutor = String.Empty;
+            _specializationCode.Clear();
+            _codeGrup.Clear();
+            _nameGroup.Clear();
+            _tutor.Clear();
         }
         public Gruppa(int specializationCode, int codeGrup, string nameGroup, string tutor)
         {
-            _specializationCode = specializationCode;
-            _codeGrup = codeGrup;
-            _nameGroup = nameGroup;
-            _tutor = tutor;
+            _specializationCode.Clear();
+            _codeGrup.Clear();
+            _nameGroup.Clear();
+            _tutor.Clear();
+            _specializationCode.Add(specializationCode);
+            _codeGrup.Add(codeGrup);
+            _nameGroup.Add(nameGroup);
+            _tutor.Add(tutor);
         }
         
-        public int GetSpecCode() { return _specializationCode;}
-        public int GetCodeGroup() { return _codeGrup;}
-        public string GetNameGroup() { return _nameGroup;}
-        public string GetTutor() { return _tutor;}
+        public List<int> GetSpecCode() { return _specializationCode;}
+        public List<int> GetCodeGroup() { return _codeGrup;}
+        public List<string> GetNameGroup() { return _nameGroup;}
+        public List<string> GetTutor() { return _tutor;}
         
         public void GetTableGroup()
         {
+            _specializationCode.Clear();
+            _codeGrup.Clear();
+            _nameGroup.Clear();
+            _tutor.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -870,13 +955,13 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        _specializationCode = Convert.ToInt32(reader[0]);
+                        _specializationCode.Add(Convert.ToInt32(reader[0]));
                         
-                        _codeGrup = Convert.ToInt32(reader[1]);
+                        _codeGrup.Add(Convert.ToInt32(reader[1]));
                         
-                        _nameGroup = reader[2].ToString();
+                        _nameGroup.Add(reader[2].ToString());
 
-                        _tutor = reader[3].ToString();
+                        _tutor.Add(reader[3].ToString());
                         
                         Debug.WriteLine($"{_specializationCode}\t|{_codeGrup}\t|{_nameGroup}\t|{_tutor} ");
                     }
@@ -913,6 +998,10 @@ namespace erp{
         }
         public void SearchInTableInfLogin(string arg)
         {
+            _specializationCode.Clear();
+            _codeGrup.Clear();
+            _nameGroup.Clear();
+            _tutor.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -925,13 +1014,13 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        _specializationCode = Convert.ToInt32(reader[0]);
+                        _specializationCode.Add(Convert.ToInt32(reader[0]));
                         
-                        _codeGrup = Convert.ToInt32(reader[1]);
+                        _codeGrup.Add(Convert.ToInt32(reader[1]));
                         
-                        _nameGroup = reader[2].ToString();
+                        _nameGroup.Add(reader[2].ToString());
 
-                        _tutor = reader[3].ToString();
+                        _tutor.Add(reader[3].ToString());
                         
                         Debug.WriteLine($"{_specializationCode}\t|{_codeGrup}\t|{_nameGroup}\t|{_tutor} ");
                     }
@@ -947,38 +1036,50 @@ namespace erp{
             }
         }
     }
-    public class Subjects
+    public class Subjects//list
     {
-        private int _codeTeacher;
-        private int _codeSpec;
-        private string _nameSubj;
-        private int _codeSubj;
-        private float _hoursForSubj;
+        private List<int> _codeTeacher;
+        private List<int> _codeSpec;
+        private List<string> _nameSubj;
+        private List<int> _codeSubj;
+        private List<float> _hoursForSubj;
 
         public Subjects()
         {
-            _codeSpec = _codeTeacher = _codeSubj = 0;
-            _hoursForSubj = 0;
-            _nameSubj = string.Empty;
+            _codeSpec.Clear();
+            _codeTeacher.Clear();
+            _codeSubj.Clear();
+            _hoursForSubj.Clear();
+            _nameSubj.Clear();
         }
         public Subjects(int codeTeacher, int codeSpec, int codeSubj, 
             string nameSubj, float hoursForSubj)
         {
-            _codeTeacher = codeTeacher;
-            _codeSpec = codeSpec;
-            _codeSubj = codeSubj;
-            _nameSubj = nameSubj;
-            _hoursForSubj = hoursForSubj;
+            _codeSpec.Clear();
+            _codeTeacher.Clear();
+            _codeSubj.Clear();
+            _hoursForSubj.Clear();
+            _nameSubj.Clear();
+            _codeTeacher.Add(codeTeacher);
+            _codeSpec.Add(codeSpec);
+            _codeSubj.Add(codeSubj);
+            _nameSubj.Add(nameSubj);
+            _hoursForSubj.Add(hoursForSubj);
         }
         
-        public int GetCodeTeacher(){return _codeTeacher;}
-        public int GetCodeSpec(){return _codeSpec;}
-        public string GetNameSubj(){return _nameSubj;}
-        public int GetCodeSubj(){return _codeSubj;}
-        public float GetHours(){return _hoursForSubj;}
+        public List<int> GetCodeTeacher(){return _codeTeacher;}
+        public List<int> GetCodeSpec(){return _codeSpec;}
+        public List<string> GetNameSubj(){return _nameSubj;}
+        public List<int> GetCodeSubj(){return _codeSubj;}
+        public List<float> GetHours(){return _hoursForSubj;}
         
         public void GetTableSubj()
         {
+            _codeSpec.Clear();
+            _codeTeacher.Clear();
+            _codeSubj.Clear();
+            _hoursForSubj.Clear();
+            _nameSubj.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -990,15 +1091,15 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        _codeTeacher = Convert.ToInt32(reader[0]);
+                        _codeTeacher.Add(Convert.ToInt32(reader[0]));
                         
-                        _codeSpec = Convert.ToInt32(reader[1]);
+                        _codeSpec.Add(Convert.ToInt32(reader[1]));
                         
-                        _nameSubj = reader[2].ToString();
+                        _nameSubj.Add(reader[2].ToString());
 
-                        _codeSubj = Convert.ToInt32(reader[3]);
+                        _codeSubj.Add(Convert.ToInt32(reader[3]));
                         
-                        _hoursForSubj = Convert.ToSingle(reader[4]);
+                        _hoursForSubj.Add(Convert.ToSingle(reader[4]));
                         
                         Debug.WriteLine($"{_codeTeacher}\t|{_codeSpec}\t|{_nameSubj}\t|" +
                                         $"{_codeSubj}\t|{_hoursForSubj}");
@@ -1038,6 +1139,11 @@ namespace erp{
         }
         public void SearchInTableSubject(string arg)
         {
+            _codeSpec.Clear();
+            _codeTeacher.Clear();
+            _codeSubj.Clear();
+            _hoursForSubj.Clear();
+            _nameSubj.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -1050,15 +1156,15 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        _codeTeacher = Convert.ToInt32(reader[0]);
+                        _codeTeacher.Add(Convert.ToInt32(reader[0]));
                         
-                        _codeSpec = Convert.ToInt32(reader[1]);
+                        _codeSpec.Add(Convert.ToInt32(reader[1]));
                         
-                        _nameSubj = reader[2].ToString();
+                        _nameSubj.Add(reader[2].ToString());
 
-                        _codeSubj = Convert.ToInt32(reader[3]);
+                        _codeSubj.Add(Convert.ToInt32(reader[3]));
                         
-                        _hoursForSubj = Convert.ToSingle(reader[4]);
+                        _hoursForSubj.Add(Convert.ToSingle(reader[4]));
                         
                         Debug.WriteLine($"{_codeTeacher}\t|{_codeSpec}\t|{_nameSubj}\t|" +
                                         $"{_codeSubj}\t|{_hoursForSubj}");
@@ -1077,58 +1183,91 @@ namespace erp{
     }
     public class Student
     {
-        private int _codePerson;
-        private string _firstName;
-        private string _midName;
-        private string _lastName;
-        private DateTime _dateofBirth;
-        private int _grupCode;
-        private string _roleStud;
-        private string _addrr;
-        private int _phoneNum;
-        private string _email;
-        private DateTime _dateBegin;
-        private DateTime _dateEnd;
+        private List<int> _codePerson;
+        private List<string> _firstName;
+        private List<string> _midName;
+        private List<string> _lastName;
+        private List<DateTime> _dateofBirth;
+        private List<int> _grupCode;
+        private List<string> _roleStud;
+        private List<string> _addrr;
+        private List<long> _phoneNum;
+        private List<string> _email;
+        private List<DateTime> _dateBegin;
+        private List<DateTime> _dateEnd;
 
         public Student()
         {
-            _codePerson = _grupCode = _phoneNum = 0;
-            _firstName = _midName = _lastName = _roleStud = _addrr = _email = string.Empty;
-            _dateBegin = _dateEnd = _dateofBirth = DateTime.MinValue;
+            _codePerson.Clear();
+            _grupCode.Clear();
+            _phoneNum.Clear();
+            _firstName.Clear();
+            _midName.Clear();
+            _lastName.Clear();
+            _roleStud.Clear();
+            _addrr.Clear();
+            _email.Clear();
+            _dateBegin.Clear();
+            _dateEnd.Clear();
+            _dateofBirth.Clear();
         }
         public Student(int codePerson, string firstName, string midName, 
             string lastName, DateTime dateofBirth, int grupCode, string roleStud, 
             string addrr, int phoneNum, string email, DateTime dateBegin, DateTime dateEnd)
         {
-            this._codePerson = codePerson;
-            this._firstName = firstName;
-            this._midName = midName;
-            this._lastName = lastName;
-            this._dateofBirth = dateofBirth;
-            this._grupCode = grupCode;
-            this._roleStud = roleStud;
-            this._addrr = addrr;
-            this._phoneNum = phoneNum;
-            this._email = email;
-            this._dateBegin = dateBegin;
-            this._dateEnd = dateEnd;
+            _codePerson.Clear();
+            _grupCode.Clear();
+            _phoneNum.Clear();
+            _firstName.Clear();
+            _midName.Clear();
+            _lastName.Clear();
+            _roleStud.Clear();
+            _addrr.Clear();
+            _email.Clear();
+            _dateBegin.Clear();
+            _dateEnd.Clear();
+            _dateofBirth.Clear();
+            _codePerson.Add(codePerson);
+            _firstName.Add(firstName);
+            _midName.Add(midName);
+            _lastName.Add(lastName);
+            _dateofBirth.Add(dateofBirth);
+            _grupCode.Add(grupCode);
+            _roleStud.Add(roleStud);
+            _addrr.Add(addrr);
+            _phoneNum.Add(phoneNum);
+            _email.Add(email);
+            _dateBegin.Add(dateBegin);
+            _dateEnd.Add(dateEnd);
         }
         
-        public int GetCodePerson(){return _codePerson;}
-        public string GetFirstName(){return _firstName;}
-        public string GetLastName(){return _lastName;}
-        public string GetMidName(){return _midName;}
-        public DateTime GetDateBirth(){return _dateofBirth;}
-        public int GetGroupCode(){return _grupCode;}
-        public string GetRole(){return _roleStud;}
-        public string GetAddrress(){return _addrr;}
-        public long GetPhone(){return _phoneNum;}
-        public string GetEmail(){return _email;}
-        public DateTime GetDateBegin(){return _dateBegin;}
-        public DateTime GetDateEnd(){return _dateEnd;}
+        public List<int> GetCodePerson(){return _codePerson;}
+        public List<string> GetFirstName(){return _firstName;}
+        public List<string> GetLastName(){return _lastName;}
+        public List<string> GetMidName(){return _midName;}
+        public List<DateTime> GetDateBirth(){return _dateofBirth;}
+        public List<int> GetGroupCode(){return _grupCode;}
+        public List<string> GetRole(){return _roleStud;}
+        public List<string> GetAddrress(){return _addrr;}
+        public List<long> GetPhone(){return _phoneNum;}
+        public List<string> GetEmail(){return _email;}
+        public List<DateTime> GetDateBegin(){return _dateBegin;}
+        public List<DateTime> GetDateEnd(){return _dateEnd;}
         
         public void GetStud()
         {
+            _codePerson.Clear();
+            _grupCode.Clear();
+            _phoneNum.Clear();
+            _firstName.Clear();
+            _midName.Clear();
+            _lastName.Clear();
+            _roleStud.Clear();
+            _addrr.Clear();
+            _email.Clear();
+            _dateBegin.Clear();
+            _dateEnd.Clear();
+            _dateofBirth.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -1140,18 +1279,18 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        _codePerson = Convert.ToInt32(reader[0]);
-                        _firstName = reader[1].ToString();
-                        _midName = reader[2].ToString();
-                        _lastName = reader[3].ToString();
-                        _dateofBirth = Convert.ToDateTime(reader[4]);
-                        _grupCode = Convert.ToInt32(reader[5]);
-                        _roleStud = reader[6].ToString();
-                        _addrr = reader[7].ToString();
-                        _phoneNum = Convert.ToInt32(reader[8]);
-                        _email = reader[9].ToString();
-                        _dateBegin = Convert.ToDateTime(reader[10]);
-                        _dateEnd = Convert.ToDateTime(reader[11]);
+                        _codePerson.Add(Convert.ToInt32(reader[0]));
+                        _firstName.Add(reader[1].ToString());
+                        _midName.Add(reader[2].ToString());
+                        _lastName.Add(reader[3].ToString());
+                        _dateofBirth.Add(Convert.ToDateTime(reader[4]));
+                        _grupCode.Add(Convert.ToInt32(reader[5]));
+                        _roleStud.Add(reader[6].ToString());
+                        _addrr.Add(reader[7].ToString());
+                        _phoneNum.Add(Convert.ToInt32(reader[8]));
+                        _email.Add(reader[9].ToString());
+                        _dateBegin.Add(Convert.ToDateTime(reader[10]));
+                        _dateEnd.Add(Convert.ToDateTime(reader[11]));
                         
                         Debug.WriteLine($"{_codePerson}\t|{_firstName}\t|{_midName}\t|" +
                                         $"{_lastName}\t|{_dateofBirth}\t|{_grupCode}\t|{_roleStud}\t|" +
@@ -1195,6 +1334,18 @@ namespace erp{
         }
         public void SearchStud(string arg)
         {
+            _codePerson.Clear();
+            _grupCode.Clear();
+            _phoneNum.Clear();
+            _firstName.Clear();
+            _midName.Clear();
+            _lastName.Clear();
+            _roleStud.Clear();
+            _addrr.Clear();
+            _email.Clear();
+            _dateBegin.Clear();
+            _dateEnd.Clear();
+            _dateofBirth.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -1219,18 +1370,18 @@ namespace erp{
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        _codePerson = Convert.ToInt32(reader[0]);
-                        _firstName = reader[1].ToString();
-                        _midName = reader[2].ToString();
-                        _lastName = reader[3].ToString();
-                        _dateofBirth = Convert.ToDateTime(reader[4]);
-                        _grupCode = Convert.ToInt32(reader[5]);
-                        _roleStud = reader[6].ToString();
-                        _addrr = reader[7].ToString();
-                        _phoneNum = Convert.ToInt32(reader[8]);
-                        _email = reader[9].ToString();
-                        _dateBegin = Convert.ToDateTime(reader[10]);
-                        _dateEnd = Convert.ToDateTime(reader[11]);
+                        _codePerson.Add(Convert.ToInt32(reader[0]));
+                        _firstName.Add(reader[1].ToString());
+                        _midName.Add(reader[2].ToString());
+                        _lastName.Add(reader[3].ToString());
+                        _dateofBirth.Add(Convert.ToDateTime(reader[4]));
+                        _grupCode.Add(Convert.ToInt32(reader[5]));
+                        _roleStud.Add(reader[6].ToString());
+                        _addrr.Add(reader[7].ToString());
+                        _phoneNum.Add(Convert.ToInt32(reader[8]));
+                        _email.Add(reader[9].ToString());
+                        _dateBegin.Add(Convert.ToDateTime(reader[10]));
+                        _dateEnd.Add(Convert.ToDateTime(reader[11]));
                         
                         Debug.WriteLine($"{_codePerson}\t|{_firstName}\t|{_midName}\t|" +
                                         $"{_lastName}\t|{_dateofBirth}\t|{_grupCode}\t|{_roleStud}\t|" +
