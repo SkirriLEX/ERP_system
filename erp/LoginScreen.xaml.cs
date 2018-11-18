@@ -16,9 +16,8 @@ namespace erp
         private void Confirm_Button(object sender, RoutedEventArgs e)//Click Generall Button
         {
             ClearPassError();
-            var data = new dbInteract();
-            data.getSpec();
-            if (data.CheckLog(loginText.Text, passwordBox.Password))
+            var data = new DataQ();
+            if (DataQ.CheckLog(loginText.Text, passwordBox.Password))
             {
                 Debug.WriteLine("My congratulate");
             }
