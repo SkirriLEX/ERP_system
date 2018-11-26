@@ -28,7 +28,7 @@ bld/
 .vs/*
 .vs/erp/v15/Server/sqlite3/storage.ide-wal
 .vs/erp/v15/Server/sqlite3/storage.ide-shm
- erp/obj/Debug/*
+ erp/obj/Debug/
 
 # Visual Studio 2015 cache/options directory
 .vs/

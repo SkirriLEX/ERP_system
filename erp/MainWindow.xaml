@@ -16,14 +16,14 @@
     <Window.Resources>
         <Storyboard x:Key="ButtonOpenMenu">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="Gridmenu">
-                <EasingDoubleKeyFrame KeyTime="0" Value=" 45"/>
+                <EasingDoubleKeyFrame KeyTime="0" Value=" 40"/>
                 <EasingDoubleKeyFrame KeyTime="0:0:0:0.1" Value="150"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
         <Storyboard x:Key="ButtonCloseMenu">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="Gridmenu">
                 <EasingDoubleKeyFrame KeyTime="0" Value="150"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0:0.1" Value="45"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0:0.1" Value="40"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
@@ -36,9 +36,11 @@
         </EventTrigger>
 
     </Window.Triggers>
-    
+
     <Grid Background="LightGray">
-        <Grid  Name="title" VerticalAlignment="Top" Height="30" Background="#FF4357B2">
+       
+
+        <Grid  Name="title" VerticalAlignment="Top" Height="30" Background="#FF4357B2" Grid.ColumnSpan="2" Grid.RowSpan="2">
             <TextBlock Text="Best system in the world !!! : )" Margin="4" FontSize="20" HorizontalAlignment="Center" Foreground="LightGray">
             </TextBlock>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
@@ -54,7 +56,8 @@
                 </materialDesign:PopupBox>
             </StackPanel>
         </Grid>
-        <Grid x:Name="Gridmenu" HorizontalAlignment="Left" Width="150" Background="#FF4357B2">
+        
+        <Grid x:Name="Gridmenu" HorizontalAlignment="Left" Width="150" Background="#FF4357B2" Grid.RowSpan="2">
             <StackPanel>
                 <Grid Height="30" Background="White">
                     <Button x:Name="ButtonCloseMenu" Background ="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Height="Auto" Width="45" Visibility="Visible" Click="ButtonCloseMenu_Click">
@@ -68,7 +71,7 @@
                     <ListViewItem>
                         <StackPanel Orientation="Horizontal" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
+                            <TextBlock Text="Spesiality" Margin="6"/>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem >

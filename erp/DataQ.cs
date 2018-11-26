@@ -370,7 +370,6 @@ namespace erp{
                 connection.Close();
             }
         }
-
         public string[,] getPerson()
         {
             var connection = new SqlConnection(_connect.Builder.ConnectionString);
