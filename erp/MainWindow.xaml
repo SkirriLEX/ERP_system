@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+
         xmlns:local="clr-namespace:erp"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -12,166 +13,177 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        mc:Ignorable="d" Loaded="Window_Loaded" WindowStyle="None" WindowStartupLocation="CenterScreen" Icon="Icons-images/loginIcon.ico">
-    <Window.Resources>
-        <Storyboard x:Key="ButtonOpenMenu">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="Gridmenu">
-                <EasingDoubleKeyFrame KeyTime="0" Value=" 40"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0:0.1" Value="150"/>
+        mc:Ignorable="d" Loaded="Window_Loaded" WindowStyle="None" 
+        WindowStartupLocation="CenterScreen" 
+        Icon="Icons-images/loginIcon.ico">
+    <!--<Window.Resources>
+        <Storyboard x:Key="OpenTeachersMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="Gridmenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value=" 0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0:0.1" Value="64"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
-        <Storyboard x:Key="ButtonCloseMenu">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Width)" Storyboard.TargetName="Gridmenu">
-                <EasingDoubleKeyFrame KeyTime="0" Value="150"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0:0.1" Value="40"/>
+        <Storyboard x:Key="CloseTeachersMenu">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Height)" Storyboard.TargetName="Gridmenu">
+                <EasingDoubleKeyFrame KeyTime="0" Value="64"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0:0.1" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </Window.Resources>
     <Window.Triggers>
-        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonOpenMenu">
-            <BeginStoryboard Storyboard="{StaticResource ButtonOpenMenu}"/>
+        <EventTrigger RoutedEvent="ListBox.MouseEnter" SourceName="OpenTeachersMenu">
+            <BeginStoryboard Storyboard="{StaticResource OpenTeachersMenu}"/>
         </EventTrigger>
-        <EventTrigger RoutedEvent="ButtonBase.Click" SourceName="ButtonCloseMenu">
-            <BeginStoryboard Storyboard="{StaticResource ButtonCloseMenu}"/>
-        </EventTrigger>
-
-    </Window.Triggers>
-
+    </Window.Triggers>-->
+    <!--<Window.Resources>
+        <Style TargetType="ListBox">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="TextBlock.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Height"
+                                             From="0" To="64" Duration="0:0:1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="TextBlock.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Height"
+                                             From="64" To="0" Duration="0:0:1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>-->
+    <Window.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border Name="Border" BorderThickness="1,1,0,0" BorderBrush="Gainsboro" CornerRadius="10,0,0,0" Margin="-2,0">
+                            <StackPanel Orientation="Horizontal">
+                                <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2,0,0"/>
+                                <materialDesign:PackIcon HorizontalAlignment="Left"
+                                             Kind="Close" 
+                                             Foreground="#FF6A7BCB" 
+                                             Height="12" 
+                                             Width="12"
+                                             Margin="4,4,4,0"
+                                             MouseEnter="PackIcon_MouseEnter"/>
+                            </StackPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <Grid Background="LightGray">
-       
-
-        <Grid  Name="title" VerticalAlignment="Top" Height="30" Background="#FF4357B2" Grid.ColumnSpan="2" Grid.RowSpan="2">
-            <TextBlock Text="Best system in the world !!! : )" Margin="4" FontSize="20" HorizontalAlignment="Center" Foreground="LightGray">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="247*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="31*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid  Name="title" Grid.Column="0"
+               VerticalAlignment="Top" 
+               Height="30" HorizontalAlignment="Left" Width="591">
+            <TextBlock 
+                Text="Best system in the world !!! : )" 
+                Margin="4" FontSize="20" 
+                HorizontalAlignment="Center" 
+                Foreground="White">
             </TextBlock>
-            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                <TextBlock Name="textBlocklogin" Text="Admin" MaxWidth="150" HorizontalAlignment="Right" Margin="4" FontSize="20" Foreground="#DDFFFFFF"/>
-                <materialDesign:PopupBox HorizontalAlignment="Right" PlacementMode="BottomAndAlignCentres" StaysOpen="false" Foreground="#DDFFFFFF" FontSize="10">
-                    <StackPanel Width="150">
-                        <Button Content="Settings"/>
-                        <Button Content="Acount"/>
-                        <Separator/>
-                        <Button Content="Log out"/>
-                        <Button x:Name="closeProgram" Content="Close programm" Click="closeProgram_Click"/>
-                    </StackPanel >
-                </materialDesign:PopupBox>
-            </StackPanel>
         </Grid>
-        
-        <Grid x:Name="Gridmenu" HorizontalAlignment="Left" Width="150" Background="#FF4357B2" Grid.RowSpan="2">
+        <Grid Grid.Column="0" Margin="0,0,0,5" Grid.Row="1">
+            <TabControl>
+                <TabItem Header="Lox">
+
+                </TabItem>
+            </TabControl>
+        </Grid>
+
+        <Grid x:Name="Gridmenu" HorizontalAlignment="Right" Width="169" Background="#FF6A7BCB" Grid.Column="1" Grid.RowSpan="2">
             <StackPanel>
-                <Grid Height="30" Background="White">
-                    <Button x:Name="ButtonCloseMenu" Background ="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Height="Auto" Width="45" Visibility="Visible" Click="ButtonCloseMenu_Click">
-                        <materialDesign:PackIcon Kind="ArrowLeft" Foreground="#FF4357B2" />
-                    </Button>
-                    <Button x:Name="ButtonOpenMenu" Background ="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Right" Height="Auto" Width="45" Visibility="Collapsed" Click="ButtonOpenMenu_Click">
-                        <materialDesign:PackIcon Kind="Menu" Foreground="#FF4357B2" />
-                    </Button>
+                <Grid Height="60" Width="auto" Background="White">
+                    <StackPanel HorizontalAlignment="Left" Width="auto" Orientation="Horizontal">
+                        <materialDesign:PackIcon HorizontalAlignment="Left"
+                                             Kind="AccountBox" 
+                                             Foreground="#FF6A7BCB" 
+                                             Height="40" 
+                                             Width="40"
+                                             Margin="10"/>
+                        <TextBlock Name="loginName" 
+                                   Text ="loginName" 
+                                   MaxWidth="75" 
+                                   HorizontalAlignment="Right" 
+                                   Margin="0,20,0,0" FontSize="15" 
+                                   Foreground="#FF6A7BCB" />
+                    </StackPanel>
+                    <materialDesign:PopupBox HorizontalAlignment="Right" 
+                                                 PlacementMode="BottomAndAlignCentres" 
+                                                 StaysOpen="false" 
+                                                 Foreground="#FF6A7BCB" 
+                                                 FontSize="10">
+                        <StackPanel Width="150">
+                            <Button Content="Settings"/>
+                            <Button Content="Acount"/>
+                            <Separator/>
+                            <Button Content="Log out"/>
+                            <Button x:Name="closeProgram" Content="Close programm" Click="closeProgram_Click"/>
+                        </StackPanel >
+                    </materialDesign:PopupBox>
                 </Grid>
-                <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="150" VerticalAlignment="Bottom">
-                    <ListViewItem>
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Spesiality" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher8" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher7" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher6" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher5" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher4" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher3" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher2" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher15" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                </ListView>
+                <Grid>
+                    <StackPanel>
+                        <TextBlock 
+                            Margin="7"
+                            FontSize="20"
+                            Text="Teachers"/>
+                        <ListBox
+                            Name="TeachersMenu"
+                            Background="#FF4C5999" Height="64">
+                            <ListBoxItem>
+                                <TextBlock Text="Create Sheets" Margin="10,0"/>
+                            </ListBoxItem>
+                            <ListBoxItem>
+                                <TextBlock Text="Show all Teachers" Margin="10,0"/>
+                            </ListBoxItem>
+                        </ListBox>
+                        <TextBlock 
+                            Margin="7"
+                            FontSize="20"
+                            Text="Student"/>
+                        <ListBox
+                            Name="StudentMenu"
+                            Background="#FF4C5999" Height="64">
+                            <ListBoxItem>
+                                <TextBlock Text="Create Sheets" Margin="10,0"/>
+                            </ListBoxItem>
+                            <ListBoxItem>
+                                <TextBlock Text="Show all Students" Margin="10,0"/>
+                            </ListBoxItem>
+                        </ListBox>
+                    </StackPanel>
+                </Grid>
+
             </StackPanel>
         </Grid>
+
     </Grid>
 </Window>
