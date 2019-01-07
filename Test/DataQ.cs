@@ -214,7 +214,6 @@ namespace Test
                                 // write the data on to the screen
                                 Code.Add(Convert.ToInt32(reader[0]));
                                 Name.Add(reader[1].ToString());
-                                Console.WriteLine($"{reader[0]} \t | {reader[1]} \n");
                             }
                         }
                     }
@@ -297,13 +296,13 @@ namespace Test
         private List<int> _specializationCode = new List<int>();
         private List<string> _nameSpecialization = new List<string>();
 
-        private Specialization()
+        public Specialization()
         {
             _specialityCode.Clear();
             _specializationCode.Clear();
             _nameSpecialization.Clear();
         }
-        private Specialization(int specialityCode, int specializationCode, string nameSpecialization)
+        public Specialization(int specialityCode, int specializationCode, string nameSpecialization)
         {
             _specialityCode.Clear();
             _specializationCode.Clear();
@@ -356,7 +355,7 @@ namespace Test
                 connection.Close();
             }
         }
-        public void InsertToTableSpecialization(int specialityCode, int specializationCode, int nameSpecialization)
+        public void InsertToTableSpecialization(int specialityCode, int specializationCode, string nameSpecialization)
         {
             _nameSpecialization.Clear();
             _specializationCode.Clear();
@@ -436,7 +435,7 @@ namespace Test
 
             for (var i = 0; i < _specialityCode.Count; i++)
             {
-                Console.WriteLine($"{_specialityCode} \t | {_specializationCode} \t | {_nameSpecialization}");
+                Console.WriteLine($"{_specialityCode[i]} \t | {_specializationCode[i]} \t | {_nameSpecialization[i]}");
             }
         }
     }

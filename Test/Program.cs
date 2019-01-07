@@ -10,11 +10,12 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            var speciality = new Speciality();
-            speciality.GetTableSpeciality();
+            var specialization = new Specialization();
+            specialization.GetTableSpecialization();
             Console.Write("\n\n\n\n");
-            speciality.SearchInTableSpeciality("Physics");
-            Console.ReadKey(true);
+            specialization.InsertToTableSpecialization(104, 1043, "Radiophysics");
+            Console.Write("\n\n\n\n");
+            specialization.SearchInTableSpecialization("Nanomaterials");
         }
     }
 }
