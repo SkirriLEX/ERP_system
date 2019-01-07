@@ -140,9 +140,8 @@ namespace erp{
             Code.Clear();
             Name.Clear();
         } 
-        private Speciality(int code, string name, List<int> code1)
+        private Speciality(int code, string name)
         {
-            Code = code1;
             Code.Clear();
             Name.Clear();
             Code?.Add(code);
