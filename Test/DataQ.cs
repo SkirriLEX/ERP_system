@@ -135,7 +135,6 @@ namespace Test
             return count;
         }
     }
-
     public class Speciality //list
     {
         protected List<int> Code;
@@ -289,7 +288,6 @@ namespace Test
             }
         }
     }
-
     public class Specialization //list
     {
         private List<int> _specialityCode = new List<int>();
@@ -439,142 +437,148 @@ namespace Test
             }
         }
     }
+    public class InfLogin //++++++
+    {
+        private List<int> _tabNumPerson;
+        private List<string> _loginStr;
+        private List<string> _pass;
 
-    public class InfLogin //list
+        public InfLogin()
         {
-            private List<int> _tabNumPerson;
-            private List<string> _loginStr;
-            private List<string> _pass;
+            _tabNumPerson = new List<int>();
+            _loginStr = _pass = new List<string>();
+        }
 
-            public InfLogin()
-            {
-                _tabNumPerson.Clear();
-                _loginStr.Clear();
-                _pass.Clear();
-            }
+        public List<int> GetTabNumPerson()
+        {
+            return _tabNumPerson;
+        }
 
-            public InfLogin(int tabNumPerson, string loginStr, string pass)
-            {
-                _tabNumPerson.Clear();
-                _loginStr.Clear();
-                _pass.Clear();
-                _tabNumPerson.Add(tabNumPerson);
-                _loginStr.Add(loginStr);
-                _pass.Add(pass);
-            }
+        public List<string> GetLoginStr()
+        {
+            return _loginStr;
+        }
 
-            public List<int> GetTabNumPerson()
-            {
-                return _tabNumPerson;
-            }
+        public List<string> GetPass()
+        {
+            return _pass;
+        }
 
-            public List<string> GetLoginStr()
+        public void GetTableInfLogin()
+        {
+            _tabNumPerson.Clear();
+            _loginStr.Clear();
+            _pass.Clear();
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
             {
-                return _loginStr;
-            }
-
-            public List<string> GetPass()
-            {
-                return _pass;
-            }
-
-            public void GetTableInfLogin()
-            {
-                _tabNumPerson.Clear();
-                _loginStr.Clear();
-                _pass.Clear();
-                var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-                try
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM InfLogin", connection);
+                using (var reader = command.ExecuteReader())
                 {
-                    connection.Open();
-                    var command = new SqlCommand("SELECT * FROM InfLogin", connection);
-                    using (var reader = command.ExecuteReader())
+                    // while there is another record present
+                    while (reader.Read())
                     {
-                        // while there is another record present
-                        while (reader.Read())
-                        {
-                            // write the data on to the screen
-                            _tabNumPerson.Add(Convert.ToInt32(reader[0]));
-
-                            _loginStr.Add(reader[1].ToString());
-
-                            _pass.Add(reader[2].ToString());
-
-                            Debug.WriteLine($"{_tabNumPerson}\t|{_loginStr}\t|{_pass} ");
-                        }
+                        // write the data on to the screen
+                        _tabNumPerson.Add(Convert.ToInt32(reader[0]));
+                        _loginStr.Add(reader[1].ToString());
+                        _pass.Add(reader[2].ToString());
+                        Console.WriteLine($"{_tabNumPerson}\t|{_loginStr}\t|{_pass} ");
                     }
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-                finally
-                {
-                    connection.Close();
-                }
             }
-
-            public void InsertToTableInfLogin(int tabNumPerson, string loginStr, string pass)
+            catch (Exception ex)
             {
-                var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-                try
-                {
-                    connection.Open();
-                    var command = new SqlCommand("INSERT INTO InfLogin" +
-                                                 "(tabNumPerson, loginStr, pass)" +
-                                                 $"VALUES ({tabNumPerson}, {loginStr}, {pass})", connection);
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-                finally
-                {
-                    connection.Close();
-                }
+                Debug.WriteLine(ex.ToString());
             }
-
-            public void SearchInTableInfLogin(string arg)
+            finally
             {
-                _tabNumPerson.Clear();
-                _loginStr.Clear();
-                _pass.Clear();
-                var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-                try
+                connection.Close();
+            }
+        }
+
+        public void InsertToTableInfLogin(int tabNumPerson, string loginStr, string pass)
+        {
+            _tabNumPerson.Clear();
+            _loginStr.Clear();
+            _pass.Clear();
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            using (connection)
+            {
+                using (var command = new SqlCommand())
                 {
-                    connection.Open();
-                    var command = new SqlCommand("SELECT * FROM InfLogin" +
-                                                 $"where loginStr like {arg}", connection);
-                    using (var reader = command.ExecuteReader())
+                    command.Connection = connection;
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = "INSERT INTO InfLogin (tabNumPerson, loginStr, pass)" +
+                                          $"VALUES (@tabNumPerson, @loginStr, @pass)";
+                    command.Parameters.AddWithValue("@tabNumPerson", tabNumPerson);
+                    command.Parameters.AddWithValue("@loginStr", loginStr);
+                    command.Parameters.AddWithValue("@pass", pass);
+                    try
                     {
-                        int i = 0, j = 0;
-                        // while there is another record present
-                        while (reader.Read())
+                        connection.Open();
+                        var recordsAffected = command.ExecuteNonQuery();
+                        using (var reader = command.ExecuteReader())
                         {
-                            // write the data on to the screen
-                            _tabNumPerson.Add(Convert.ToInt32(reader[0]));
-
-                            _loginStr.Add(reader[1].ToString());
-
-                            _pass.Add(reader[2].ToString());
-
-                            Debug.WriteLine($"{_tabNumPerson}\t|{_loginStr}\t|{_pass} ");
+                            // while there is another record present
+                            while (reader.Read())
+                            {
+                                // write the data on to the screen
+                                _tabNumPerson.Add(Convert.ToInt32(reader[0]));
+                                _loginStr.Add(reader[1].ToString());
+                                _pass.Add(reader[2].ToString());
+                                Console.WriteLine($"{reader[0]} \t | {reader[1]} \t | {reader[2]}");
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-                finally
-                {
-                    connection.Close();
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
                 }
             }
         }
 
-        public class Department //list
+        public void SearchInTableInfLogin(string arg)
+        {
+            _tabNumPerson.Clear();
+            _loginStr.Clear();
+            _pass.Clear();
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM InfLogin where tabNumPerson like arg or"
+                                             + "loginStr like arg or pass like arg ", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        _tabNumPerson.Add(Convert.ToInt32(reader[0]));
+                        _loginStr.Add(reader[1].ToString());
+                        _pass.Add(reader[2].ToString());
+                        Console.WriteLine($"{_tabNumPerson}\t|{_loginStr}\t|{_pass} ");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+
+    public class Department //list
         {
             private List<int> _depCode;
             private List<string> _nameDep;
