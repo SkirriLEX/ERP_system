@@ -15,7 +15,6 @@ namespace Test
             Builder.DataSource = connStr;
             Builder.UserID = "resto";
             Builder.Password = "Resto#test01";
-            //Builder.InitialCatalog = "WIN-NALRE9SA668\\SQLEXPRESS";
         }
         public SqlConnectionStringBuilder GetBuilder()
         {
@@ -135,29 +134,29 @@ namespace Test
             return count;
         }
     }
-    public class Speciality //list
+    public class Speciality //+++++
     {
-        protected List<int> Code;
-        protected List<string> Name;
+        private List<int> _code;
+        private List<string> _name;
 
         public Speciality()
         {
-            Code = new List<int>();
-            Name = new List<string>();
+            _code = new List<int>();
+            _name = new List<string>();
         }
         public List<int> GetCode()
         {
-            return Code;
+            return _code;
         }
         public List<string> GetName()
         {
-            return Name;
+            return _name;
         }
 
         public void GetTableSpeciality()
         {
-            Code?.Clear();
-            Name?.Clear();
+            _code?.Clear();
+            _name?.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -169,8 +168,8 @@ namespace Test
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        Code.Add(Convert.ToInt32(reader[0]));
-                        Name.Add(reader[1].ToString());
+                        _code.Add(Convert.ToInt32(reader[0]));
+                        _name.Add(reader[1].ToString());
                         Console.WriteLine($"{reader[0]} \t | {reader[1]} \n");
                     }
                 }
@@ -187,8 +186,8 @@ namespace Test
         }
         public void InsertToTableSpeciality(string code, string name)
         {
-            Code.Clear();
-            Name.Clear();
+            _code.Clear();
+            _name.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             using (connection)
             {
@@ -211,8 +210,8 @@ namespace Test
                             while (reader.Read())
                             {
                                 // write the data on to the screen
-                                Code.Add(Convert.ToInt32(reader[0]));
-                                Name.Add(reader[1].ToString());
+                                _code.Add(Convert.ToInt32(reader[0]));
+                                _name.Add(reader[1].ToString());
                             }
                         }
                     }
@@ -229,8 +228,8 @@ namespace Test
         }
         public void SearchInTableSpeciality(string arg) //return an array with defined argument
         {
-            Code.Clear();
-            Name.Clear();
+            _code.Clear();
+            _name.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try
             {
@@ -242,8 +241,8 @@ namespace Test
                     while (reader.Read())
                     {
                         // write the data on to the screen
-                        Code.Add(Convert.ToInt32(reader[0]));
-                        Name.Add(reader[1].ToString());
+                        _code.Add(Convert.ToInt32(reader[0]));
+                        _name.Add(reader[1].ToString());
                     }
                 }
             }
@@ -260,13 +259,13 @@ namespace Test
             var index = new List<int>();
             if (int.TryParse(arg, out var codeSpec))
             {
-                for (var i = 0; i < Code.Count; i++)
-                    if (Code[i] == codeSpec) index.Add(i);
+                for (var i = 0; i < _code.Count; i++)
+                    if (_code[i] == codeSpec) index.Add(i);
             }
             else
             {
-                for (var i = 0; i < Code.Count; i++)
-                    if (Name[i]==arg) index.Add(i);
+                for (var i = 0; i < _code.Count; i++)
+                    if (_name[i]==arg) index.Add(i);
             }
 
             var nameTmp = new List<string>();
@@ -274,21 +273,21 @@ namespace Test
 
             foreach (var t in index)
             {
-                nameTmp.Add(Name[t]);
-                codeTmp.Add(Code[t]);
+                nameTmp.Add(_name[t]);
+                codeTmp.Add(_code[t]);
             }
-            Name.Clear();
-            Name = nameTmp;
-            Code.Clear();
-            Code = codeTmp;
+            _name.Clear();
+            _name = nameTmp;
+            _code.Clear();
+            _code = codeTmp;
 
-            for (var i = 0; i < Name.Count; i++)
+            for (var i = 0; i < _name.Count; i++)
             {
-                Console.WriteLine(Code[i]+"\t|\t"+Name[i]);
+                Console.WriteLine(_code[i]+"\t|\t"+_name[i]);
             }
         }
     }
-    public class Specialization //list
+    public class Specialization //+++++
     {
         private List<int> _specialityCode = new List<int>();
         private List<int> _specializationCode = new List<int>();
@@ -448,17 +447,14 @@ namespace Test
             _tabNumPerson = new List<int>();
             _loginStr = _pass = new List<string>();
         }
-
         public List<int> GetTabNumPerson()
         {
             return _tabNumPerson;
         }
-
         public List<string> GetLoginStr()
         {
             return _loginStr;
         }
-
         public List<string> GetPass()
         {
             return _pass;
@@ -496,7 +492,6 @@ namespace Test
                 connection.Close();
             }
         }
-
         public void InsertToTableInfLogin(int tabNumPerson, string loginStr, string pass)
         {
             _tabNumPerson.Clear();
@@ -542,7 +537,6 @@ namespace Test
                 }
             }
         }
-
         public void SearchInTableInfLogin(string arg)
         {
             _tabNumPerson.Clear();
@@ -552,8 +546,8 @@ namespace Test
             try
             {
                 connection.Open();
-                var command = new SqlCommand("SELECT * FROM InfLogin where tabNumPerson like arg or"
-                                             + "loginStr like arg or pass like arg ", connection);
+                var command = new SqlCommand($"SELECT * FROM InfLogin where tabNumPerson like {arg} or"
+                                             + $"loginStr like {arg} or pass like {arg}", connection);
                 using (var reader = command.ExecuteReader())
                 {
                     // while there is another record present
@@ -577,259 +571,259 @@ namespace Test
             }
         }
     }
+    public class Department //+++++
+    {
+        private List<int> _depCode;
+        private List<string> _nameDep;
+        private List<int> _specCode;
 
-    public class Department //list
+        public Department()
         {
-            private List<int> _depCode;
-            private List<string> _nameDep;
-            private List<int> _specCode;
-
-            public Department()
+            _depCode = _specCode = new List<int>();
+            _nameDep = new List<string>();
+        }
+        public List<int> GetDepCode()
+        {
+            return _depCode;
+        }
+        public List<string> GetNameDep()
+        {
+            return _nameDep;
+        }
+        public List<int> GetSpecCode()
+        {
+            return _specCode;
+        }
+        
+        public void GetTableDep() //tested
+        {
+            _depCode.Clear();
+            _nameDep.Clear();
+            _specCode.Clear();
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
             {
-                _depCode.Clear();
-                _nameDep.Clear();
-                _specCode.Clear();
-            }
-
-            public Department(int depCode, string nameDep, int specCode)
-            {
-                _depCode.Clear();
-                _nameDep.Clear();
-                _specCode.Clear();
-                _depCode.Add(depCode);
-                _nameDep.Add(nameDep);
-                _specCode.Add(specCode);
-            }
-
-            public List<int> GetDepCode()
-            {
-                return _depCode;
-            }
-
-            public List<string> GetNameDep()
-            {
-                return _nameDep;
-            }
-
-            public List<int> GetSpecCode()
-            {
-                return _specCode;
-            }
-
-            public void GetTableDep()
-            {
-                _depCode.Clear();
-                _nameDep.Clear();
-                _specCode.Clear();
-                var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-                try
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM InfLogin", connection);
+                using (var reader = command.ExecuteReader())
                 {
-                    connection.Open();
-                    var command = new SqlCommand("SELECT * FROM Department", connection);
-                    using (var reader = command.ExecuteReader())
+                    // while there is another record present
+                    while (reader.Read())
                     {
-                        // while there is another record present
-                        while (reader.Read())
-                        {
-                            // write the data on to the screen
-                            _depCode.Add(Convert.ToInt32(reader[0]));
-
-                            _nameDep.Add(reader[1].ToString());
-
-                            _specCode.Add(Convert.ToInt32(reader[2]));
-
-                            Debug.WriteLine($"{_depCode} \t | {_nameDep} \t | {_specCode}");
-                        }
+                        // write the data on to the screen
+                        _depCode.Add(Convert.ToInt32(reader[0]));
+                        _nameDep.Add(reader[1].ToString());
+                        _specCode.Add(Convert.ToInt32(reader[2]));
+                        Console.WriteLine($"{_depCode}\t|{_nameDep}\t|{_specCode}");
                     }
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-                finally
-                {
-                    connection.Close();
-                }
             }
-
-            public void InsertToTableDep(int departamentCode, string nameDepartment, int specialityCode)
+            catch (Exception ex)
             {
-                var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-                try
-                {
-                    connection.Open();
-                    var command = new SqlCommand("INSERT INTO Department" +
-                                                 "(departamentCode, nameDepartment, specialityCode)" +
-                                                 $"VALUES ({departamentCode}, {nameDepartment}, {specialityCode})",
-                        connection);
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-                finally
-                {
-                    connection.Close();
-                }
+                Console.WriteLine(ex.ToString());
             }
-
-            public void SearchInTableDepartament(string arg) //return an array with defined argument
+            finally
             {
-                _depCode.Clear();
-                _nameDep.Clear();
-                _specCode.Clear();
-                var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-                try
+                connection.Close();
+            }
+        }
+        public void InsertToTableDep(int departamentCode, string nameDepartment, int specialityCode)
+        {
+            _depCode.Clear();
+            _nameDep.Clear();
+            _specCode.Clear();
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            //$"INSERT INTO Department(departamentCode, nameDepartment, specialityCode)VALUES ({departamentCode}, {nameDepartment}, {specialityCode})"
+            using (connection)
+            {
+                using (var command = new SqlCommand())
                 {
-                    connection.Open();
-                    var command = new SqlCommand("SELECT * FROM Department " +
-                                                 $"where departamentCode like {arg} or " +
-                                                 $"nameDepartment like {arg} or" +
-                                                 $"specialityCode like {arg}", connection);
-                    using (var reader = command.ExecuteReader())
+                    command.Connection = connection; // <== lacking
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = $"INSERT INTO Department (departamentCode, nameDepartment, specialityCode) " +
+                                          "values (@departamentCode, @nameDepartment, @specialityCode)";
+                    command.Parameters.AddWithValue("@departamentCode", departamentCode);
+                    command.Parameters.AddWithValue("@nameDepartment", nameDepartment);
+                    command.Parameters.AddWithValue("@specialityCode", specialityCode);
+
+                    try
                     {
-                        // while there is another record present
-                        while (reader.Read())
+                        connection.Open();
+                        var recordsAffected = command.ExecuteNonQuery();
+                        using (var reader = command.ExecuteReader())
                         {
-                            // write the data on to the screen
-                            _depCode.Add(Convert.ToInt32(reader[0]));
-
-                            _nameDep.Add(reader[1].ToString());
-
-                            _specCode.Add(Convert.ToInt32(reader[2]));
-
-                            Debug.WriteLine($"{_depCode} \t | {_nameDep} \t | {_specCode}");
+                            // while there is another record present
+                            while (reader.Read())
+                            {
+                                // write the data on to the screen
+                                _depCode.Add(Convert.ToInt32(reader[0]));
+                                _nameDep.Add(reader[1].ToString());
+                                _specCode.Add(Convert.ToInt32(reader[2]));
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-                finally
-                {
-                    connection.Close();
+                    catch (SqlException ex)
+                    {
+                        DataQ.DisplaySqlErrors(ex);
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
                 }
             }
         }
-
-        public class Position //list
+        public void SearchInTableDepartament(string arg) //tested
         {
-            private List<int> _codePosition;
-            private List<string> _namePosition;
-
-            public Position()
+            _depCode.Clear();
+            _nameDep.Clear();
+            _specCode.Clear();
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
             {
-                _codePosition.Clear();
-                _namePosition.Clear();
-            }
-
-            public Position(int codePosition, string namePosition)
-            {
-                _codePosition.Clear();
-                _namePosition.Clear();
-                _codePosition.Add(codePosition);
-                _namePosition.Add(namePosition);
-            }
-
-            public List<int> GetCodePos()
-            {
-                return _codePosition;
-            }
-
-            public List<string> GetNamePos()
-            {
-                return _namePosition;
-            }
-
-            public void GetTablePositions()
-            {
-                _codePosition.Clear();
-                _namePosition.Clear();
-                var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-                try
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM InfLogin where depCode like arg or " 
+                                             + "nameDep like arg or specCode like arg", connection);
+                using (var reader = command.ExecuteReader())
                 {
-                    connection.Open();
-                    var command = new SqlCommand("SELECT * FROM Positions", connection);
-                    using (var reader = command.ExecuteReader())
+                    // while there is another record present
+                    while (reader.Read())
                     {
-                        // while there is another record present
-                        while (reader.Read())
-                        {
-                            // write the data on to the screen
-                            _codePosition.Add(Convert.ToInt32(reader[0]));
-                            _namePosition.Add(reader[1].ToString());
-                            Debug.WriteLine($"{reader[0]} \t | {reader[1]} ");
-                        }
+                        // write the data on to the screen
+                        _depCode.Add(Convert.ToInt32(reader[0]));
+                        _nameDep.Add(reader[1].ToString());
+                        _specCode.Add(Convert.ToInt32(reader[2]));
+                        Console.WriteLine($"{_depCode}\t|{_nameDep}\t|{_specCode}");
                     }
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-                finally
-                {
-                    connection.Close();
-                }
             }
-
-            public void InsertToTablePositions(string code, string name)
+            catch (Exception ex)
             {
-                var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-                try
-                {
-                    connection.Open();
-                    var command = new SqlCommand("INSERT INTO Positions" +
-                                                 "(codePosition, namePosition)" +
-                                                 $"VALUES ({code}, {name})", connection);
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-                finally
-                {
-                    connection.Close();
-                }
+                Console.WriteLine(ex.ToString());
             }
-
-            public void SearchInTablePositions(string arg)
+            finally
             {
-                _codePosition.Clear();
-                _namePosition.Clear();
-                var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-                try
+                connection.Close();
+            }
+        }
+    }
+
+    public class Position //list
+    {
+        private List<int> _codePosition;
+        private List<string> _namePosition;
+
+        public Position()
+        {
+            _codePosition.Clear();
+            _namePosition.Clear();
+        }
+
+        public Position(int codePosition, string namePosition)
+        {
+            _codePosition.Clear();
+            _namePosition.Clear();
+            _codePosition.Add(codePosition);
+            _namePosition.Add(namePosition);
+        }
+
+        public List<int> GetCodePos()
+        {
+            return _codePosition;
+        }
+
+        public List<string> GetNamePos()
+        {
+            return _namePosition;
+        }
+
+        public void GetTablePositions()
+        {
+            _codePosition.Clear();
+            _namePosition.Clear();
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM Positions", connection);
+                using (var reader = command.ExecuteReader())
                 {
-                    connection.Open();
-                    var command = new SqlCommand("SELECT * FROM Positions " +
-                                                 $"where codePosition like {arg} or " +
-                                                 $"namePosition like {arg}", connection);
-                    using (var reader = command.ExecuteReader())
+                    // while there is another record present
+                    while (reader.Read())
                     {
-                        // while there is another record present
-                        while (reader.Read())
-                        {
-                            // write the data on to the screen
-                            _codePosition.Add(Convert.ToInt32(reader[0]));
-                            _namePosition.Add(reader[1].ToString());
-                            Debug.WriteLine($"{reader[0]} \t | {reader[1]} ");
-                        }
+                        // write the data on to the screen
+                        _codePosition.Add(Convert.ToInt32(reader[0]));
+                        _namePosition.Add(reader[1].ToString());
+                        Debug.WriteLine($"{reader[0]} \t | {reader[1]} ");
                     }
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-                finally
-                {
-                    connection.Close();
-                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 
-        public class Person //list
+        public void InsertToTablePositions(string code, string name)
+        {
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("INSERT INTO Positions" +
+                                             "(codePosition, namePosition)" +
+                                             $"VALUES ({code}, {name})", connection);
+                command.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        public void SearchInTablePositions(string arg)
+        {
+            _codePosition.Clear();
+            _namePosition.Clear();
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM Positions " +
+                                             $"where codePosition like {arg} or " +
+                                             $"namePosition like {arg}", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        _codePosition.Add(Convert.ToInt32(reader[0]));
+                        _namePosition.Add(reader[1].ToString());
+                        Debug.WriteLine($"{reader[0]} \t | {reader[1]} ");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+
+    public class Person //list
         {
             private List<int> _codePerson;
             private List<string> _firstName;

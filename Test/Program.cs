@@ -6,9 +6,7 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            var specialization = new InfLogin();
-                specialization.GetTableInfLogin();
-                
+            
         }
     }
 }
