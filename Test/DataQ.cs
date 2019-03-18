@@ -20,7 +20,6 @@ namespace Test
         {
             return Builder;
         }
-
         private bool TryConnect()
         {
             using (var connection = new SqlConnection(Builder.ConnectionString))
@@ -604,7 +603,7 @@ namespace Test
             try
             {
                 connection.Open();
-                var command = new SqlCommand("SELECT * FROM InfLogin", connection);
+                var command = new SqlCommand("SELECT * FROM Department", connection);
                 using (var reader = command.ExecuteReader())
                 {
                     // while there is another record present
@@ -633,7 +632,6 @@ namespace Test
             _nameDep.Clear();
             _specCode.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            //$"INSERT INTO Department(departamentCode, nameDepartment, specialityCode)VALUES ({departamentCode}, {nameDepartment}, {specialityCode})"
             using (connection)
             {
                 using (var command = new SqlCommand())
@@ -682,7 +680,7 @@ namespace Test
             try
             {
                 connection.Open();
-                var command = new SqlCommand("SELECT * FROM InfLogin where depCode like arg or " 
+                var command = new SqlCommand($"SELECT * FROM Department where depCode like arg or " 
                                              + "nameDep like arg or specCode like arg", connection);
                 using (var reader = command.ExecuteReader())
                 {
@@ -708,36 +706,33 @@ namespace Test
         }
     }
 
-    public class Position //list
+    public class Position //+++++++
     {
         private List<int> _codePosition;
         private List<string> _namePosition;
 
         public Position()
         {
-            _codePosition.Clear();
-            _namePosition.Clear();
+            _codePosition = new List<int>();
+            _namePosition = new List<string>();
         }
-
         public Position(int codePosition, string namePosition)
         {
-            _codePosition.Clear();
-            _namePosition.Clear();
+            _codePosition = new List<int>();
+            _namePosition = new List<string>();
             _codePosition.Add(codePosition);
             _namePosition.Add(namePosition);
         }
-
         public List<int> GetCodePos()
         {
             return _codePosition;
         }
-
         public List<string> GetNamePos()
         {
             return _namePosition;
         }
 
-        public void GetTablePositions()
+        public void GetTablePositions()//clear
         {
             _codePosition.Clear();
             _namePosition.Clear();
@@ -745,7 +740,7 @@ namespace Test
             try
             {
                 connection.Open();
-                var command = new SqlCommand("SELECT * FROM Positions", connection);
+                var command = new SqlCommand($"SELECT * FROM Positions", connection);
                 using (var reader = command.ExecuteReader())
                 {
                     // while there is another record present
@@ -754,41 +749,59 @@ namespace Test
                         // write the data on to the screen
                         _codePosition.Add(Convert.ToInt32(reader[0]));
                         _namePosition.Add(reader[1].ToString());
-                        Debug.WriteLine($"{reader[0]} \t | {reader[1]} ");
+                        Console.WriteLine($"{reader[0]}\t|{reader[1]}");
                     }
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.ToString());
+                Console.WriteLine(ex.ToString());
             }
             finally
             {
                 connection.Close();
             }
         }
-
-        public void InsertToTablePositions(string code, string name)
+        public void InsertToTablePositions(int code, string name)//++++++
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            try
+            using (connection)
             {
-                connection.Open();
-                var command = new SqlCommand("INSERT INTO Positions" +
-                                             "(codePosition, namePosition)" +
-                                             $"VALUES ({code}, {name})", connection);
-                command.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
-            }
-            finally
-            {
-                connection.Close();
+                using (var command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandType = CommandType.Text;
+                    command.CommandText = $"INSERT INTO Positions " +
+                                          $"VALUES ({code}, '{name}')";
+                    //command.Parameters.AddWithValue("@codePosition", _codePosition);
+                    //command.Parameters.AddWithValue("@namePosition", _namePosition);
+                    try
+                    {
+                        connection.Open();
+                        var recordsAffected = command.ExecuteNonQuery();
+                        using (var reader = command.ExecuteReader())
+                        {
+                            // while there is another record present
+                            while (reader.Read())
+                            {
+                                // write the data on to the screen
+                                _codePosition.Add(Convert.ToInt32(reader[0]));
+                                _namePosition.Add(reader[1].ToString());
+                                Console.WriteLine($"{reader[0]} \t | {reader[1]} \t ");
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
+                }
             }
         }
-
         public void SearchInTablePositions(string arg)
         {
             _codePosition.Clear();
@@ -797,9 +810,9 @@ namespace Test
             try
             {
                 connection.Open();
-                var command = new SqlCommand("SELECT * FROM Positions " +
+                var command = new SqlCommand($"SELECT * FROM Positions " +
                                              $"where codePosition like {arg} or " +
-                                             $"namePosition like {arg}", connection);
+                                             $"namePosition like '{arg}'", connection);
                 using (var reader = command.ExecuteReader())
                 {
                     // while there is another record present
@@ -808,7 +821,7 @@ namespace Test
                         // write the data on to the screen
                         _codePosition.Add(Convert.ToInt32(reader[0]));
                         _namePosition.Add(reader[1].ToString());
-                        Debug.WriteLine($"{reader[0]} \t | {reader[1]} ");
+                        Console.WriteLine($"{reader[0]} \t | {reader[1]} ");
                     }
                 }
             }
