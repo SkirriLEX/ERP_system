@@ -9,6 +9,7 @@ namespace Test
     public class DataQ
     {
         public readonly SqlConnectionStringBuilder Builder = new SqlConnectionStringBuilder();
+
         public DataQ()
         {
             const string connStr = "178.136.14.234";
@@ -16,10 +17,12 @@ namespace Test
             Builder.UserID = "resto";
             Builder.Password = "Resto#test01";
         }
+
         public SqlConnectionStringBuilder GetBuilder()
         {
             return Builder;
         }
+
         private bool TryConnect()
         {
             using (var connection = new SqlConnection(Builder.ConnectionString))
@@ -44,7 +47,6 @@ namespace Test
                 }
             }
         }
-
         public static void DisplaySqlErrors(SqlException exception)
         {
             for (var i = 0; i < exception.Errors.Count; i++)
@@ -103,9 +105,11 @@ namespace Test
             return false;
         }
     }
+
     internal static class Utils
     {
         public static readonly DataQ Connect = new DataQ();
+
         public static int GetCountTuples(string tableName)
         {
             var count = 0;
@@ -143,10 +147,12 @@ namespace Test
             _code = new List<int>();
             _name = new List<string>();
         }
+
         public List<int> GetCode()
         {
             return _code;
         }
+
         public List<string> GetName()
         {
             return _name;
@@ -183,6 +189,7 @@ namespace Test
                 connection.Close();
             }
         }
+
         public void InsertToTableSpeciality(string code, string name)
         {
             _code.Clear();
@@ -225,6 +232,7 @@ namespace Test
                 }
             }
         }
+
         public void SearchInTableSpeciality(string arg) //return an array with defined argument
         {
             _code.Clear();
@@ -259,12 +267,14 @@ namespace Test
             if (int.TryParse(arg, out var codeSpec))
             {
                 for (var i = 0; i < _code.Count; i++)
-                    if (_code[i] == codeSpec) index.Add(i);
+                    if (_code[i] == codeSpec)
+                        index.Add(i);
             }
             else
             {
                 for (var i = 0; i < _code.Count; i++)
-                    if (_name[i]==arg) index.Add(i);
+                    if (_name[i] == arg)
+                        index.Add(i);
             }
 
             var nameTmp = new List<string>();
@@ -275,6 +285,7 @@ namespace Test
                 nameTmp.Add(_name[t]);
                 codeTmp.Add(_code[t]);
             }
+
             _name.Clear();
             _name = nameTmp;
             _code.Clear();
@@ -282,7 +293,7 @@ namespace Test
 
             for (var i = 0; i < _name.Count; i++)
             {
-                Console.WriteLine(_code[i]+"\t|\t"+_name[i]);
+                Console.WriteLine(_code[i] + "\t|\t" + _name[i]);
             }
         }
     }
@@ -298,6 +309,7 @@ namespace Test
             _specializationCode.Clear();
             _nameSpecialization.Clear();
         }
+
         public Specialization(int specialityCode, int specializationCode, string nameSpecialization)
         {
             _specialityCode.Clear();
@@ -307,18 +319,22 @@ namespace Test
             _specializationCode.Add(specializationCode);
             _nameSpecialization.Add(nameSpecialization);
         }
+
         public List<int> GetSpecialityCode()
         {
             return _specialityCode;
         }
+
         public List<int> GetSpecializationCode()
         {
             return _specializationCode;
         }
+
         public List<string> GetNameSpecialization()
         {
             return _nameSpecialization;
         }
+
         public void GetTableSpecialization()
         {
             _specialityCode.Clear();
@@ -351,6 +367,7 @@ namespace Test
                 connection.Close();
             }
         }
+
         public void InsertToTableSpecialization(int specialityCode, int specializationCode, string nameSpecialization)
         {
             _nameSpecialization.Clear();
@@ -363,8 +380,9 @@ namespace Test
                 {
                     command.Connection = connection; // <== lacking
                     command.CommandType = CommandType.Text;
-                    command.CommandText = "INSERT INTO Specialization (specialityCode, specializationCode, nameSpecialization) " +
-                                          "values (@specialityCode, @specializationCode, @nameSpecialization)";
+                    command.CommandText =
+                        "INSERT INTO Specialization (specialityCode, specializationCode, nameSpecialization) " +
+                        "values (@specialityCode, @specializationCode, @nameSpecialization)";
                     command.Parameters.AddWithValue("@specialityCode", specialityCode);
                     command.Parameters.AddWithValue("@specializationCode", specializationCode);
                     command.Parameters.AddWithValue("@nameSpecialization", nameSpecialization);
@@ -397,6 +415,7 @@ namespace Test
                 }
             }
         }
+
         public void SearchInTableSpecialization(string arg)
         {
             GetTableSpecialization();
@@ -404,12 +423,14 @@ namespace Test
             if (int.TryParse(arg, out var code))
             {
                 for (var i = 0; i < _specialityCode.Count; i++)
-                    if (_specialityCode[i] == code || _specializationCode[i] == code) index.Add(i);
+                    if (_specialityCode[i] == code || _specializationCode[i] == code)
+                        index.Add(i);
             }
             else
             {
                 for (var i = 0; i < _specialityCode.Count; i++)
-                    if (_nameSpecialization[i]==arg) index.Add(i);
+                    if (_nameSpecialization[i] == arg)
+                        index.Add(i);
             }
 
             var specialityCodeTmp = new List<int>();
@@ -422,6 +443,7 @@ namespace Test
                 specialityCodeTmp.Add(_specialityCode[t]);
                 specializationCodeTmp.Add(_specializationCode[t]);
             }
+
             _specialityCode.Clear();
             _specialityCode = specialityCodeTmp;
             _specializationCode.Clear();
@@ -446,14 +468,17 @@ namespace Test
             _tabNumPerson = new List<int>();
             _loginStr = _pass = new List<string>();
         }
+
         public List<int> GetTabNumPerson()
         {
             return _tabNumPerson;
         }
+
         public List<string> GetLoginStr()
         {
             return _loginStr;
         }
+
         public List<string> GetPass()
         {
             return _pass;
@@ -491,6 +516,7 @@ namespace Test
                 connection.Close();
             }
         }
+
         public void InsertToTableInfLogin(int tabNumPerson, string loginStr, string pass)
         {
             _tabNumPerson.Clear();
@@ -536,6 +562,7 @@ namespace Test
                 }
             }
         }
+
         public void SearchInTableInfLogin(string arg)
         {
             _tabNumPerson.Clear();
@@ -581,19 +608,22 @@ namespace Test
             _depCode = _specCode = new List<int>();
             _nameDep = new List<string>();
         }
+
         public List<int> GetDepCode()
         {
             return _depCode;
         }
+
         public List<string> GetNameDep()
         {
             return _nameDep;
         }
+
         public List<int> GetSpecCode()
         {
             return _specCode;
         }
-        
+
         public void GetTableDep() //tested
         {
             _depCode.Clear();
@@ -626,6 +656,7 @@ namespace Test
                 connection.Close();
             }
         }
+
         public void InsertToTableDep(int departamentCode, string nameDepartment, int specialityCode)
         {
             _depCode.Clear();
@@ -671,6 +702,7 @@ namespace Test
                 }
             }
         }
+
         public void SearchInTableDepartament(string arg) //tested
         {
             _depCode.Clear();
@@ -680,7 +712,7 @@ namespace Test
             try
             {
                 connection.Open();
-                var command = new SqlCommand($"SELECT * FROM Department where depCode like arg or " 
+                var command = new SqlCommand($"SELECT * FROM Department where depCode like arg or "
                                              + "nameDep like arg or specCode like arg", connection);
                 using (var reader = command.ExecuteReader())
                 {
@@ -715,6 +747,7 @@ namespace Test
             _codePosition = new List<int>();
             _namePosition = new List<string>();
         }
+
         public Position(int codePosition, string namePosition)
         {
             _codePosition = new List<int>();
@@ -722,16 +755,18 @@ namespace Test
             _codePosition.Add(codePosition);
             _namePosition.Add(namePosition);
         }
+
         public List<int> GetCodePos()
         {
             return _codePosition;
         }
+
         public List<string> GetNamePos()
         {
             return _namePosition;
         }
 
-        public void GetTablePositions()//clear
+        public void GetTablePositions() //clear
         {
             _codePosition.Clear();
             _namePosition.Clear();
@@ -761,7 +796,8 @@ namespace Test
                 connection.Close();
             }
         }
-        public void InsertToTablePositions(int code, string name)//++++++
+
+        public void InsertToTablePositions(int code, string name) //++++++
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             using (connection)
@@ -801,6 +837,7 @@ namespace Test
                 }
             }
         }
+
         public void SearchInTablePositions(string arg)
         {
             _codePosition.Clear();
@@ -834,314 +871,309 @@ namespace Test
             }
         }
     }
+    public class Person //++++
+    {
+        private List<int> _codePerson;
+        private List<string> _firstName;
+        private List<string> _lastName;
+        private List<string> _midName;
+        private List<DateTime> _dateOfBirth;
+        private List<int> _posCode;
+        private List<int> _depCode;
+        private List<string> _addrr;
+        private List<long> _phoneNum;
+        private List<string> _email;
+        private List<DateTime> _dateBegin;
+        private List<DateTime> _dateEnd;
 
-    public class Person //list
+        //constructor
+        public Person()
         {
-            private List<int> _codePerson;
-            private List<string> _firstName;
-            private List<string> _lastName;
-            private List<string> _midName;
-            private List<DateTime> _dateOfBirth;
-            private List<int> _posCode;
-            private List<int> _depCode;
-            private List<string> _addrr;
-            private List<long> _phoneNum;
-            private List<string> _email;
-            private List<DateTime> _dateBegin;
-            private List<DateTime> _dateEnd;
-            
-            public Person()
-            {
-                _codePerson = _posCode = _depCode = new List<int>();
-                _firstName = _lastName = _midName = _addrr = _email = new List<string>();
-                _dateEnd = _dateBegin = _dateOfBirth = new List<DateTime>();
-                _phoneNum = new List<long>();
-            }
-            public Person(int codePerson, string firstName, string lastName, string midName, DateTime dateOfBirth,
-                int posCode, int depCode, string addrr, long phoneNum, string email, DateTime dateBegin,
-                DateTime dateEnd)
-            {
-                _codePerson = _posCode = _depCode = new List<int>();
-                _firstName = _lastName = _midName = _addrr = _email = new List<string>();
-                _dateEnd = _dateBegin = _dateOfBirth = new List<DateTime>();
-                _phoneNum = new List<long>();
-                _codePerson.Add(codePerson);
-                _dateBegin.Add(dateBegin);
-                _dateEnd.Add(dateEnd);
-                _dateOfBirth.Add(dateOfBirth);
-                _depCode.Add(depCode);
-                _email.Add(email);
-                _firstName.Add(firstName);
-                _lastName.Add(lastName);
-                _midName.Add(midName);
-                _phoneNum.Add(phoneNum);
-                _posCode.Add(posCode);
-                _addrr.Add(addrr);
-            }
-            public List<int> GetCodePerson()
-            {
-                return _codePerson;
-            }
-            public List<string> GetFirstName()
-            {
-                return _firstName;
-            }
-            public List<string> GetLastName()
-            {
-                return _lastName;
-            }
-            public List<string> GetMidName()
-            {
-                return _midName;
-            }
-            public List<DateTime> GetDateBirth()
-            {
-                return _dateOfBirth;
-            }
-            public List<int> GetPositionCode()
-            {
-                return _posCode;
-            }
-            public List<int> GetDepartmentCode()
-            {
-                return _depCode;
-            }
-            public List<string> GetAddrress()
-            {
-                return _addrr;
-            }
-            public List<long> GetPhone()
-            {
-                return _phoneNum;
-            }
-            public List<string> GetEmail()
-            {
-                return _email;
-            }
-            public List<DateTime> GetDateBegin()
-            {
-                return _dateBegin;
-            }
-            public List<DateTime> GetDateEnd()
-            {
-                return _dateEnd;
-            }
+            _codePerson = _posCode = _depCode = new List<int>();
+            _firstName = _lastName = _midName = _addrr = _email = new List<string>();
+            _dateEnd = _dateBegin = _dateOfBirth = new List<DateTime>();
+            _phoneNum = new List<long>();
+        }
+        public Person(int codePerson, string firstName, string lastName, string midName, DateTime dateOfBirth,
+            int posCode, int depCode, string addrr, long phoneNum, string email, DateTime dateBegin,
+            DateTime dateEnd)
+        {
+            _codePerson = _posCode = _depCode = new List<int>();
+            _firstName = _lastName = _midName = _addrr = _email = new List<string>();
+            _dateEnd = _dateBegin = _dateOfBirth = new List<DateTime>();
+            _phoneNum = new List<long>();
+            _codePerson.Add(codePerson);
+            _dateBegin.Add(dateBegin);
+            _dateEnd.Add(dateEnd);
+            _dateOfBirth.Add(dateOfBirth);
+            _depCode.Add(depCode);
+            _email.Add(email);
+            _firstName.Add(firstName);
+            _lastName.Add(lastName);
+            _midName.Add(midName);
+            _phoneNum.Add(phoneNum);
+            _posCode.Add(posCode);
+            _addrr.Add(addrr);
+        }
 
-            private void ClearAll()
+        //getters
+        public List<int> GetCodePerson()
+        {
+            return _codePerson;
+        }
+        public List<string> GetFirstName()
+        {
+            return _firstName;
+        }
+        public List<string> GetLastName()
+        {
+            return _lastName;
+        }
+        public List<string> GetMidName()
+        {
+            return _midName;
+        }
+        public List<DateTime> GetDateBirth()
+        {
+            return _dateOfBirth;
+        }
+        public List<int> GetPositionCode()
+        {
+            return _posCode;
+        }
+        public List<int> GetDepartmentCode()
+        {
+            return _depCode;
+        }
+        public List<string> GetAddrress()
+        {
+            return _addrr;
+        }
+        public List<long> GetPhone()
+        {
+            return _phoneNum;
+        }
+        public List<string> GetEmail()
+        {
+            return _email;
+        }
+        public List<DateTime> GetDateBegin()
+        {
+            return _dateBegin;
+        }
+        public List<DateTime> GetDateEnd()
+        {
+            return _dateEnd;
+        }
+
+        private void ClearAll()
+        {
+            _codePerson.Clear();
+            _posCode.Clear();
+            _depCode.Clear();
+            _firstName.Clear();
+            _lastName.Clear();
+            _midName.Clear();
+            _addrr.Clear();
+            _email.Clear();
+            _dateOfBirth.Clear();
+            _dateBegin.Clear();
+            _dateEnd.Clear();
+            _phoneNum.Clear();
+        }
+        public void GetPerson()//get all records in table
+        {
+            ClearAll();
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
             {
-                _codePerson.Clear();
-                _posCode.Clear();
-                _depCode.Clear();
-                _firstName.Clear();
-                _lastName.Clear();
-                _midName.Clear();
-                _addrr.Clear();
-                _email.Clear();
-                _dateOfBirth.Clear();
-                _dateBegin.Clear();
-                _dateEnd.Clear();
-                _phoneNum.Clear();
-            }
-            public void GetPerson()
-            {
-                ClearAll();
-                var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-                try
+                connection.Open();
+                var command = new SqlCommand($"SELECT * FROM Person", connection);
+                using (var reader = command.ExecuteReader())
                 {
-                    connection.Open();
-                    var command = new SqlCommand($"SELECT * FROM Person", connection);
-                    using (var reader = command.ExecuteReader())
+                    // while there is another record present
+                    while (reader.Read())
                     {
-                        // while there is another record present
-                        while (reader.Read())
-                        {
-                            // write the data on to the screen
-                            _codePerson.Add(Convert.ToInt32(reader[0]));
-                            _firstName.Add(reader[1].ToString());
-                            _lastName.Add(reader[2].ToString());
-                            _midName.Add(reader[2].ToString());
-                            _dateOfBirth.Add(Convert.ToDateTime(reader[3]));
-                            _posCode.Add(Convert.ToInt32(reader[4]));
-                            _depCode.Add(Convert.ToInt32(reader[5]));
-                            _addrr.Add(reader[6].ToString());
-                            _phoneNum.Add(Convert.ToInt64(reader[7]));
-                            _email.Add(reader[8].ToString());
-                            _dateBegin.Add(Convert.ToDateTime(reader[9]));
-                            _dateEnd.Add(Convert.ToDateTime(reader[10]));
-                            Console.WriteLine($"{reader[0]}\t|{reader[1]}\t|{reader[2]}\t|" +
-                                                    $"{reader[3]}\t|{reader[4]}\t|{reader[5]}\t|" +
-                                                    $"{reader[6]}\t|{reader[7]}\t|{reader[8]}\t|" +
-                                                    $"{reader[9]}\t|{reader[10]} ");
-                        }
+                        // write the data on to the screen
+                        _codePerson.Add(Convert.ToInt32(reader[0]));
+                        _firstName.Add(reader[1].ToString());
+                        _lastName.Add(reader[2].ToString());
+                        _midName.Add(reader[2].ToString());
+                        _dateOfBirth.Add(Convert.ToDateTime(reader[3]));
+                        _posCode.Add(Convert.ToInt32(reader[4]));
+                        _depCode.Add(Convert.ToInt32(reader[5]));
+                        _addrr.Add(reader[6].ToString());
+                        _phoneNum.Add(Convert.ToInt64(reader[7]));
+                        _email.Add(reader[8].ToString());
+                        _dateBegin.Add(Convert.ToDateTime(reader[9]));
+                        _dateEnd.Add(Convert.ToDateTime(reader[10]));
+                        Console.WriteLine($"{reader[0]}\t|{reader[1]}\t|{reader[2]}\t|" +
+                                          $"{reader[3]}\t|{reader[4]}\t|{reader[5]}\t|" +
+                                          $"{reader[6]}\t|{reader[7]}\t|{reader[8]}\t|" +
+                                          $"{reader[9]}\t|{reader[10]} ");
                     }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
-                }
-                finally
-                {
-                    connection.Close();
-                }
             }
-            public void InsertPerson(int codePerson, string firstName, string lastName, string midName,
-                DateTime dateofBirth, int positionCode, int departamentCode, string addrr, int phoneNum,
-                string email, DateTime dateBegin, DateTime dateEnd)
+            catch (Exception ex)
             {
-                //codePerson, firstName, lastName, midName, dateofBirth, positionCode, departamentCode,
-                //addrr, phoneNum, email, dateBegin, dateEnd
-                ClearAll();
-                var rnd = new Random();
-                var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-                using (connection)
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+        public void InsertPerson(int codePerson, string firstName, string lastName, string midName,
+            DateTime dateofBirth, int positionCode, int departamentCode, string addrr, int phoneNum,
+            string email, DateTime dateBegin, DateTime dateEnd)
+        {
+            ClearAll();
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            using (connection)
+            {
+                using (var command = new SqlCommand())
                 {
-                    using (var command = new SqlCommand())
+                    command.Connection = connection;
+                    command.CommandType = CommandType.Text;
+                    command.CommandText =
+                        $"INSERT INTO Person (codePerson, firstName, lastName, midName, dateofBirth, " +
+                        $"positionCode, departamentCode, addrr, phoneNum, email, dateBegin, dateEnd)" +
+                        $"VALUES (@codePerson, @firstName, @lastName, @midName, @dateofBirth, @positionCode, " +
+                        $"@departamentCode, @addrr, @phoneNum, @email, @dateBegin, @dateEnd)";
+                    command.Parameters.AddWithValue("@codePerson", codePerson);
+                    command.Parameters.AddWithValue("@firstName", firstName);
+                    command.Parameters.AddWithValue("@lastName", lastName);
+                    command.Parameters.AddWithValue("@midName", midName);
+                    command.Parameters.AddWithValue("@dateofBirth", dateofBirth);
+                    command.Parameters.AddWithValue("@positionCode", positionCode);
+                    command.Parameters.AddWithValue("@departamentCode", departamentCode);
+                    command.Parameters.AddWithValue("@addrr", addrr);
+                    command.Parameters.AddWithValue("@phoneNum", phoneNum);
+                    command.Parameters.AddWithValue("@email", email);
+                    command.Parameters.AddWithValue("@dateBegin", dateBegin);
+                    command.Parameters.AddWithValue("@dateEnd", dateEnd);
+                    try
                     {
-                        command.Connection = connection;
-                        command.CommandType = CommandType.Text;
-                        command.CommandText = $"INSERT INTO Person (codePerson, firstName, lastName, midName, dateofBirth, " +
-                                                                  $"positionCode, departamentCode, addrr, phoneNum, email, dateBegin, dateEnd)" +
-                                              $"VALUES (@codePerson, @firstName, @lastName, @midName, @dateofBirth, @positionCode, " +
-                                                                  $"@departamentCode, @addrr, @phoneNum, @email, @dateBegin, @dateEnd)";
-                        command.Parameters.AddWithValue("@codePerson", codePerson);
-                        command.Parameters.AddWithValue("@firstName", firstName);
-                        command.Parameters.AddWithValue("@lastName", lastName);
-                        command.Parameters.AddWithValue("@midName", midName);
-                        command.Parameters.AddWithValue("@dateofBirth", dateofBirth);
-                        command.Parameters.AddWithValue("@positionCode", positionCode);
-                        command.Parameters.AddWithValue("@departamentCode", departamentCode);
-                        command.Parameters.AddWithValue("@addrr", addrr);
-                        command.Parameters.AddWithValue("@phoneNum", phoneNum);
-                        command.Parameters.AddWithValue("@email", email);
-                        command.Parameters.AddWithValue("@dateBegin", dateBegin);
-                        command.Parameters.AddWithValue("@dateEnd", dateEnd);
-                        try
+                        connection.Open();
+                        var recordsAffected = command.ExecuteNonQuery();
+                        using (var reader = command.ExecuteReader())
                         {
-                            connection.Open();
-                            var recordsAffected = command.ExecuteNonQuery();
-                            using (var reader = command.ExecuteReader())
+                            // while there is another record present
+                            while (reader.Read())
                             {
-                                // while there is another record present
-                                while (reader.Read())
-                                {
-                                    // write the data on to the screen
-                                    _codePerson.Add(Convert.ToInt32(reader[0]));
-                                    _firstName.Add(reader[1].ToString());
-                                    _lastName.Add(reader[2].ToString());
-                                    _midName.Add(reader[2].ToString());
-                                    _dateOfBirth.Add(Convert.ToDateTime(reader[3]));
-                                    _posCode.Add(Convert.ToInt32(reader[4]));
-                                    _depCode.Add(Convert.ToInt32(reader[5]));
-                                    _addrr.Add(reader[6].ToString());
-                                    _phoneNum.Add(Convert.ToInt64(reader[7]));
-                                    _email.Add(reader[8].ToString());
-                                    _dateBegin.Add(Convert.ToDateTime(reader[9]));
-                                    _dateEnd.Add(Convert.ToDateTime(reader[10]));
-                                    Console.WriteLine($"{reader[0]}\t|{reader[1]}\t|{reader[2]}\t|" +
-                                                      $"{reader[3]}\t|{reader[4]}\t|{reader[5]}\t|" +
-                                                      $"{reader[6]}\t|{reader[7]}\t|{reader[8]}\t|" +
-                                                      $"{reader[9]}\t|{reader[10]} ");
-                                }
+                                // write the data on to the screen
+                                _codePerson.Add(Convert.ToInt32(reader[0]));
+                                _firstName.Add(reader[1].ToString());
+                                _lastName.Add(reader[2].ToString());
+                                _midName.Add(reader[2].ToString());
+                                _dateOfBirth.Add(Convert.ToDateTime(reader[3]));
+                                _posCode.Add(Convert.ToInt32(reader[4]));
+                                _depCode.Add(Convert.ToInt32(reader[5]));
+                                _addrr.Add(reader[6].ToString());
+                                _phoneNum.Add(Convert.ToInt64(reader[7]));
+                                _email.Add(reader[8].ToString());
+                                _dateBegin.Add(Convert.ToDateTime(reader[9]));
+                                _dateEnd.Add(Convert.ToDateTime(reader[10]));
+                                Console.WriteLine($"{reader[0]}\t|{reader[1]}\t|{reader[2]}\t|" +
+                                                  $"{reader[3]}\t|{reader[4]}\t|{reader[5]}\t|" +
+                                                  $"{reader[6]}\t|{reader[7]}\t|{reader[8]}\t|" +
+                                                  $"{reader[9]}\t|{reader[10]} ");
                             }
                         }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.ToString());
-                        }
-                        finally
-                        {
-                            connection.Close();
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                    finally
+                    {
+                        connection.Close();
                     }
                 }
             }
-
-            public void SearchPerson(string arg)
+        }
+        public void SearchPerson(string arg)
+        {
+            ClearAll();
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
             {
-                ClearAll();
-                var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-                try
+                connection.Open();
+                var command = new SqlCommand($"SELECT * FROM Person where codePerson like {arg} or" +
+                                             $"firstName like {arg} or" +
+                                             $"lastName like {arg} or" +
+                                             $"midName like {arg} or" +
+                                             $"dateofBirth like {arg} or" +
+                                             $"positionCode like {arg} or" +
+                                             $"departamentCode like {arg} or" +
+                                             $"addrr like {arg} or" +
+                                             $"phoneNum like {arg} or" +
+                                             $"email like {arg} or" +
+                                             $"dateBegin like {arg} or" +
+                                             $"dateEnd like {arg}", connection);
+                using (var reader = command.ExecuteReader())
                 {
-                    connection.Open();
-                    var command = new SqlCommand($"SELECT * FROM Person where codePerson like {arg} or" +
-                                                 $"firstName like {arg} or" +
-                                                 $"lastName like {arg} or" +
-                                                 $"midName like {arg} or" +
-                                                 $"dateofBirth like {arg} or" +
-                                                 $"positionCode like {arg} or" +
-                                                 $"departamentCode like {arg} or" +
-                                                 $"addrr like {arg} or" +
-                                                 $"phoneNum like {arg} or" +
-                                                 $"email like {arg} or" +
-                                                 $"dateBegin like {arg} or" +
-                                                 $"dateEnd like {arg}", connection);
-                    using (var reader = command.ExecuteReader())
+                    // while there is another record present
+                    while (reader.Read())
                     {
-                        // while there is another record present
-                        while (reader.Read())
-                        {
-                            // write the data on to the screen
-                            _codePerson.Add(Convert.ToInt32(reader[0]));
-                            _firstName.Add(reader[1].ToString());
-                            _lastName.Add(reader[2].ToString());
-                            _midName.Add(reader[2].ToString());
-                            _dateOfBirth.Add(Convert.ToDateTime(reader[3]));
-                            _posCode.Add(Convert.ToInt32(reader[4]));
-                            _depCode.Add(Convert.ToInt32(reader[5]));
-                            _addrr.Add(reader[6].ToString());
-                            _phoneNum.Add(Convert.ToInt64(reader[7]));
-                            _email.Add(reader[8].ToString());
-                            _dateBegin.Add(Convert.ToDateTime(reader[9]));
-                            _dateEnd.Add(Convert.ToDateTime(reader[10]));
-                            Console.WriteLine($"{reader[0]}\t|{reader[1]}\t|{reader[2]}\t|" +
-                                              $"{reader[3]}\t|{reader[4]}\t|{reader[5]}\t|" +
-                                              $"{reader[6]}\t|{reader[7]}\t|{reader[8]}\t|" +
-                                              $"{reader[9]}\t|{reader[10]} ");
-                        }
+                        // write the data on to the screen
+                        _codePerson.Add(Convert.ToInt32(reader[0]));
+                        _firstName.Add(reader[1].ToString());
+                        _lastName.Add(reader[2].ToString());
+                        _midName.Add(reader[2].ToString());
+                        _dateOfBirth.Add(Convert.ToDateTime(reader[3]));
+                        _posCode.Add(Convert.ToInt32(reader[4]));
+                        _depCode.Add(Convert.ToInt32(reader[5]));
+                        _addrr.Add(reader[6].ToString());
+                        _phoneNum.Add(Convert.ToInt64(reader[7]));
+                        _email.Add(reader[8].ToString());
+                        _dateBegin.Add(Convert.ToDateTime(reader[9]));
+                        _dateEnd.Add(Convert.ToDateTime(reader[10]));
+                        Console.WriteLine($"{reader[0]}\t|{reader[1]}\t|{reader[2]}\t|" +
+                                          $"{reader[3]}\t|{reader[4]}\t|{reader[5]}\t|" +
+                                          $"{reader[6]}\t|{reader[7]}\t|{reader[8]}\t|" +
+                                          $"{reader[9]}\t|{reader[10]} ");
                     }
+                }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
             }
-            finally{
-                    connection.Close();
-                }
+            finally
+            {
+                connection.Close();
+            }
         }
+    }
+    public class Gruppa //list
+    {
+        private List<int> _specializationCode;
+        private List<int> _codeGrup;
+        private List<string> _nameGroup;
+        private List<string> _tutor;
 
-        public class Gruppa //list
+        //constructors
+        public Gruppa()
         {
-            private List<int> _specializationCode;
-            private List<int> _codeGrup;
-            private List<string> _nameGroup;
-            private List<string> _tutor;
-
-            public Gruppa()
-            {
-                _specializationCode.Clear();
-                _codeGrup.Clear();
-                _nameGroup.Clear();
-                _tutor.Clear();
-            }
-
-            public Gruppa(int specializationCode, int codeGrup, string nameGroup, string tutor)
-            {
-                _specializationCode.Clear();
-                _codeGrup.Clear();
-                _nameGroup.Clear();
-                _tutor.Clear();
-                _specializationCode.Add(specializationCode);
-                _codeGrup.Add(codeGrup);
-                _nameGroup.Add(nameGroup);
-                _tutor.Add(tutor);
-            }
-
-            public List<int> GetSpecCode()
-            {
-                return _specializationCode;
-            }
-
-            public List<int> GetCodeGroup()
+            _specializationCode = _codeGrup = new List<int>();
+            _nameGroup = _tutor = new List<string>();
+        }
+        public Gruppa(int specializationCode, int codeGrup, string nameGroup, string tutor)
+        {
+            _specializationCode = _codeGrup = new List<int>();
+            _nameGroup = _tutor = new List<string>();
+            _specializationCode.Add(specializationCode);
+            _codeGrup.Add(codeGrup);
+            _nameGroup.Add(nameGroup);
+            _tutor.Add(tutor);
+        }
+        
+        public List<int> GetSpecCode()
+        {
+            return _specializationCode;
+        }
+        public List<int> GetCodeGroup()
             {
                 return _codeGrup;
             }
@@ -1694,4 +1726,4 @@ namespace Test
                 }
             }
         }
-    }
+}
