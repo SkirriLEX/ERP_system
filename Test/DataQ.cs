@@ -1168,7 +1168,7 @@ namespace Test
             _nameGroup.Add(nameGroup);
             _tutor.Add(tutor);
         }
-        
+        //getters
         public List<int> GetSpecCode()
         {
             return _specializationCode;
@@ -1177,118 +1177,136 @@ namespace Test
             {
                 return _codeGrup;
             }
-
-            public List<string> GetNameGroup()
+        public List<string> GetNameGroup()
+        {
+            return _nameGroup;
+        }
+        public List<string> GetTutor()
+        {
+            return _tutor;
+        }
+        
+        public void GetTableGroup()
+        {
+            _specializationCode.Clear();
+            _codeGrup.Clear();
+            _nameGroup.Clear();
+            _tutor.Clear();
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
             {
-                return _nameGroup;
-            }
-
-            public List<string> GetTutor()
-            {
-                return _tutor;
-            }
-
-            public void GetTableGroup()
-            {
-                _specializationCode.Clear();
-                _codeGrup.Clear();
-                _nameGroup.Clear();
-                _tutor.Clear();
-                var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-                try
+                connection.Open();
+                var command = new SqlCommand($"SELECT * FROM Gruppa", connection);
+                using (var reader = command.ExecuteReader())
                 {
-                    connection.Open();
-                    var command = new SqlCommand("SELECT * FROM Gruppa", connection);
-                    using (var reader = command.ExecuteReader())
+                    // while there is another record present
+                    while (reader.Read())
                     {
-                        // while there is another record present
-                        while (reader.Read())
-                        {
-                            // write the data on to the screen
-                            _specializationCode.Add(Convert.ToInt32(reader[0]));
-
-                            _codeGrup.Add(Convert.ToInt32(reader[1]));
-
-                            _nameGroup.Add(reader[2].ToString());
-
-                            _tutor.Add(reader[3].ToString());
-
-                            Debug.WriteLine($"{_specializationCode}\t|{_codeGrup}\t|{_nameGroup}\t|{_tutor} ");
-                        }
+                        // write the data on to the screen
+                        _specializationCode.Add(Convert.ToInt32(reader[0]));
+                        _codeGrup.Add(Convert.ToInt32(reader[1]));
+                        _nameGroup.Add(reader[2].ToString());
+                        _tutor.Add(reader[3].ToString());
+                        Console.WriteLine($"{reader[0]}\t|{reader[1]}\t|{reader[2]}\t|{reader[3]} ");
                     }
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-                finally
-                {
-                    connection.Close();
-                }
             }
-
-            public void InsertToTableGruppa(int specializationCode, int codeGrup, string nameGroup, string tutor)
+            catch (Exception ex)
             {
-                var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-                try
-                {
-                    connection.Open();
-                    var command = new SqlCommand("INSERT INTO Gruppa" +
-                                                 "(specializationCode, codeGrup, nameGroup, tutor)" +
-                                                 $"VALUES ({specializationCode}, {codeGrup}, {nameGroup}, {tutor})",
-                        connection);
-                    command.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-                finally
-                {
-                    connection.Close();
-                }
+                Debug.WriteLine(ex.ToString());
             }
-
-            public void SearchInTableInfLogin(string arg)
+            finally
             {
-                _specializationCode.Clear();
-                _codeGrup.Clear();
-                _nameGroup.Clear();
-                _tutor.Clear();
-                var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-                try
+                connection.Close();
+            }
+        }
+        public void InsertToTableGruppa(int specializationCode, int codeGrup, string nameGroup, string tutor)
+        {
+            _specializationCode.Clear();
+            _codeGrup.Clear();
+            _nameGroup.Clear();
+            _tutor.Clear();
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            using (connection)
+            {
+                using (var command = new SqlCommand())
                 {
-                    connection.Open();
-                    var command = new SqlCommand("SELECT * FROM InfLogin" +
-                                                 $"where loginStr like {arg}", connection);
-                    using (var reader = command.ExecuteReader())
+                    command.Connection = connection;
+                    command.CommandType = CommandType.Text;
+                    //specializationCode (int), codeGrup (int), nameGroup (varchar(7)), tutor (varchar(20))
+                    command.CommandText = $"INSERT INTO Gruppa (specializationCode, codeGrup, nameGroup, tutor)" +
+                                          $"VALUES (@specializationCode, @codeGrup, @nameGroup, @tutor)";
+                    command.Parameters.AddWithValue("@specializationCode", specializationCode);
+                    command.Parameters.AddWithValue("@codeGrup", codeGrup);
+                    command.Parameters.AddWithValue("@nameGroup", nameGroup);
+                    command.Parameters.AddWithValue("@tutor", tutor);
+                    try
                     {
-                        // while there is another record present
-                        while (reader.Read())
+                        connection.Open();
+                        var recordsAffected = command.ExecuteNonQuery();
+                        using (var reader = command.ExecuteReader())
                         {
-                            // write the data on to the screen
-                            _specializationCode.Add(Convert.ToInt32(reader[0]));
-
-                            _codeGrup.Add(Convert.ToInt32(reader[1]));
-
-                            _nameGroup.Add(reader[2].ToString());
-
-                            _tutor.Add(reader[3].ToString());
-
-                            Debug.WriteLine($"{_specializationCode}\t|{_codeGrup}\t|{_nameGroup}\t|{_tutor} ");
+                            // while there is another record present
+                            while (reader.Read())
+                            {
+                                // write the data on to the screen
+                                _specializationCode.Add(Convert.ToInt32(reader[0]));
+                                _codeGrup.Add(Convert.ToInt32(reader[1]));
+                                _nameGroup.Add(reader[2].ToString());
+                                _tutor.Add(reader[3].ToString());
+                                Console.WriteLine($"{reader[0]}\t|{reader[1]}\t|{reader[2]}\t|{reader[3]} ");
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-                finally
-                {
-                    connection.Close();
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
                 }
             }
         }
+
+        public void SearchInTableInfLogin(string arg)//+++++
+        {
+            _specializationCode.Clear();
+            _codeGrup.Clear();
+            _nameGroup.Clear();
+            _tutor.Clear();
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
+            {
+                //specializationCode (int), codeGrup (int), nameGroup (varchar(7)), tutor (varchar(20))
+                connection.Open();
+                var command = new SqlCommand($"SELECT * FROM Gruppa where specializationCode like {arg} or" +
+                                                        $"codeGrup like {arg} or nameGroup like '{arg}' or tutor like '{arg}'", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    // while there is another record present
+                    while (reader.Read())
+                    {
+                        // write the data on to the screen
+                        _specializationCode.Add(Convert.ToInt32(reader[0]));
+                        _codeGrup.Add(Convert.ToInt32(reader[1]));
+                        _nameGroup.Add(reader[2].ToString());
+                        _tutor.Add(reader[3].ToString());
+                        Console.WriteLine($"{reader[0]}\t|{reader[1]}\t|{reader[2]}\t|{reader[3]} ");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
 
         public class Subjects //list
         {
