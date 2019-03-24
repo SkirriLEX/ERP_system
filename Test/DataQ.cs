@@ -1552,60 +1552,48 @@ namespace Test
             _dateEnd.Clear();
             _dateofBirth.Clear();
         }
-
-            public void GetStud()
+        public void GetStud()
+        {
+            ClearData();
+            var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
+            try
             {
-                _codePerson.Clear();
-                _grupCode.Clear();
-                _phoneNum.Clear();
-                _firstName.Clear();
-                _midName.Clear();
-                _lastName.Clear();
-                _roleStud.Clear();
-                _addrr.Clear();
-                _email.Clear();
-                _dateBegin.Clear();
-                _dateEnd.Clear();
-                _dateofBirth.Clear();
-                var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-                try
+                connection.Open();
+                var command = new SqlCommand($"SELECT * FROM Student", connection);
+                using (var reader = command.ExecuteReader())
                 {
-                    connection.Open();
-                    var command = new SqlCommand("SELECT * FROM Student", connection);
-                    using (var reader = command.ExecuteReader())
+                    // while there is another record present
+                    while (reader.Read())
                     {
-                        // while there is another record present
-                        while (reader.Read())
-                        {
-                            // write the data on to the screen
-                            _codePerson.Add(Convert.ToInt32(reader[0]));
-                            _firstName.Add(reader[1].ToString());
-                            _midName.Add(reader[2].ToString());
-                            _lastName.Add(reader[3].ToString());
-                            _dateofBirth.Add(Convert.ToDateTime(reader[4]));
-                            _grupCode.Add(Convert.ToInt32(reader[5]));
-                            _roleStud.Add(reader[6].ToString());
-                            _addrr.Add(reader[7].ToString());
-                            _phoneNum.Add(Convert.ToInt32(reader[8]));
-                            _email.Add(reader[9].ToString());
-                            _dateBegin.Add(Convert.ToDateTime(reader[10]));
-                            _dateEnd.Add(Convert.ToDateTime(reader[11]));
-
-                            Debug.WriteLine($"{_codePerson}\t|{_firstName}\t|{_midName}\t|" +
-                                            $"{_lastName}\t|{_dateofBirth}\t|{_grupCode}\t|{_roleStud}\t|" +
-                                            $"{_addrr}\t|{_phoneNum}\t|{_email}\t|{_dateBegin}\t|{_dateEnd}\t");
-                        }
+                        // write the data on to the screen
+                        _codePerson.Add(Convert.ToInt32(reader[0]));
+                        _firstName.Add(reader[1].ToString());
+                        _midName.Add(reader[2].ToString());
+                        _lastName.Add(reader[2].ToString());
+                        _dateofBirth.Add(Convert.ToDateTime(reader[3]));
+                        _grupCode.Add(Convert.ToInt32(reader[4]));
+                        _roleStud.Add(reader[5].ToString());
+                        _addrr.Add(reader[6].ToString());
+                        _phoneNum.Add(Convert.ToInt64(reader[7]));
+                        _email.Add(reader[8].ToString());
+                        _dateBegin.Add(Convert.ToDateTime(reader[9]));
+                        _dateEnd.Add(Convert.ToDateTime(reader[10]));
+                        Console.WriteLine($"{reader[0]}\t|{reader[1]}\t|{reader[2]}\t|" +
+                                          $"{reader[3]}\t|{reader[4]}\t|{reader[5]}\t|" +
+                                          $"{reader[6]}\t|{reader[7]}\t|{reader[8]}\t|" +
+                                          $"{reader[9]}\t|{reader[10]} ");
                     }
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-                finally
-                {
-                    connection.Close();
-                }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
 
             public void InsertStud(int codePerson, string firstName, string midName,
                 string lastName, DateTime dateofBirth, int grupCode, string roleStud,
