@@ -105,7 +105,6 @@ namespace Test
             return false;
         }
     }
-
     internal static class Utils
     {
         public static readonly DataQ Connect = new DataQ();
@@ -1483,125 +1482,76 @@ namespace Test
     }
 
     public class Student
+    {
+        private List<int> _codePerson;
+        private List<string> _firstName;
+        private List<string> _midName;
+        private List<string> _lastName;
+        private List<DateTime> _dateofBirth;
+        private List<int> _grupCode;
+        private List<string> _roleStud;
+        private List<string> _addrr;
+        private List<long> _phoneNum;
+        private List<string> _email;
+        private List<DateTime> _dateBegin;
+        private List<DateTime> _dateEnd;
+
+        public Student()
         {
-            private List<int> _codePerson;
-            private List<string> _firstName;
-            private List<string> _midName;
-            private List<string> _lastName;
-            private List<DateTime> _dateofBirth;
-            private List<int> _grupCode;
-            private List<string> _roleStud;
-            private List<string> _addrr;
-            private List<long> _phoneNum;
-            private List<string> _email;
-            private List<DateTime> _dateBegin;
-            private List<DateTime> _dateEnd;
-
-            public Student()
-            {
-                _codePerson.Clear();
-                _grupCode.Clear();
-                _phoneNum.Clear();
-                _firstName.Clear();
-                _midName.Clear();
-                _lastName.Clear();
-                _roleStud.Clear();
-                _addrr.Clear();
-                _email.Clear();
-                _dateBegin.Clear();
-                _dateEnd.Clear();
-                _dateofBirth.Clear();
-            }
-
-            public Student(int codePerson, string firstName, string midName,
+            _codePerson = _grupCode = new List<int>();
+            _firstName = _midName = _lastName = _roleStud = _addrr = _email = new List<string>();
+            _dateEnd = _dateBegin = _dateofBirth = new List<DateTime>();
+            _phoneNum = new List<long>();
+        }
+        public Student(int codePerson, string firstName, string midName,
                 string lastName, DateTime dateofBirth, int grupCode, string roleStud,
                 string addrr, int phoneNum, string email, DateTime dateBegin, DateTime dateEnd)
-            {
-                _codePerson.Clear();
-                _grupCode.Clear();
-                _phoneNum.Clear();
-                _firstName.Clear();
-                _midName.Clear();
-                _lastName.Clear();
-                _roleStud.Clear();
-                _addrr.Clear();
-                _email.Clear();
-                _dateBegin.Clear();
-                _dateEnd.Clear();
-                _dateofBirth.Clear();
-                _codePerson.Add(codePerson);
-                _firstName.Add(firstName);
-                _midName.Add(midName);
-                _lastName.Add(lastName);
-                _dateofBirth.Add(dateofBirth);
-                _grupCode.Add(grupCode);
-                _roleStud.Add(roleStud);
-                _addrr.Add(addrr);
-                _phoneNum.Add(phoneNum);
-                _email.Add(email);
-                _dateBegin.Add(dateBegin);
-                _dateEnd.Add(dateEnd);
-            }
+        {
+            _codePerson = _grupCode = new List<int>();
+            _firstName = _midName = _lastName = _roleStud = _addrr = _email = new List<string>();
+            _dateEnd = _dateBegin = _dateofBirth = new List<DateTime>();
+            _phoneNum = new List<long>();
+            _codePerson.Add(codePerson);
+            _firstName.Add(firstName);
+            _midName.Add(midName);
+            _lastName.Add(lastName);
+            _dateofBirth.Add(dateofBirth);
+            _grupCode.Add(grupCode);
+            _roleStud.Add(roleStud);
+            _addrr.Add(addrr);
+            _phoneNum.Add(phoneNum);
+            _email.Add(email);
+            _dateBegin.Add(dateBegin);
+            _dateEnd.Add(dateEnd);
+        }
+        public List<int> GetCodePerson() { return _codePerson; }
+        public List<string> GetFirstName() { return _firstName; }
+        public List<string> GetLastName() { return _lastName; }
+        public List<string> GetMidName() { return _midName; }
+        public List<DateTime> GetDateBirth() { return _dateofBirth; }
+        public List<int> GetGroupCode() { return _grupCode; }
+        public List<string> GetRole() { return _roleStud; }
+        public List<string> GetAddrress() { return _addrr; }
+        public List<long> GetPhone() { return _phoneNum; }
+        public List<string> GetEmail() { return _email; }
+        public List<DateTime> GetDateBegin() { return _dateBegin; }
+        public List<DateTime> GetDateEnd() { return _dateEnd; }
 
-            public List<int> GetCodePerson()
-            {
-                return _codePerson;
-            }
-
-            public List<string> GetFirstName()
-            {
-                return _firstName;
-            }
-
-            public List<string> GetLastName()
-            {
-                return _lastName;
-            }
-
-            public List<string> GetMidName()
-            {
-                return _midName;
-            }
-
-            public List<DateTime> GetDateBirth()
-            {
-                return _dateofBirth;
-            }
-
-            public List<int> GetGroupCode()
-            {
-                return _grupCode;
-            }
-
-            public List<string> GetRole()
-            {
-                return _roleStud;
-            }
-
-            public List<string> GetAddrress()
-            {
-                return _addrr;
-            }
-
-            public List<long> GetPhone()
-            {
-                return _phoneNum;
-            }
-
-            public List<string> GetEmail()
-            {
-                return _email;
-            }
-
-            public List<DateTime> GetDateBegin()
-            {
-                return _dateBegin;
-            }
-
-            public List<DateTime> GetDateEnd()
-            {
-                return _dateEnd;
-            }
+        private void ClearData()
+        {
+            _codePerson.Clear();
+            _grupCode.Clear();
+            _phoneNum.Clear();
+            _firstName.Clear();
+            _midName.Clear();
+            _lastName.Clear();
+            _roleStud.Clear();
+            _addrr.Clear();
+            _email.Clear();
+            _dateBegin.Clear();
+            _dateEnd.Clear();
+            _dateofBirth.Clear();
+        }
 
             public void GetStud()
             {
@@ -1749,5 +1699,6 @@ namespace Test
                     connection.Close();
                 }
             }
+            
         }
 }
