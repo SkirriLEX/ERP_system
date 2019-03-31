@@ -1480,7 +1480,6 @@ namespace Test
             }
         }
     }
-
     public class Student
     {
         private List<int> _codePerson;
