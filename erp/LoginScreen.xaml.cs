@@ -15,18 +15,7 @@ namespace erp
         }
         private void Confirm_Button(object sender, RoutedEventArgs e)//Click Generall Button
         {
-            ClearPassError();
-            var data = new DataQ();
-            if (DataQ.CheckLog(loginText.Text, passwordBox.Password))
-            {
-                Debug.WriteLine("My congratulate");
-            }
-            else
-            {
-                loginText.BorderBrush = loginText.Foreground =
-                passwordBox.BorderBrush = passwordBox.Foreground = 
-                    Brushes.IndianRed;
-            }
+            
         }
 
         //-------- Fancy Block
