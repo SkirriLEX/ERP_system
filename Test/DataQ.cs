@@ -70,7 +70,7 @@ namespace Test
             {
                 connection.Open();
                 var cmdText = "use ERP_system;\n" +
-                              $"select count(1) from Logn where loginStr like '{login}' and pass like '{pass}'";
+                              $"select count(1) from SysAdmLog where loginStr like '{login}' and pass like '{pass}'";
                 var command = new SqlCommand(cmdText, connection);
                 // Add the parameters.
                 command.Parameters.Add(new SqlParameter("0", 1));

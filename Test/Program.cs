@@ -29,51 +29,64 @@ namespace Test
             Console.WriteLine("10) Exit");
             Console.Write("Your choice?\t");
         }
+        static bool auth()
+        {
+            Console.Write("Enter login:\t");
+            var login = Console.ReadLine();
+            Console.Write("Enter password:\t");
+            var pass = Console.ReadLine();
+            Console.Clear();
+            return DataQ.CheckLog(login, pass);
+        }
         static void Main(string[] args)
         {
-            short i = 0;
-            do
+            if (auth())
             {
-                showMainMenu();
-                i = Convert.ToInt16(Console.ReadLine());
-                switch (i)
+                short i = 0;
+                do
                 {
-                    case 1:
+                    showMainMenu();
+                    i = Convert.ToInt16(Console.ReadLine());
+                    switch (i)
                     {
-                        var stud = new Student();
-                        showDetailedMenu();
-                        var j = Convert.ToInt16(Console.ReadLine());
-                        if (j == 1)
+                        case 1:
                         {
-                            Console.WriteLine("Enter data:");
-                            var codePerson = Convert.ToInt32(Console.ReadLine());
-                            var firstName = Console.ReadLine();
-                            var midName = Console.ReadLine();
-                            var lastName = Console.ReadLine();
-                            var dateofBirth = Convert.ToDateTime(Console.ReadLine());;
-                            var grupCode = Convert.ToInt16(Console.ReadLine());
-                            var roleStud = Console.ReadLine();
-                            var addrr = Console.ReadLine();
-                            var phoneNum = Convert.ToInt32(Console.ReadLine());
-                            var email = Console.ReadLine();
-                            var dateBegin = Convert.ToDateTime(Console.ReadLine());;
-                            var dateEnd = Convert.ToDateTime(Console.ReadLine());
-                            stud.InsertStud(codePerson, firstName, midName,
-                                            lastName, dateofBirth, grupCode, roleStud,
-                                            addrr, phoneNum, email, dateBegin, dateEnd);
-                        }else if (j == 2)
-                        {
-                            stud.GetStud();
+                            var stud = new Student();
+                            showDetailedMenu();
+                            var j = Convert.ToInt16(Console.ReadLine());
+                            if (j == 1)
+                            {
+                                Console.WriteLine("Enter data:");
+                                var codePerson = Convert.ToInt32(Console.ReadLine());
+                                var firstName = Console.ReadLine();
+                                var midName = Console.ReadLine();
+                                var lastName = Console.ReadLine();
+                                var dateofBirth = Convert.ToDateTime(Console.ReadLine());;
+                                var grupCode = Convert.ToInt16(Console.ReadLine());
+                                var roleStud = Console.ReadLine();
+                                var addrr = Console.ReadLine();
+                                var phoneNum = Convert.ToInt32(Console.ReadLine());
+                                var email = Console.ReadLine();
+                                var dateBegin = Convert.ToDateTime(Console.ReadLine());;
+                                var dateEnd = Convert.ToDateTime(Console.ReadLine());
+                                stud.InsertStud(codePerson, firstName, midName,
+                                                lastName, dateofBirth, grupCode, roleStud,
+                                                addrr, phoneNum, email, dateBegin, dateEnd);
+                            }else if (j == 2)
+                            {
+                                stud.GetStud();
+                            }
+                            else if (j == 3)
+                            {
+                                Console.Write("Enter argument\t");
+                                stud.SearchStud(Console.ReadLine());
+                            }
+                            break;
                         }
-                        else if (j == 3)
-                        {
-                            Console.Write("Enter argument\t");
-                            stud.SearchStud(Console.ReadLine());
-                        }
-                        break;
                     }
-                }
-            } while (true);
+                } while (true);
+            }
+            else Environment.Exit(0);
         }
     }
 }
