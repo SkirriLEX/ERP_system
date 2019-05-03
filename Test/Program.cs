@@ -5,7 +5,7 @@ namespace Test
 {
     class Program
     {
-        static void showDetailedMenu()
+        private static void ShowDetailedMenu()
         {
             Console.Clear();
             Console.WriteLine("You can \n" +
@@ -14,7 +14,7 @@ namespace Test
                               "3) Search data\n" +
                               "Your choice?\t");
         }
-        static void showMainMenu()
+        private static void ShowMainMenu()
         {
             Console.Clear();
             Console.WriteLine("Which class do you want to modify?");
@@ -30,7 +30,7 @@ namespace Test
             Console.WriteLine("10) Exit");
             Console.Write("Your choice?\t");
         }
-        static bool auth()
+        private static bool Auth()
         {
             Console.Write("Enter login:\t");
             var login = Console.ReadLine();
@@ -41,13 +41,13 @@ namespace Test
         }
         static void Main(string[] args)
         {
-            if (auth())
+            if (Auth())
             {
                 short i = 0;
                 do
                 {
                     main:
-                    showMainMenu();
+                    ShowMainMenu();
                     i = Convert.ToInt16(Console.ReadLine());
                     switch (i)
                     {
@@ -55,7 +55,7 @@ namespace Test
                         {
                             levelup:
                             var stud = new Student();
-                            showDetailedMenu();
+                            ShowDetailedMenu();
                             var j = Convert.ToInt16(Console.ReadLine());
                             if (j == 1)
                             {
@@ -66,14 +66,12 @@ namespace Test
                                 var midName = Console.ReadLine();
                                 var lastName = Console.ReadLine();
                                 var dateofBirth = Convert.ToDateTime(Console.ReadLine());
-                                ;
                                 var grupCode = Convert.ToInt16(Console.ReadLine());
                                 var roleStud = Console.ReadLine();
                                 var addrr = Console.ReadLine();
                                 var phoneNum = Convert.ToInt32(Console.ReadLine());
                                 var email = Console.ReadLine();
                                 var dateBegin = Convert.ToDateTime(Console.ReadLine());
-                                ;
                                 var dateEnd = Convert.ToDateTime(Console.ReadLine());
                                 stud.InsertStud(codePerson, firstName, midName,
                                     lastName, dateofBirth, grupCode, roleStud,
@@ -96,10 +94,100 @@ namespace Test
                                 Console.ReadKey(true);
                                 goto main;
                             }
-                            else{
+                            else
+                            {
                                 Console.WriteLine("wrong number");
                                 goto levelup;
                             }
+                        }
+                        case 2: //subj
+                        {
+                            levelup1:
+                            var subj = new Subjects();
+                            ShowDetailedMenu();
+                            var j = Convert.ToInt16(Console.ReadLine());
+                            if (j == 1)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Enter data:");
+                                Console.Write("Enter code of teacher\t");
+                                var tabNumPerson = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter code of speciality\t");
+                                var tabNumSpec = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter code of teacher\t");
+                                var tabNumSubj = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter name of subject\t");
+                                var subject = Console.ReadLine();
+                                Console.Write("Enter amount of hours\t");
+                                var hour = Convert.ToSingle(Console.ReadLine());
+                                subj.InsertToTableSubj(tabNumPerson, tabNumSpec, tabNumSubj, subject, hour);
+                                Console.Write("added successfully");
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else if (j == 2)
+                            {
+                                Console.Clear();
+                                subj.GetTableSubj();
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else if (j == 3)
+                            {
+                                Console.Write("Enter argument\t");
+                                subj.SearchInTableSubject(Console.ReadLine());
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else
+                            {
+                                Console.WriteLine("wrong number");
+                                goto levelup1;
+                            }
+                            break;
+                        }
+                        case 8: //специализация
+                        {
+                            levelup1:
+                            var spec = new Specialization();
+                            ShowDetailedMenu();
+                            var j = Convert.ToInt16(Console.ReadLine());
+                            if (j == 1)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Enter data:");
+                                Console.Write("Enter code of speciality\t");
+                                var code1 = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter code of specialization\t");
+                                var code2 = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter name of specialization");
+                                var name = Console.ReadLine();
+                                spec.InsertToTableSpecialization(code1, code2, name);
+                                
+                                Console.Write("added successfully");
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else if (j == 2)
+                            {
+                                Console.Clear();
+                                spec.GetTableSpecialization();
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else if (j == 3)
+                            {
+                                Console.Write("Enter argument\t");
+                                spec.SearchInTableSpecialization(Console.ReadLine());
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else
+                            {
+                                Console.WriteLine("wrong number");
+                                goto levelup1;
+                            }
+                            break;
                         }
                         case 10:
                         {
@@ -110,7 +198,7 @@ namespace Test
                     }
                 } while (true);
             }
-            else MessageBox.Show("wrong pass"); //Environment.Exit(0);
+            MessageBox.Show("wrong pass"); //Environment.Exit(0);
         }
     }
 }
