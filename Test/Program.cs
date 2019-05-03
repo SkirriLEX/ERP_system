@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 namespace Test
 {
@@ -45,48 +46,71 @@ namespace Test
                 short i = 0;
                 do
                 {
+                    main:
                     showMainMenu();
                     i = Convert.ToInt16(Console.ReadLine());
                     switch (i)
                     {
                         case 1:
                         {
+                            levelup:
                             var stud = new Student();
                             showDetailedMenu();
                             var j = Convert.ToInt16(Console.ReadLine());
                             if (j == 1)
                             {
+                                Console.Clear();
                                 Console.WriteLine("Enter data:");
                                 var codePerson = Convert.ToInt32(Console.ReadLine());
                                 var firstName = Console.ReadLine();
                                 var midName = Console.ReadLine();
                                 var lastName = Console.ReadLine();
-                                var dateofBirth = Convert.ToDateTime(Console.ReadLine());;
+                                var dateofBirth = Convert.ToDateTime(Console.ReadLine());
+                                ;
                                 var grupCode = Convert.ToInt16(Console.ReadLine());
                                 var roleStud = Console.ReadLine();
                                 var addrr = Console.ReadLine();
                                 var phoneNum = Convert.ToInt32(Console.ReadLine());
                                 var email = Console.ReadLine();
-                                var dateBegin = Convert.ToDateTime(Console.ReadLine());;
+                                var dateBegin = Convert.ToDateTime(Console.ReadLine());
+                                ;
                                 var dateEnd = Convert.ToDateTime(Console.ReadLine());
                                 stud.InsertStud(codePerson, firstName, midName,
-                                                lastName, dateofBirth, grupCode, roleStud,
-                                                addrr, phoneNum, email, dateBegin, dateEnd);
-                            }else if (j == 2)
+                                    lastName, dateofBirth, grupCode, roleStud,
+                                    addrr, phoneNum, email, dateBegin, dateEnd);
+                                Console.Write("added successfully");
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else if (j == 2)
                             {
+                                Console.Clear();
                                 stud.GetStud();
+                                Console.ReadKey(true);
+                                goto main;
                             }
                             else if (j == 3)
                             {
                                 Console.Write("Enter argument\t");
                                 stud.SearchStud(Console.ReadLine());
+                                Console.ReadKey(true);
+                                goto main;
                             }
+                            else{
+                                Console.WriteLine("wrong number");
+                                goto levelup;
+                            }
+                        }
+                        case 10:
+                        {
+                            Environment.Exit(0);
                             break;
                         }
+                        default: goto main;
                     }
                 } while (true);
             }
-            else Environment.Exit(0);
+            else MessageBox.Show("wrong pass"); //Environment.Exit(0);
         }
     }
 }

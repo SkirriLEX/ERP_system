@@ -77,12 +77,9 @@ namespace Test
 
                 using (var reader = command.ExecuteReader())
                 {
-                    // while there is another record present
                     while (reader.Read())
                     {
                         return Convert.ToInt32(reader[0]) > 0;
-                        // call the objects from their index
-                        //reader[0], reader[1], reader[2], reader[3]));
                     }
                 }
 
@@ -98,10 +95,8 @@ namespace Test
                         return Convert.ToInt32(reader[0]) > 0;
                     }
                 }
-
                 connection.Close();
             }
-
             return false;
         }
     }
