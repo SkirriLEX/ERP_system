@@ -293,6 +293,47 @@ namespace Test
                                 goto levelup;
                             }
                         }
+                        case 6:
+                        {
+                            levelup:
+                            var spec = new Department();
+                            ShowDetailedMenu();
+                            var j = Convert.ToInt16(Console.ReadLine());
+                            if (j == 1)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Enter data:");
+                                Console.Write("Enter code of department\t");
+                                var code1 = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter name\t");
+                                var name = Console.ReadLine();
+                                Console.Write("Enter code of speciality\t");
+                                var specCode = Convert.ToInt32(Console.ReadLine());
+                                spec.InsertToTableDep(code1, name, specCode);
+                                Console.Write("added successfully");
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else if (j == 2)
+                            {
+                                Console.Clear();
+                                spec.GetTableDep();
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else if (j == 3)
+                            {
+                                Console.Write("Enter argument\t");
+                                spec.SearchInTableDepartament(Console.ReadLine());
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else
+                            {
+                                Console.WriteLine("wrong number");
+                                goto levelup;
+                            }
+                        }
                         case 8:
                         {
                             levelup:
