@@ -254,6 +254,45 @@ namespace Test
                                 goto levelup;
                             }
                         }
+                        case 5:
+                        {
+                            levelup:
+                            var spec = new Position();
+                            ShowDetailedMenu();
+                            var j = Convert.ToInt16(Console.ReadLine());
+                            if (j == 1)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Enter data:");
+                                Console.Write("Enter code of position\t");
+                                var code1 = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter name\t");
+                                var name = Console.ReadLine();
+                                spec.InsertToTablePositions(code1, name);
+                                Console.Write("added successfully");
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else if (j == 2)
+                            {
+                                Console.Clear();
+                                spec.GetTablePositions();
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else if (j == 3)
+                            {
+                                Console.Write("Enter argument\t");
+                                spec.SearchInTablePositions(Console.ReadLine());
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else
+                            {
+                                Console.WriteLine("wrong number");
+                                goto levelup;
+                            }
+                        }
                         case 8:
                         {
                             levelup:
@@ -287,6 +326,45 @@ namespace Test
                             {
                                 Console.Write("Enter argument\t");
                                 spec.SearchInTableSpecialization(Console.ReadLine());
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else
+                            {
+                                Console.WriteLine("wrong number");
+                                goto levelup;
+                            }
+                        }
+                        case 9:
+                        {
+                            levelup:
+                            var spec = new Speciality();
+                            ShowDetailedMenu();
+                            var j = Convert.ToInt16(Console.ReadLine());
+                            if (j == 1)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Enter data:");
+                                Console.Write("Enter code of speciality\t");
+                                var code1 = (Console.ReadLine());
+                                Console.Write("Enter name of specialty");
+                                var name = Console.ReadLine();
+                                spec.InsertToTableSpeciality(code1, name);
+                                Console.Write("added successfully");
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else if (j == 2)
+                            {
+                                Console.Clear();
+                                spec.GetTableSpeciality();
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else if (j == 3)
+                            {
+                                Console.Write("Enter argument\t");
+                                spec.SearchInTableSpeciality(Console.ReadLine());
                                 Console.ReadKey(true);
                                 goto main;
                             }
