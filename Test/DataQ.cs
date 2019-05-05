@@ -975,7 +975,7 @@ namespace Test
             _dateEnd.Clear();
             _phoneNum.Clear();
         }
-        public void GetPerson()//get all records in table
+        public void GetTablePerson()//get all records in table
         {
             ClearAll();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
@@ -1264,7 +1264,7 @@ namespace Test
             }
         }
 
-        public void SearchInTableInfLogin(string arg)//+++++
+        public void SearchInTableGroup(string arg)//+++++
         {
             _specializationCode.Clear();
             _codeGrup.Clear();

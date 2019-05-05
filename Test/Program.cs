@@ -32,12 +32,15 @@ namespace Test
         }
         private static bool Auth()
         {
+            auth:
             Console.Write("Enter login:\t");
             var login = Console.ReadLine();
             Console.Write("Enter password:\t");
             var pass = Console.ReadLine();
-            Console.Clear();
-            return DataQ.CheckLog(login, pass);
+            var success = DataQ.CheckLog(login, pass);
+            if (success != false) return success;
+            Console.Write("wrong login or password\n");
+            goto auth;
         }
         static void Main(string[] args)
         {
@@ -102,7 +105,7 @@ namespace Test
                         }
                         case 2: //subj
                         {
-                            levelup1:
+                            levelup:
                             var subj = new Subjects();
                             ShowDetailedMenu();
                             var j = Convert.ToInt16(Console.ReadLine());
@@ -142,13 +145,118 @@ namespace Test
                             else
                             {
                                 Console.WriteLine("wrong number");
-                                goto levelup1;
+                                goto levelup;
                             }
-                            break;
                         }
-                        case 8: //специализация
+                        case 3: 
                         {
-                            levelup1:
+                            levelup:
+                            var group = new Gruppa();
+                            ShowDetailedMenu();
+                            var j = Convert.ToInt16(Console.ReadLine());
+                            if (j == 1)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Enter data:");
+                                Console.Write("Enter specialization code\t");
+                                var codeSpec = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter group code\t");
+                                var codeGroup = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter group name\t");
+                                var nameGroup = Console.ReadLine();
+                                Console.Write("Enter group curator\t");
+                                var teacher = Console.ReadLine();
+                                group.InsertToTableGruppa(codeSpec, codeGroup,nameGroup, teacher);
+                                Console.Write("added successfully");
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else if (j == 2)
+                            {
+                                Console.Clear();
+                                group.GetTableGroup();
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else if (j == 3)
+                            {
+                                Console.Write("Enter argument\t");
+                                group.SearchInTableGroup(Console.ReadLine());
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else
+                            {
+                                Console.WriteLine("wrong number");
+                                goto levelup;
+                            }
+                        }
+                        case 4: 
+                        {
+                            levelup:
+                            var group = new Person();
+                            ShowDetailedMenu();
+                            var j = Convert.ToInt16(Console.ReadLine());
+                            if (j == 1)
+                            {
+                                Console.Clear();
+                                Console.WriteLine("Enter data:");
+                                Console.Write("Enter personnel number\t");
+                                int codePerson = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter first name\t");
+                                string firstName = Console.ReadLine();
+                                Console.Write("Enter last name\t");
+                                string lastName = Console.ReadLine();
+                                Console.Write("Enter middle name\t");
+                                string midName = Console.ReadLine();
+                                Console.Write("Enter birthday\t");
+                                DateTime dateofBirth;
+                                DateTime.TryParse(Console.ReadLine(), out dateofBirth);
+                                Console.Write("Enter position code\t");
+                                int positionCode = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter department code\t");
+                                int departamentCode = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter address\t");
+                                string addrr = Console.ReadLine();
+                                Console.Write("enter phone number\t");
+                                int phoneNum = Convert.ToInt32(Console.ReadLine());
+                                Console.Write("Enter email\t");
+                                string email = Console.ReadLine();
+                                Console.Write("enter date of getting into the university\t");
+                                DateTime dateBegin;
+                                DateTime.TryParse(Console.ReadLine(), out dateBegin);
+                                Console.Write("enter date of expulsion\t");
+                                DateTime dateEnd;
+                                DateTime.TryParse(Console.ReadLine(), out dateEnd);
+                                group.InsertPerson(codePerson, firstName, lastName, midName, dateofBirth, positionCode,
+                                    departamentCode, addrr, phoneNum, email, dateBegin, dateEnd);
+                                Console.Write("added successfully");
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else if (j == 2)
+                            {
+                                Console.Clear();
+                                group.GetTablePerson();
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else if (j == 3)
+                            {
+                                Console.Write("Enter argument\t");
+                                group.SearchPerson(Console.ReadLine());
+                                Console.ReadKey(true);
+                                goto main;
+                            }
+                            else
+                            {
+                                Console.WriteLine("wrong number");
+                                goto levelup;
+                            }
+                        }
+                        case 8:
+                        {
+                            levelup:
                             var spec = new Specialization();
                             ShowDetailedMenu();
                             var j = Convert.ToInt16(Console.ReadLine());
@@ -185,9 +293,8 @@ namespace Test
                             else
                             {
                                 Console.WriteLine("wrong number");
-                                goto levelup1;
+                                goto levelup;
                             }
-                            break;
                         }
                         case 10:
                         {
