@@ -9,48 +9,37 @@ namespace Test
     public class DataQ
     {
         public readonly SqlConnectionStringBuilder Builder = new SqlConnectionStringBuilder();
-
-        public DataQ()
-        {
+        public DataQ(){
             const string connStr = "178.136.14.234";
             Builder.DataSource = connStr;
             Builder.UserID = "resto";
             Builder.Password = "Resto#test01";
         }
 
-        public SqlConnectionStringBuilder GetBuilder()
-        {
+        public SqlConnectionStringBuilder GetBuilder(){
             return Builder;
         }
 
-        private bool TryConnect()
-        {
-            using (var connection = new SqlConnection(Builder.ConnectionString))
-            {
-                try
-                {
+        private bool TryConnect(){
+            using (var connection = new SqlConnection(Builder.ConnectionString)){
+                try{
                     Debug.Write(@"Connecting to SQL Server ... ");
-
                     connection.Open();
                     Debug.WriteLine("Done.");
                     return true;
                 }
-                catch (SqlException exception)
-                {
+                catch (SqlException exception){
                     DisplaySqlErrors(exception);
                     Debug.WriteLine($"Нет связи с сервером!\n{exception}");
                     return false;
                 }
-                finally
-                {
+                finally{
                     connection.Close();
                 }
             }
         }
-        public static void DisplaySqlErrors(SqlException exception)
-        {
-            for (var i = 0; i < exception.Errors.Count; i++)
-            {
+        public static void DisplaySqlErrors(SqlException exception){
+            for (var i = 0; i < exception.Errors.Count; i++){
                 Console.WriteLine("Index #" + i + "\n" +
                                   "Source: " + exception.Errors[i].Source + "\n" +
                                   "Number: " + exception.Errors[i].Number + "\n" +
@@ -62,12 +51,9 @@ namespace Test
                                   "LineNumber: " + exception.Errors[i].LineNumber);
             }
         }
-
-        public static bool CheckLog(string login, string pass)
-        {
+        public static bool CheckLog(string login, string pass){
             if (!Utils.Connect.TryConnect()) return false;
-            using (var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString))
-            {
+            using (var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString)){
                 connection.Open();
                 var cmdText = "use ERP_system;\n" +
                               $"select count(1) from SysAdmLog where loginStr like '{login}' and pass like '{pass}'";
@@ -75,10 +61,8 @@ namespace Test
                 // Add the parameters.
                 command.Parameters.Add(new SqlParameter("0", 1));
 
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
+                using (var reader = command.ExecuteReader()){
+                    while (reader.Read()){
                         return Convert.ToInt32(reader[0]) > 0;
                     }
                 }
@@ -88,10 +72,8 @@ namespace Test
                 command = new SqlCommand(cmdText, connection);
                 // Add the parameters.
                 command.Parameters.Add(new SqlParameter("0", 1));
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
+                using (var reader = command.ExecuteReader()){
+                    while (reader.Read()){
                         return Convert.ToInt32(reader[0]) > 0;
                     }
                 }
@@ -100,15 +82,11 @@ namespace Test
             return false;
         }
     }
-    internal static class Utils
-    {
+    internal static class Utils{
         public static readonly DataQ Connect = new DataQ();
-
-        public static int GetCountTuples(string tableName)
-        {
+        public static int GetCountTuples(string tableName){
             var count = 0;
-            using (var connection = new SqlConnection(Connect.Builder.ConnectionString))
-            {
+            using (var connection = new SqlConnection(Connect.Builder.ConnectionString)){
                 connection.Open();
                 var cmdText = "use ERP_system;\n" +
                               $"select count(1) from {tableName}'";
@@ -116,56 +94,42 @@ namespace Test
                 // Add the parameters.
                 command.Parameters.Add(new SqlParameter("0", 1));
 
-                using (var reader = command.ExecuteReader())
-                {
+                using (var reader = command.ExecuteReader()){
                     // while there is another record present
-                    while (reader.Read())
-                    {
+                    while (reader.Read()){
                         count = Convert.ToInt32(reader[0]);
                         // call the objects from their index
                         //reader[0], reader[1], reader[2], reader[3]));
                     }
                 }
             }
-
             return count;
         }
     }
-    public class Speciality //+++++
-    {
+    public class Speciality{
         private List<int> _code;
         private List<string> _name;
-
-        public Speciality()
-        {
+        public Speciality(){
             _code = new List<int>();
             _name = new List<string>();
         }
-
-        public List<int> GetCode()
-        {
+        public List<int> GetCode(){
             return _code;
         }
-
-        public List<string> GetName()
-        {
+        public List<string> GetName(){
             return _name;
         }
 
-        public void GetTableSpeciality()
-        {
+        public void GetTableSpeciality(){
             _code?.Clear();
             _name?.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            try
-            {
+            try{
                 connection.Open();
                 var command = new SqlCommand("SELECT * FROM Speciality", connection);
-                using (var reader = command.ExecuteReader())
-                {
+                using (var reader = command.ExecuteReader()){
                     // while there is another record present
-                    while (reader.Read())
-                    {
+                    while (reader.Read()){
                         // write the data on to the screen
                         _code.Add(Convert.ToInt32(reader[0]));
                         _name.Add(reader[1].ToString());
@@ -173,26 +137,20 @@ namespace Test
                     }
                 }
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex){
                 Debug.WriteLine(ex.ToString());
                 Debug.WriteLine($"Нет связи с сервером!\n{ex}");
             }
-            finally
-            {
+            finally{
                 connection.Close();
             }
         }
-
-        public void InsertToTableSpeciality(string code, string name)
-        {
+        public void InsertToTableSpeciality(string code, string name){
             _code.Clear();
             _name.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            using (connection)
-            {
-                using (SqlCommand command = new SqlCommand())
-                {
+            using (connection){
+                using (SqlCommand command = new SqlCommand()){
                     command.Connection = connection; // <== lacking
                     command.CommandType = CommandType.Text;
                     command.CommandText = "INSERT INTO Speciality (specialityCode, nameSpec) " +
@@ -200,99 +158,76 @@ namespace Test
                     command.Parameters.AddWithValue("@specialityCode", code);
                     command.Parameters.AddWithValue("@nameSpec", name);
 
-                    try
-                    {
+                    try{
                         connection.Open();
                         var recordsAffected = command.ExecuteNonQuery();
-                        using (var reader = command.ExecuteReader())
-                        {
+                        using (var reader = command.ExecuteReader()){
                             // while there is another record present
-                            while (reader.Read())
-                            {
+                            while (reader.Read()){
                                 // write the data on to the screen
                                 _code.Add(Convert.ToInt32(reader[0]));
                                 _name.Add(reader[1].ToString());
                             }
                         }
                     }
-                    catch (SqlException ex)
-                    {
+                    catch (SqlException ex){
                         DataQ.DisplaySqlErrors(ex);
                     }
-                    finally
-                    {
+                    finally{
                         connection.Close();
                     }
                 }
             }
         }
-
-        public void SearchInTableSpeciality(string arg) //return an array with defined argument
-        {
+        public void SearchInTableSpeciality(string arg) {
             _code.Clear();
             _name.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            try
-            {
+            try{
                 connection.Open();
                 var command = new SqlCommand("SELECT * FROM Speciality", connection);
-                using (var reader = command.ExecuteReader())
-                {
+                using (var reader = command.ExecuteReader()){
                     // while there is another record present
-                    while (reader.Read())
-                    {
+                    while (reader.Read()){
                         // write the data on to the screen
                         _code.Add(Convert.ToInt32(reader[0]));
                         _name.Add(reader[1].ToString());
                     }
                 }
             }
-            catch (Exception ex)
-            {
+            catch (Exception ex){
                 Debug.WriteLine(ex.ToString());
                 Debug.WriteLine($"Нет связи с сервером!\n{ex}");
             }
-            finally
-            {
+            finally{
                 connection.Close();
             }
-
             var index = new List<int>();
-            if (int.TryParse(arg, out var codeSpec))
-            {
+            if (int.TryParse(arg, out var codeSpec)){
                 for (var i = 0; i < _code.Count; i++)
                     if (_code[i] == codeSpec)
                         index.Add(i);
             }
-            else
-            {
+            else{
                 for (var i = 0; i < _code.Count; i++)
                     if (_name[i] == arg)
                         index.Add(i);
             }
-
             var nameTmp = new List<string>();
             var codeTmp = new List<int>();
-
-            foreach (var t in index)
-            {
+            foreach (var t in index){
                 nameTmp.Add(_name[t]);
                 codeTmp.Add(_code[t]);
             }
-
             _name.Clear();
             _name = nameTmp;
             _code.Clear();
             _code = codeTmp;
-
             for (var i = 0; i < _name.Count; i++)
-            {
                 Console.WriteLine(_code[i] + "\t|\t" + _name[i]);
-            }
         }
     }
-    public class Specialization //+++++
-    {
+    public class Specialization {
         private List<int> _specialityCode = new List<int>();
         private List<int> _specializationCode = new List<int>();
         private List<string> _nameSpecialization = new List<string>();
