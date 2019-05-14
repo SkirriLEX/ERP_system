@@ -124,12 +124,15 @@ namespace Test
             _code?.Clear();
             _name?.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
-            try{
+            try
+            {
                 connection.Open();
-                var command = new SqlCommand("SELECT * FROM Speciality", connection);
-                using (var reader = command.ExecuteReader()){
+                var command = new SqlCommand($"SELECT * FROM Speciality", connection);
+                using (var reader = command.ExecuteReader())
+                {
                     // while there is another record present
-                    while (reader.Read()){
+                    while (reader.Read())
+                    {
                         // write the data on to the screen
                         _code.Add(Convert.ToInt32(reader[0]));
                         _name.Add(reader[1].ToString());
@@ -137,11 +140,17 @@ namespace Test
                     }
                 }
             }
-            catch (Exception ex){
+            catch (SqlException sqlException)
+            {
+                DataQ.DisplaySqlErrors(sqlException);
+            }
+            catch (Exception ex)
+            {
                 Debug.WriteLine(ex.ToString());
                 Debug.WriteLine($"Нет связи с сервером!\n{ex}");
             }
-            finally{
+            finally
+            {
                 connection.Close();
             }
         }
@@ -150,30 +159,39 @@ namespace Test
             _name.Clear();
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             using (connection){
-                using (SqlCommand command = new SqlCommand()){
+                using (var command = new SqlCommand()){
                     command.Connection = connection; // <== lacking
                     command.CommandType = CommandType.Text;
-                    command.CommandText = "INSERT INTO Speciality (specialityCode, nameSpec) " +
+                    command.CommandText = $"INSERT INTO Speciality (specialityCode, nameSpec) " +
                                           "values (@specialityCode, @nameSpec)";
                     command.Parameters.AddWithValue("@specialityCode", code);
                     command.Parameters.AddWithValue("@nameSpec", name);
 
-                    try{
+                    try
+                    {
                         connection.Open();
                         var recordsAffected = command.ExecuteNonQuery();
-                        using (var reader = command.ExecuteReader()){
+                        using (var reader = command.ExecuteReader())
+                        {
                             // while there is another record present
-                            while (reader.Read()){
+                            while (reader.Read())
+                            {
                                 // write the data on to the screen
                                 _code.Add(Convert.ToInt32(reader[0]));
                                 _name.Add(reader[1].ToString());
                             }
                         }
                     }
-                    catch (SqlException ex){
+                    catch (SqlException ex)
+                    {
                         DataQ.DisplaySqlErrors(ex);
                     }
-                    finally{
+                    catch (Exception exception)
+                    {
+                        Console.Write(exception.ToString());
+                    }
+                    finally
+                    {
                         connection.Close();
                     }
                 }
@@ -185,7 +203,7 @@ namespace Test
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             try{
                 connection.Open();
-                var command = new SqlCommand("SELECT * FROM Speciality", connection);
+                var command = new SqlCommand($"SELECT * FROM Speciality", connection);
                 using (var reader = command.ExecuteReader()){
                     // while there is another record present
                     while (reader.Read()){
@@ -195,9 +213,12 @@ namespace Test
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                DataQ.DisplaySqlErrors(ex);
+            }
             catch (Exception ex){
-                Debug.WriteLine(ex.ToString());
-                Debug.WriteLine($"Нет связи с сервером!\n{ex}");
+                Console.WriteLine(ex.ToString());
             }
             finally{
                 connection.Close();
@@ -273,7 +294,7 @@ namespace Test
             try
             {
                 connection.Open();
-                var command = new SqlCommand("SELECT * FROM Specialization", connection);
+                var command = new SqlCommand($"SELECT * FROM Specialization", connection);
                 using (var reader = command.ExecuteReader())
                 {
                     // while there is another record present
@@ -286,6 +307,10 @@ namespace Test
                         Console.WriteLine($"{reader[0]} \t | {reader[1]} \t | {reader[2]}");
                     }
                 }
+            }
+            catch (SqlException ex)
+            {
+                DataQ.DisplaySqlErrors(ex);
             }
             catch (Exception ex)
             {
@@ -310,7 +335,7 @@ namespace Test
                     command.Connection = connection; // <== lacking
                     command.CommandType = CommandType.Text;
                     command.CommandText =
-                        "INSERT INTO Specialization (specialityCode, specializationCode, nameSpecialization) " +
+                        $"INSERT INTO Specialization (specialityCode, specializationCode, nameSpecialization) " +
                         "values (@specialityCode, @specializationCode, @nameSpecialization)";
                     command.Parameters.AddWithValue("@specialityCode", specialityCode);
                     command.Parameters.AddWithValue("@specializationCode", specializationCode);
@@ -422,7 +447,7 @@ namespace Test
             try
             {
                 connection.Open();
-                var command = new SqlCommand("SELECT * FROM InfLogin", connection);
+                var command = new SqlCommand($"SELECT * FROM InfLogin", connection);
                 using (var reader = command.ExecuteReader())
                 {
                     // while there is another record present
@@ -435,6 +460,10 @@ namespace Test
                         Console.WriteLine($"{_tabNumPerson}\t|{_loginStr}\t|{_pass} ");
                     }
                 }
+            }
+            catch (SqlException ex)
+            {
+                DataQ.DisplaySqlErrors(ex);
             }
             catch (Exception ex)
             {
@@ -458,7 +487,7 @@ namespace Test
                 {
                     command.Connection = connection;
                     command.CommandType = CommandType.Text;
-                    command.CommandText = "INSERT INTO InfLogin (tabNumPerson, loginStr, pass)" +
+                    command.CommandText = $"INSERT INTO InfLogin (tabNumPerson, loginStr, pass)" +
                                           $"VALUES (@tabNumPerson, @loginStr, @pass)";
                     command.Parameters.AddWithValue("@tabNumPerson", tabNumPerson);
                     command.Parameters.AddWithValue("@loginStr", loginStr);
@@ -479,6 +508,10 @@ namespace Test
                                 Console.WriteLine($"{reader[0]} \t | {reader[1]} \t | {reader[2]}");
                             }
                         }
+                    }
+                    catch (SqlException ex)
+                    {
+                        DataQ.DisplaySqlErrors(ex);
                     }
                     catch (Exception ex)
                     {
@@ -516,9 +549,13 @@ namespace Test
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                DataQ.DisplaySqlErrors(ex);
+            }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.ToString());
+                Console.WriteLine(ex.ToString());
             }
             finally
             {
@@ -526,7 +563,7 @@ namespace Test
             }
         }
     }
-    public class Department //+++++
+    public class Department
     {
         private List<int> _depCode;
         private List<string> _nameDep;
@@ -553,7 +590,7 @@ namespace Test
             return _specCode;
         }
 
-        public void GetTableDep() //tested
+        public void GetTableDep() 
         {
             _depCode.Clear();
             _nameDep.Clear();
@@ -562,7 +599,7 @@ namespace Test
             try
             {
                 connection.Open();
-                var command = new SqlCommand("SELECT * FROM Department", connection);
+                var command = new SqlCommand($"SELECT * FROM Department", connection);
                 using (var reader = command.ExecuteReader())
                 {
                     // while there is another record present
@@ -575,6 +612,10 @@ namespace Test
                         Console.WriteLine($"{_depCode}\t|{_nameDep}\t|{_specCode}");
                     }
                 }
+            }
+            catch (SqlException ex)
+            {
+                DataQ.DisplaySqlErrors(ex);
             }
             catch (Exception ex)
             {
@@ -624,6 +665,10 @@ namespace Test
                     {
                         DataQ.DisplaySqlErrors(ex);
                     }
+                    catch (Exception ex)
+                    {
+                        Console.Write(ex.ToString());
+                    }
                     finally
                     {
                         connection.Close();
@@ -632,7 +677,7 @@ namespace Test
             }
         }
 
-        public void SearchInTableDepartament(string arg) //tested
+        public void SearchInTableDepartament(string arg) 
         {
             _depCode.Clear();
             _nameDep.Clear();
@@ -656,6 +701,10 @@ namespace Test
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                DataQ.DisplaySqlErrors(ex);
+            }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
@@ -666,7 +715,7 @@ namespace Test
             }
         }
     }
-    public class Position //+++++++
+    public class Position
     {
         private List<int> _codePosition;
         private List<string> _namePosition;
@@ -695,7 +744,7 @@ namespace Test
             return _namePosition;
         }
 
-        public void GetTablePositions() //clear
+        public void GetTablePositions() 
         {
             _codePosition.Clear();
             _namePosition.Clear();
@@ -716,6 +765,10 @@ namespace Test
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                DataQ.DisplaySqlErrors(ex);
+            }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
@@ -726,7 +779,7 @@ namespace Test
             }
         }
 
-        public void InsertToTablePositions(int code, string name) //++++++
+        public void InsertToTablePositions(int code, string name)
         {
             var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString);
             using (connection)
@@ -754,6 +807,10 @@ namespace Test
                                 Console.WriteLine($"{reader[0]} \t | {reader[1]} \t ");
                             }
                         }
+                    }
+                    catch (SqlException ex)
+                    {
+                        DataQ.DisplaySqlErrors(ex);
                     }
                     catch (Exception ex)
                     {
@@ -790,6 +847,10 @@ namespace Test
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                DataQ.DisplaySqlErrors(ex);
+            }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
@@ -800,7 +861,7 @@ namespace Test
             }
         }
     }
-    public class Person //++++
+    public class Person
     {
         private List<int> _codePerson;
         private List<string> _firstName;
@@ -943,6 +1004,10 @@ namespace Test
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                DataQ.DisplaySqlErrors(ex);
+            }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
@@ -1010,6 +1075,10 @@ namespace Test
                             }
                         }
                     }
+                    catch (SqlException ex)
+                    {
+                        DataQ.DisplaySqlErrors(ex);
+                    }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.ToString());
@@ -1064,6 +1133,10 @@ namespace Test
                                           $"{reader[9]}\t|{reader[10]} ");
                     }
                 }
+            }
+            catch (SqlException ex)
+            {
+                DataQ.DisplaySqlErrors(ex);
             }
             catch (Exception ex)
             {
@@ -1140,9 +1213,13 @@ namespace Test
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                DataQ.DisplaySqlErrors(ex);
+            }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.ToString());
+                Console.WriteLine(ex.ToString());
             }
             finally
             {
@@ -1187,6 +1264,10 @@ namespace Test
                             }
                         }
                     }
+                    catch (SqlException ex)
+                    {
+                        DataQ.DisplaySqlErrors(ex);
+                    }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.ToString());
@@ -1199,7 +1280,7 @@ namespace Test
             }
         }
 
-        public void SearchInTableGroup(string arg)//+++++
+        public void SearchInTableGroup(string arg)
         {
             _specializationCode.Clear();
             _codeGrup.Clear();
@@ -1226,6 +1307,10 @@ namespace Test
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                DataQ.DisplaySqlErrors(ex);
+            }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
@@ -1236,7 +1321,7 @@ namespace Test
             }
         }
     }
-    public class Subjects //++++++
+    public class Subjects 
     {
         private List<int> _codeTeacher;
         private List<int> _codeSpec;
@@ -1316,6 +1401,10 @@ namespace Test
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                DataQ.DisplaySqlErrors(ex);
+            }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
@@ -1352,6 +1441,10 @@ namespace Test
                         Console.WriteLine($"{reader[0]}\t|{reader[1]}\t|{reader[2]}\t|{reader[3]}\t|{reader[4]}");
                     }
                 }
+            }
+            catch (SqlException ex)
+            {
+                DataQ.DisplaySqlErrors(ex);
             }
             catch (Exception ex)
             {
@@ -1397,6 +1490,10 @@ namespace Test
                                 Console.WriteLine($"{reader[0]}\t|{reader[1]}\t|{reader[2]}\t|{reader[3]}\t|{reader[4]}");
                             }
                         }
+                    }
+                    catch (SqlException ex)
+                    {
+                        DataQ.DisplaySqlErrors(ex);
                     }
                     catch (Exception ex)
                     {
@@ -1514,6 +1611,10 @@ namespace Test
                     }
                 }
             }
+            catch (SqlException ex)
+            {
+                DataQ.DisplaySqlErrors(ex);
+            }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
@@ -1539,6 +1640,10 @@ namespace Test
                                                  $"{dateofBirth}, {grupCode}, {roleStud}, {addrr}, {phoneNum}, " +
                                                  $"{email}, {dateBegin}, {dateEnd})", connection);
                     command.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    DataQ.DisplaySqlErrors(ex);
                 }
                 catch (Exception ex)
                 {
@@ -1588,6 +1693,10 @@ namespace Test
                                               $"{reader[9]}\t|{reader[10]} ");
                         }
                     }
+                }
+                catch (SqlException ex)
+                {
+                    DataQ.DisplaySqlErrors(ex);
                 }
                 catch (Exception ex)
                 {

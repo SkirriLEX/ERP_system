@@ -12,6 +12,8 @@ namespace Test
                               "1) Insert any data\n" +
                               "2) Get all tuples in table\n" +
                               "3) Search data\n" +
+                              "4) Back to main menu\n" +
+                              "5) Exit\n" +
                               "Your choice?\t");
         }
         private static void ShowMainMenu()
@@ -20,13 +22,13 @@ namespace Test
             Console.WriteLine("Which class do you want to modify?");
             Console.WriteLine("1) Student");
             Console.WriteLine("2) Subjects");
-            Console.WriteLine("3) Gruppa");
-            Console.WriteLine("4) Person");
+            Console.WriteLine("3) Groups");
+            Console.WriteLine("4) Employees");
             Console.WriteLine("5) Position");
             Console.WriteLine("6) Department");
-            Console.WriteLine("7) InfLogin");
+            Console.WriteLine("7) Logins and passwords");
             Console.WriteLine("8) Specialization");
-            Console.WriteLine("9) Speciality");
+            Console.WriteLine("9) Specialities");
             Console.WriteLine("10) Exit");
             Console.Write("Your choice?\t");
         }
@@ -38,20 +40,19 @@ namespace Test
             Console.Write("Enter password:\t");
             var pass = Console.ReadLine();
             var success = DataQ.CheckLog(login, pass);
-            if (success != false) return success;
+            if (success) return true;
             Console.Write("wrong login or password\n");
             goto auth;
         }
-        static void Main(string[] args)
+        static void Main()
         {
             if (Auth())
             {
-                short i = 0;
                 do
                 {
                     main:
                     ShowMainMenu();
-                    i = Convert.ToInt16(Console.ReadLine());
+                    var i = Convert.ToInt16(Console.ReadLine());
                     switch (i)
                     {
                         case 1:
@@ -97,13 +98,22 @@ namespace Test
                                 Console.ReadKey(true);
                                 goto main;
                             }
+                            else if(j == 4)
+                            {
+                                goto main;
+                            }
+                            else if (j == 5)
+                            {
+                                Environment.Exit(0);
+                            }
                             else
                             {
                                 Console.WriteLine("wrong number");
                                 goto levelup;
                             }
+                            break;
                         }
-                        case 2: //subj
+                        case 2: 
                         {
                             levelup:
                             var subj = new Subjects();
@@ -142,11 +152,20 @@ namespace Test
                                 Console.ReadKey(true);
                                 goto main;
                             }
+                            else if(j == 4)
+                            {
+                                goto main;
+                            }
+                            else if (j == 5)
+                            {
+                                Environment.Exit(0);
+                            }
                             else
                             {
                                 Console.WriteLine("wrong number");
                                 goto levelup;
                             }
+                            break;
                         }
                         case 3: 
                         {
@@ -185,11 +204,20 @@ namespace Test
                                 Console.ReadKey(true);
                                 goto main;
                             }
+                            else if(j == 4)
+                            {
+                                goto main;
+                            }
+                            else if (j == 5)
+                            {
+                                Environment.Exit(0);
+                            }
                             else
                             {
                                 Console.WriteLine("wrong number");
                                 goto levelup;
                             }
+                            break;
                         }
                         case 4: 
                         {
@@ -248,11 +276,20 @@ namespace Test
                                 Console.ReadKey(true);
                                 goto main;
                             }
+                            else if(j == 4)
+                            {
+                                goto main;
+                            }
+                            else if (j == 5)
+                            {
+                                Environment.Exit(0);
+                            }
                             else
                             {
                                 Console.WriteLine("wrong number");
                                 goto levelup;
                             }
+                            break;
                         }
                         case 5:
                         {
@@ -287,11 +324,20 @@ namespace Test
                                 Console.ReadKey(true);
                                 goto main;
                             }
+                            else if(j == 4)
+                            {
+                                goto main;
+                            }
+                            else if (j == 5)
+                            {
+                                Environment.Exit(0);
+                            }
                             else
                             {
                                 Console.WriteLine("wrong number");
                                 goto levelup;
                             }
+                            break;
                         }
                         case 6:
                         {
@@ -328,11 +374,20 @@ namespace Test
                                 Console.ReadKey(true);
                                 goto main;
                             }
+                            else if(j == 4)
+                            {
+                                goto main;
+                            }
+                            else if (j == 5)
+                            {
+                                Environment.Exit(0);
+                            }
                             else
                             {
                                 Console.WriteLine("wrong number");
                                 goto levelup;
                             }
+                            break;
                         }
                         case 7:
                         {
@@ -411,11 +466,20 @@ namespace Test
                                 Console.ReadKey(true);
                                 goto main;
                             }
+                            else if(j == 4)
+                            {
+                                goto main;
+                            }
+                            else if (j == 5)
+                            {
+                                Environment.Exit(0);
+                            }
                             else
                             {
                                 Console.WriteLine("wrong number");
                                 goto levelup;
                             }
+                            break;
                         }
                         case 9:
                         {
@@ -450,11 +514,20 @@ namespace Test
                                 Console.ReadKey(true);
                                 goto main;
                             }
+                            else if(j == 4)
+                            {
+                                goto main;
+                            }
+                            else if (j == 5)
+                            {
+                                Environment.Exit(0);
+                            }
                             else
                             {
                                 Console.WriteLine("wrong number");
                                 goto levelup;
                             }
+                            break;
                         }
                         case 10:
                         {
