@@ -10,7 +10,7 @@ namespace Test
     {
         public readonly SqlConnectionStringBuilder Builder = new SqlConnectionStringBuilder();
         public DataQ(){
-            const string connStr = "178.136.14.234";
+            const string connStr = "localhost";
             Builder.DataSource = connStr;
             Builder.UserID = "resto";
             Builder.Password = "Resto#test01";
@@ -55,7 +55,7 @@ namespace Test
             if (!Utils.Connect.TryConnect()) return false;
             using (var connection = new SqlConnection(Utils.Connect.Builder.ConnectionString)){
                 connection.Open();
-                var cmdText = "use ERP_system;\n" +
+                var cmdText = "use Faculty;\n" +
                               $"select count(1) from SysAdmLog where loginStr like '{login}' and pass like '{pass}'";
                 var command = new SqlCommand(cmdText, connection);
                 // Add the parameters.
@@ -67,7 +67,7 @@ namespace Test
                     }
                 }
 
-                cmdText = "use ERP_system;\n" +
+                cmdText = "use Faculty;\n" +
                           $"select count(1) from InfLogin where loginStr like '{login}' and pass like '{pass}'";
                 command = new SqlCommand(cmdText, connection);
                 // Add the parameters.
@@ -88,7 +88,7 @@ namespace Test
             var count = 0;
             using (var connection = new SqlConnection(Connect.Builder.ConnectionString)){
                 connection.Open();
-                var cmdText = "use ERP_system;\n" +
+                var cmdText = "use Faculty;\n" +
                               $"select count(1) from {tableName}'";
                 var command = new SqlCommand(cmdText, connection);
                 // Add the parameters.
