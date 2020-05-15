@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "erp", "erp\erp.csproj", "{553AAAD3-894D-4FDC-827F-76BB89506859}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wpf_test", "wpf_test\wpf_test.csproj", "{553AAAD3-894D-4FDC-827F-76BB89506859}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{64545C74-BC31-4D8D-8B2D-C7B6F0D602D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "console_stable", "console_stable\console_stable.csproj", "{64545C74-BC31-4D8D-8B2D-C7B6F0D602D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
