@@ -57,6 +57,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddNewNews.xaml.cs">
+      <DependentUpon>AddNewNews.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InfLogin.cs" />
+    <Compile Include="news.cs" />
+    <Compile Include="Speciality.cs" />
+    <Compile Include="Specialization.cs" />
+    <Page Include="AddNewNews.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LoginScreen.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

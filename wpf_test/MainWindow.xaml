@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:erp"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -39,7 +40,7 @@
 
     <Grid Background="LightGray">
         <Grid  Name="title" VerticalAlignment="Top" Height="30" Background="#FF4357B2">
-            <TextBlock Text="2г" Margin="4" FontSize="20" HorizontalAlignment="Center" Foreground="LightGray">
+            <TextBlock Text="Система управління факультетом" Margin="4" FontSize="20" HorizontalAlignment="Center" Foreground="LightGray">
             </TextBlock>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <TextBlock Name="textBlocklogin" Text="Admin" MaxWidth="150" HorizontalAlignment="Right" Margin="4" FontSize="20" Foreground="#DDFFFFFF"/>
@@ -65,10 +66,10 @@
                     </Button>
                 </Grid>
                 <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" Width="150" VerticalAlignment="Bottom">
-                    <ListViewItem>
+                    <ListViewItem Selected="ListViewItem_Selected_1">
                         <StackPanel x:Name="click" Orientation="Horizontal" MouseEnter="click_MouseEnter" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Специальность" Margin="6"/>
+                            <TextBlock Margin="6" Text="Новини"/>
                         </StackPanel>
                     </ListViewItem>
                     <ListViewItem >
@@ -170,6 +171,16 @@
                 </ListView>
             </StackPanel>
         </Grid>
-        <Grid Name="dataGrid" HorizontalAlignment="Left" Height="100" Margin="225,121,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button Content="Додати" HorizontalAlignment="Left" Margin="667,36,0,0" VerticalAlignment="Top" Width="84" Name="Button_addNewNews" Click="Button_addNewNews_Click" Visibility="Hidden"/>
+        <ListView HorizontalAlignment="Left" Height="441" Margin="181,77,0,0" VerticalAlignment="Top" Width="570" Name="ListView_News" Visibility="Hidden">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Author}">Автор</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Theme}">Тема</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Text}">Текст новини</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=creation}">Дата створення</GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
