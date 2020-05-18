@@ -1,0 +1,956 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FacultyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="idDepartment" />
+          </Key>
+          <Property Name="idDepartment" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="nameDepartment" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="specialityCode" Type="uniqueidentifier" />
+          <Property Name="departmentLeadId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="codeEmployee" />
+          </Key>
+          <Property Name="codeEmployee" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="firstName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="lastName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="midName" Type="varchar" MaxLength="20" />
+          <Property Name="dateofBirth" Type="date" />
+          <Property Name="positionCode" Type="int" Nullable="false" />
+          <Property Name="addrr" Type="varchar" MaxLength="25" />
+          <Property Name="phoneNum" Type="int" />
+          <Property Name="email" Type="varchar" MaxLength="20" />
+          <Property Name="dateBegin" Type="datetime" Nullable="false" />
+          <Property Name="dateEnd" Type="datetime" />
+        </EntityType>
+        <EntityType Name="EmployeeLogin">
+          <Key>
+            <PropertyRef Name="tabNumPerson" />
+          </Key>
+          <Property Name="tabNumPerson" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="loginStr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="pass" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="codeGroup" />
+          </Key>
+          <Property Name="specializationCode" Type="uniqueidentifier" />
+          <Property Name="codeGroup" Type="int" Nullable="false" />
+          <Property Name="learningForm" Type="int" Nullable="false" />
+          <Property Name="nameGroup" Type="varchar" MaxLength="7" />
+          <Property Name="studentLeadId" Type="int" Nullable="false" />
+          <Property Name="teacherLeadId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="LearningForm">
+          <Key>
+            <PropertyRef Name="formId" />
+          </Key>
+          <Property Name="formId" Type="int" Nullable="false" />
+          <Property Name="nameForm" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="idNews" />
+          </Key>
+          <Property Name="idAuthor" Type="int" Nullable="false" />
+          <Property Name="theme" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="textOfNews" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="createdOn" Type="date" Nullable="false" />
+          <Property Name="idNews" Type="varchar" MaxLength="35" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Positions">
+          <Key>
+            <PropertyRef Name="codePosition" />
+          </Key>
+          <Property Name="codePosition" Type="int" Nullable="false" />
+          <Property Name="namePosition" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Speciality">
+          <Key>
+            <PropertyRef Name="idSpeciality" />
+          </Key>
+          <Property Name="idSpeciality" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="specialityCode" Type="int" Nullable="false" />
+          <Property Name="nameSpec" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Specialization">
+          <Key>
+            <PropertyRef Name="idSpecialization" />
+          </Key>
+          <Property Name="idSpecialization" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="specialityCode" Type="uniqueidentifier" />
+          <Property Name="specializationCode" Type="int" Nullable="false" />
+          <Property Name="nameSpecialization" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="codePerson" />
+          </Key>
+          <Property Name="codePerson" Type="int" Nullable="false" />
+          <Property Name="firstName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="midName" Type="varchar" MaxLength="20" />
+          <Property Name="lastName" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="dateofBirth" Type="date" />
+          <Property Name="grupCode" Type="int" Nullable="false" />
+          <Property Name="addrr" Type="varchar" MaxLength="25" />
+          <Property Name="phoneNum" Type="varchar" MaxLength="13" />
+          <Property Name="email" Type="varchar" MaxLength="20" />
+          <Property Name="parentPhoneNum" Type="varchar" MaxLength="13" />
+          <Property Name="dateBegin" Type="datetime" Nullable="false" />
+          <Property Name="dateEnd" Type="datetime" />
+          <Property Name="reasonEnd" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="isContractor" Type="bit" />
+        </EntityType>
+        <EntityType Name="StudentLogin">
+          <Key>
+            <PropertyRef Name="tabNumPerson" />
+          </Key>
+          <Property Name="tabNumPerson" Type="int" Nullable="false" />
+          <Property Name="loginStr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="pass" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="studyMarks">
+          <Key>
+            <PropertyRef Name="recordId" />
+          </Key>
+          <Property Name="idSubj" Type="int" />
+          <Property Name="recordId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="studentId" Type="int" />
+          <Property Name="markSubj" Type="int" />
+          <Property Name="createdOn" Type="date" />
+        </EntityType>
+        <EntityType Name="Subjects">
+          <Key>
+            <PropertyRef Name="codeSubj" />
+          </Key>
+          <Property Name="codeTeacher" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="codeSpec" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="nameSubj" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="codeSubj" Type="int" Nullable="false" />
+          <Property Name="hoursForSubj" Type="float" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Faculty.dbo.SysAdmLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="SysAdmLog">
+          <Key>
+            <PropertyRef Name="loginStr" />
+            <PropertyRef Name="pass" />
+          </Key>
+          <Property Name="loginStr" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="pass" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Departmen__depar__37703C52">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Department" Type="Self.Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="codeEmployee" />
+            </Principal>
+            <Dependent Role="Department">
+              <PropertyRef Name="departmentLeadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Departmen__speci__367C1819">
+          <End Role="Speciality" Type="Self.Speciality" Multiplicity="0..1" />
+          <End Role="Department" Type="Self.Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Speciality">
+              <PropertyRef Name="idSpeciality" />
+            </Principal>
+            <Dependent Role="Department">
+              <PropertyRef Name="specialityCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__positi__151B244E">
+          <End Role="Positions" Type="Self.Positions" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Positions">
+              <PropertyRef Name="codePosition" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="positionCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmployeeL__tabNu__17F790F9">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeeLogin" Type="Self.EmployeeLogin" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="codeEmployee" />
+            </Principal>
+            <Dependent Role="EmployeeLogin">
+              <PropertyRef Name="tabNumPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Group__specializ__32AB8735">
+          <End Role="Specialization" Type="Self.Specialization" Multiplicity="0..1" />
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialization">
+              <PropertyRef Name="idSpecialization" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="specializationCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Group__teacherLe__339FAB6E">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="codeEmployee" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="teacherLeadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Specializ__speci__0C85DE4D">
+          <End Role="Speciality" Type="Self.Speciality" Multiplicity="0..1" />
+          <End Role="Specialization" Type="Self.Specialization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Speciality">
+              <PropertyRef Name="idSpeciality" />
+            </Principal>
+            <Dependent Role="Specialization">
+              <PropertyRef Name="specialityCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Student__grupCod__43D61337">
+          <End Role="Group" Type="Self.Group" Multiplicity="1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="codeGroup" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="grupCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentLo__tabNu__46B27FE2">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="StudentLogin" Type="Self.StudentLogin" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="codePerson" />
+            </Principal>
+            <Dependent Role="StudentLogin">
+              <PropertyRef Name="tabNumPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__studyMark__idSub__4A8310C6">
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="0..1" />
+          <End Role="studyMarks" Type="Self.studyMarks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="codeSubj" />
+            </Principal>
+            <Dependent Role="studyMarks">
+              <PropertyRef Name="idSubj" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__studyMark__stude__4B7734FF">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="studyMarks" Type="Self.studyMarks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="codePerson" />
+            </Principal>
+            <Dependent Role="studyMarks">
+              <PropertyRef Name="studentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Subjects__codeSp__2BFE89A6">
+          <End Role="Specialization" Type="Self.Specialization" Multiplicity="1" />
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialization">
+              <PropertyRef Name="idSpecialization" />
+            </Principal>
+            <Dependent Role="Subjects">
+              <PropertyRef Name="codeSpec" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Subjects__codeTe__2B0A656D">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Subjects" Type="Self.Subjects" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="codeEmployee" />
+            </Principal>
+            <Dependent Role="Subjects">
+              <PropertyRef Name="codeTeacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FacultyModelStoreContainer">
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmployeeLogin" EntityType="Self.EmployeeLogin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Group" EntityType="Self.Group" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LearningForm" EntityType="Self.LearningForm" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="News" EntityType="Self.News" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Positions" EntityType="Self.Positions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Speciality" EntityType="Self.Speciality" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Specialization" EntityType="Self.Specialization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentLogin" EntityType="Self.StudentLogin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="studyMarks" EntityType="Self.studyMarks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subjects" EntityType="Self.Subjects" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SysAdmLog" EntityType="Self.SysAdmLog" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [SysAdmLog].[loginStr] AS [loginStr], 
+    [SysAdmLog].[pass] AS [pass]
+    FROM [dbo].[SysAdmLog] AS [SysAdmLog]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Departmen__depar__37703C52" Association="Self.FK__Departmen__depar__37703C52">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Department" EntitySet="Department" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Departmen__speci__367C1819" Association="Self.FK__Departmen__speci__367C1819">
+            <End Role="Speciality" EntitySet="Speciality" />
+            <End Role="Department" EntitySet="Department" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__positi__151B244E" Association="Self.FK__Employee__positi__151B244E">
+            <End Role="Positions" EntitySet="Positions" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmployeeL__tabNu__17F790F9" Association="Self.FK__EmployeeL__tabNu__17F790F9">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="EmployeeLogin" EntitySet="EmployeeLogin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Group__specializ__32AB8735" Association="Self.FK__Group__specializ__32AB8735">
+            <End Role="Specialization" EntitySet="Specialization" />
+            <End Role="Group" EntitySet="Group" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Group__teacherLe__339FAB6E" Association="Self.FK__Group__teacherLe__339FAB6E">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Group" EntitySet="Group" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Specializ__speci__0C85DE4D" Association="Self.FK__Specializ__speci__0C85DE4D">
+            <End Role="Speciality" EntitySet="Speciality" />
+            <End Role="Specialization" EntitySet="Specialization" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Student__grupCod__43D61337" Association="Self.FK__Student__grupCod__43D61337">
+            <End Role="Group" EntitySet="Group" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentLo__tabNu__46B27FE2" Association="Self.FK__StudentLo__tabNu__46B27FE2">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="StudentLogin" EntitySet="StudentLogin" />
+          </AssociationSet>
+          <AssociationSet Name="FK__studyMark__idSub__4A8310C6" Association="Self.FK__studyMark__idSub__4A8310C6">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="studyMarks" EntitySet="studyMarks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__studyMark__stude__4B7734FF" Association="Self.FK__studyMark__stude__4B7734FF">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="studyMarks" EntitySet="studyMarks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Subjects__codeSp__2BFE89A6" Association="Self.FK__Subjects__codeSp__2BFE89A6">
+            <End Role="Specialization" EntitySet="Specialization" />
+            <End Role="Subjects" EntitySet="Subjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Subjects__codeTe__2B0A656D" Association="Self.FK__Subjects__codeTe__2B0A656D">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Subjects" EntitySet="Subjects" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FacultyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="idDepartment" />
+          </Key>
+          <Property Name="idDepartment" Type="Guid" Nullable="false" />
+          <Property Name="nameDepartment" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="specialityCode" Type="Guid" />
+          <Property Name="departmentLeadId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Departmen__depar__37703C52" FromRole="Department" ToRole="Employee" />
+          <NavigationProperty Name="Speciality" Relationship="Self.FK__Departmen__speci__367C1819" FromRole="Department" ToRole="Speciality" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="codeEmployee" />
+          </Key>
+          <Property Name="codeEmployee" Type="Guid" Nullable="false" />
+          <Property Name="firstName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lastName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="midName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="dateofBirth" Type="DateTime" Precision="0" />
+          <Property Name="positionCode" Type="Int32" Nullable="false" />
+          <Property Name="addrr" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="phoneNum" Type="Int32" />
+          <Property Name="email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="dateBegin" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dateEnd" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Departments" Relationship="Self.FK__Departmen__depar__37703C52" FromRole="Employee" ToRole="Department" />
+          <NavigationProperty Name="Position" Relationship="Self.FK__Employee__positi__151B244E" FromRole="Employee" ToRole="Positions" />
+          <NavigationProperty Name="EmployeeLogin" Relationship="Self.FK__EmployeeL__tabNu__17F790F9" FromRole="Employee" ToRole="EmployeeLogin" />
+          <NavigationProperty Name="Groups" Relationship="Self.FK__Group__teacherLe__339FAB6E" FromRole="Employee" ToRole="Group" />
+          <NavigationProperty Name="Subjects" Relationship="Self.FK__Subjects__codeTe__2B0A656D" FromRole="Employee" ToRole="Subjects" />
+        </EntityType>
+        <EntityType Name="EmployeeLogin">
+          <Key>
+            <PropertyRef Name="tabNumPerson" />
+          </Key>
+          <Property Name="tabNumPerson" Type="Guid" Nullable="false" />
+          <Property Name="loginStr" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pass" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__EmployeeL__tabNu__17F790F9" FromRole="EmployeeLogin" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="codeGroup" />
+          </Key>
+          <Property Name="specializationCode" Type="Guid" />
+          <Property Name="codeGroup" Type="Int32" Nullable="false" />
+          <Property Name="learningForm" Type="Int32" Nullable="false" />
+          <Property Name="nameGroup" Type="String" MaxLength="7" FixedLength="false" Unicode="false" />
+          <Property Name="studentLeadId" Type="Int32" Nullable="false" />
+          <Property Name="teacherLeadId" Type="Guid" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Group__teacherLe__339FAB6E" FromRole="Group" ToRole="Employee" />
+          <NavigationProperty Name="Specialization" Relationship="Self.FK__Group__specializ__32AB8735" FromRole="Group" ToRole="Specialization" />
+          <NavigationProperty Name="Students" Relationship="Self.FK__Student__grupCod__43D61337" FromRole="Group" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="LearningForm">
+          <Key>
+            <PropertyRef Name="formId" />
+          </Key>
+          <Property Name="formId" Type="Int32" Nullable="false" />
+          <Property Name="nameForm" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="News">
+          <Key>
+            <PropertyRef Name="idNews" />
+          </Key>
+          <Property Name="idAuthor" Type="Int32" Nullable="false" />
+          <Property Name="theme" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="textOfNews" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="createdOn" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="idNews" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="codePosition" />
+          </Key>
+          <Property Name="codePosition" Type="Int32" Nullable="false" />
+          <Property Name="namePosition" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK__Employee__positi__151B244E" FromRole="Positions" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Speciality">
+          <Key>
+            <PropertyRef Name="idSpeciality" />
+          </Key>
+          <Property Name="idSpeciality" Type="Guid" Nullable="false" />
+          <Property Name="specialityCode" Type="Int32" Nullable="false" />
+          <Property Name="nameSpec" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Departments" Relationship="Self.FK__Departmen__speci__367C1819" FromRole="Speciality" ToRole="Department" />
+          <NavigationProperty Name="Specializations" Relationship="Self.FK__Specializ__speci__0C85DE4D" FromRole="Speciality" ToRole="Specialization" />
+        </EntityType>
+        <EntityType Name="Specialization">
+          <Key>
+            <PropertyRef Name="idSpecialization" />
+          </Key>
+          <Property Name="idSpecialization" Type="Guid" Nullable="false" />
+          <Property Name="specialityCode" Type="Guid" />
+          <Property Name="specializationCode" Type="Int32" Nullable="false" />
+          <Property Name="nameSpecialization" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Groups" Relationship="Self.FK__Group__specializ__32AB8735" FromRole="Specialization" ToRole="Group" />
+          <NavigationProperty Name="Speciality" Relationship="Self.FK__Specializ__speci__0C85DE4D" FromRole="Specialization" ToRole="Speciality" />
+          <NavigationProperty Name="Subjects" Relationship="Self.FK__Subjects__codeSp__2BFE89A6" FromRole="Specialization" ToRole="Subjects" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="codePerson" />
+          </Key>
+          <Property Name="codePerson" Type="Int32" Nullable="false" />
+          <Property Name="firstName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="midName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="lastName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dateofBirth" Type="DateTime" Precision="0" />
+          <Property Name="grupCode" Type="Int32" Nullable="false" />
+          <Property Name="addrr" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="phoneNum" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="parentPhoneNum" Type="String" MaxLength="13" FixedLength="false" Unicode="false" />
+          <Property Name="dateBegin" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dateEnd" Type="DateTime" Precision="3" />
+          <Property Name="reasonEnd" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="isContractor" Type="Boolean" />
+          <NavigationProperty Name="Group" Relationship="Self.FK__Student__grupCod__43D61337" FromRole="Student" ToRole="Group" />
+          <NavigationProperty Name="StudentLogin" Relationship="Self.FK__StudentLo__tabNu__46B27FE2" FromRole="Student" ToRole="StudentLogin" />
+          <NavigationProperty Name="studyMarks" Relationship="Self.FK__studyMark__stude__4B7734FF" FromRole="Student" ToRole="studyMarks" />
+        </EntityType>
+        <EntityType Name="StudentLogin">
+          <Key>
+            <PropertyRef Name="tabNumPerson" />
+          </Key>
+          <Property Name="tabNumPerson" Type="Int32" Nullable="false" />
+          <Property Name="loginStr" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pass" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Student" Relationship="Self.FK__StudentLo__tabNu__46B27FE2" FromRole="StudentLogin" ToRole="Student" />
+        </EntityType>
+        <EntityType Name="studyMark">
+          <Key>
+            <PropertyRef Name="recordId" />
+          </Key>
+          <Property Name="idSubj" Type="Int32" />
+          <Property Name="recordId" Type="Guid" Nullable="false" />
+          <Property Name="studentId" Type="Int32" />
+          <Property Name="markSubj" Type="Int32" />
+          <Property Name="createdOn" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Student" Relationship="Self.FK__studyMark__stude__4B7734FF" FromRole="studyMarks" ToRole="Student" />
+          <NavigationProperty Name="Subject" Relationship="Self.FK__studyMark__idSub__4A8310C6" FromRole="studyMarks" ToRole="Subjects" />
+        </EntityType>
+        <EntityType Name="Subject">
+          <Key>
+            <PropertyRef Name="codeSubj" />
+          </Key>
+          <Property Name="codeTeacher" Type="Guid" Nullable="false" />
+          <Property Name="codeSpec" Type="Guid" Nullable="false" />
+          <Property Name="nameSubj" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="codeSubj" Type="Int32" Nullable="false" />
+          <Property Name="hoursForSubj" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK__Subjects__codeTe__2B0A656D" FromRole="Subjects" ToRole="Employee" />
+          <NavigationProperty Name="Specialization" Relationship="Self.FK__Subjects__codeSp__2BFE89A6" FromRole="Subjects" ToRole="Specialization" />
+          <NavigationProperty Name="studyMarks" Relationship="Self.FK__studyMark__idSub__4A8310C6" FromRole="Subjects" ToRole="studyMarks" />
+        </EntityType>
+        <EntityType Name="SysAdmLog">
+          <Key>
+            <PropertyRef Name="loginStr" />
+            <PropertyRef Name="pass" />
+          </Key>
+          <Property Name="loginStr" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pass" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Departmen__depar__37703C52">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Department" Type="Self.Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="codeEmployee" />
+            </Principal>
+            <Dependent Role="Department">
+              <PropertyRef Name="departmentLeadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Departmen__speci__367C1819">
+          <End Role="Speciality" Type="Self.Speciality" Multiplicity="0..1" />
+          <End Role="Department" Type="Self.Department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Speciality">
+              <PropertyRef Name="idSpeciality" />
+            </Principal>
+            <Dependent Role="Department">
+              <PropertyRef Name="specialityCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Employee__positi__151B244E">
+          <End Role="Positions" Type="Self.Position" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Positions">
+              <PropertyRef Name="codePosition" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="positionCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__EmployeeL__tabNu__17F790F9">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="EmployeeLogin" Type="Self.EmployeeLogin" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="codeEmployee" />
+            </Principal>
+            <Dependent Role="EmployeeLogin">
+              <PropertyRef Name="tabNumPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Group__teacherLe__339FAB6E">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="codeEmployee" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="teacherLeadId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Subjects__codeTe__2B0A656D">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Subjects" Type="Self.Subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="codeEmployee" />
+            </Principal>
+            <Dependent Role="Subjects">
+              <PropertyRef Name="codeTeacher" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Group__specializ__32AB8735">
+          <End Role="Specialization" Type="Self.Specialization" Multiplicity="0..1" />
+          <End Role="Group" Type="Self.Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialization">
+              <PropertyRef Name="idSpecialization" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="specializationCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Student__grupCod__43D61337">
+          <End Role="Group" Type="Self.Group" Multiplicity="1" />
+          <End Role="Student" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="codeGroup" />
+            </Principal>
+            <Dependent Role="Student">
+              <PropertyRef Name="grupCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Specializ__speci__0C85DE4D">
+          <End Role="Speciality" Type="Self.Speciality" Multiplicity="0..1" />
+          <End Role="Specialization" Type="Self.Specialization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Speciality">
+              <PropertyRef Name="idSpeciality" />
+            </Principal>
+            <Dependent Role="Specialization">
+              <PropertyRef Name="specialityCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Subjects__codeSp__2BFE89A6">
+          <End Role="Specialization" Type="Self.Specialization" Multiplicity="1" />
+          <End Role="Subjects" Type="Self.Subject" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Specialization">
+              <PropertyRef Name="idSpecialization" />
+            </Principal>
+            <Dependent Role="Subjects">
+              <PropertyRef Name="codeSpec" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__StudentLo__tabNu__46B27FE2">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="StudentLogin" Type="Self.StudentLogin" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="codePerson" />
+            </Principal>
+            <Dependent Role="StudentLogin">
+              <PropertyRef Name="tabNumPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__studyMark__stude__4B7734FF">
+          <End Role="Student" Type="Self.Student" Multiplicity="0..1" />
+          <End Role="studyMarks" Type="Self.studyMark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="codePerson" />
+            </Principal>
+            <Dependent Role="studyMarks">
+              <PropertyRef Name="studentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__studyMark__idSub__4A8310C6">
+          <End Role="Subjects" Type="Self.Subject" Multiplicity="0..1" />
+          <End Role="studyMarks" Type="Self.studyMark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subjects">
+              <PropertyRef Name="codeSubj" />
+            </Principal>
+            <Dependent Role="studyMarks">
+              <PropertyRef Name="idSubj" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FacultyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Departments" EntityType="Self.Department" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="EmployeeLogins" EntityType="Self.EmployeeLogin" />
+          <EntitySet Name="Groups" EntityType="Self.Group" />
+          <EntitySet Name="LearningForms" EntityType="Self.LearningForm" />
+          <EntitySet Name="News" EntityType="Self.News" />
+          <EntitySet Name="Positions" EntityType="Self.Position" />
+          <EntitySet Name="Specialities" EntityType="Self.Speciality" />
+          <EntitySet Name="Specializations" EntityType="Self.Specialization" />
+          <EntitySet Name="Students" EntityType="Self.Student" />
+          <EntitySet Name="StudentLogins" EntityType="Self.StudentLogin" />
+          <EntitySet Name="studyMarks" EntityType="Self.studyMark" />
+          <EntitySet Name="Subjects" EntityType="Self.Subject" />
+          <EntitySet Name="SysAdmLogs" EntityType="Self.SysAdmLog" />
+          <AssociationSet Name="FK__Departmen__depar__37703C52" Association="Self.FK__Departmen__depar__37703C52">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Department" EntitySet="Departments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Departmen__speci__367C1819" Association="Self.FK__Departmen__speci__367C1819">
+            <End Role="Speciality" EntitySet="Specialities" />
+            <End Role="Department" EntitySet="Departments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Employee__positi__151B244E" Association="Self.FK__Employee__positi__151B244E">
+            <End Role="Positions" EntitySet="Positions" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__EmployeeL__tabNu__17F790F9" Association="Self.FK__EmployeeL__tabNu__17F790F9">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="EmployeeLogin" EntitySet="EmployeeLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Group__teacherLe__339FAB6E" Association="Self.FK__Group__teacherLe__339FAB6E">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Group" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Subjects__codeTe__2B0A656D" Association="Self.FK__Subjects__codeTe__2B0A656D">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Subjects" EntitySet="Subjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Group__specializ__32AB8735" Association="Self.FK__Group__specializ__32AB8735">
+            <End Role="Specialization" EntitySet="Specializations" />
+            <End Role="Group" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Student__grupCod__43D61337" Association="Self.FK__Student__grupCod__43D61337">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="Student" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Specializ__speci__0C85DE4D" Association="Self.FK__Specializ__speci__0C85DE4D">
+            <End Role="Speciality" EntitySet="Specialities" />
+            <End Role="Specialization" EntitySet="Specializations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Subjects__codeSp__2BFE89A6" Association="Self.FK__Subjects__codeSp__2BFE89A6">
+            <End Role="Specialization" EntitySet="Specializations" />
+            <End Role="Subjects" EntitySet="Subjects" />
+          </AssociationSet>
+          <AssociationSet Name="FK__StudentLo__tabNu__46B27FE2" Association="Self.FK__StudentLo__tabNu__46B27FE2">
+            <End Role="Student" EntitySet="Students" />
+            <End Role="StudentLogin" EntitySet="StudentLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK__studyMark__stude__4B7734FF" Association="Self.FK__studyMark__stude__4B7734FF">
+            <End Role="Student" EntitySet="Students" />
+            <End Role="studyMarks" EntitySet="studyMarks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__studyMark__idSub__4A8310C6" Association="Self.FK__studyMark__idSub__4A8310C6">
+            <End Role="Subjects" EntitySet="Subjects" />
+            <End Role="studyMarks" EntitySet="studyMarks" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FacultyModelStoreContainer" CdmEntityContainer="FacultyEntities">
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="FacultyModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="idDepartment" ColumnName="idDepartment" />
+                <ScalarProperty Name="nameDepartment" ColumnName="nameDepartment" />
+                <ScalarProperty Name="specialityCode" ColumnName="specialityCode" />
+                <ScalarProperty Name="departmentLeadId" ColumnName="departmentLeadId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="FacultyModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="codeEmployee" ColumnName="codeEmployee" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="midName" ColumnName="midName" />
+                <ScalarProperty Name="dateofBirth" ColumnName="dateofBirth" />
+                <ScalarProperty Name="positionCode" ColumnName="positionCode" />
+                <ScalarProperty Name="addrr" ColumnName="addrr" />
+                <ScalarProperty Name="phoneNum" ColumnName="phoneNum" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="dateBegin" ColumnName="dateBegin" />
+                <ScalarProperty Name="dateEnd" ColumnName="dateEnd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmployeeLogins">
+            <EntityTypeMapping TypeName="FacultyModel.EmployeeLogin">
+              <MappingFragment StoreEntitySet="EmployeeLogin">
+                <ScalarProperty Name="tabNumPerson" ColumnName="tabNumPerson" />
+                <ScalarProperty Name="loginStr" ColumnName="loginStr" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="FacultyModel.Group">
+              <MappingFragment StoreEntitySet="Group">
+                <ScalarProperty Name="specializationCode" ColumnName="specializationCode" />
+                <ScalarProperty Name="codeGroup" ColumnName="codeGroup" />
+                <ScalarProperty Name="learningForm" ColumnName="learningForm" />
+                <ScalarProperty Name="nameGroup" ColumnName="nameGroup" />
+                <ScalarProperty Name="studentLeadId" ColumnName="studentLeadId" />
+                <ScalarProperty Name="teacherLeadId" ColumnName="teacherLeadId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LearningForms">
+            <EntityTypeMapping TypeName="FacultyModel.LearningForm">
+              <MappingFragment StoreEntitySet="LearningForm">
+                <ScalarProperty Name="formId" ColumnName="formId" />
+                <ScalarProperty Name="nameForm" ColumnName="nameForm" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="News">
+            <EntityTypeMapping TypeName="FacultyModel.News">
+              <MappingFragment StoreEntitySet="News">
+                <ScalarProperty Name="idAuthor" ColumnName="idAuthor" />
+                <ScalarProperty Name="theme" ColumnName="theme" />
+                <ScalarProperty Name="textOfNews" ColumnName="textOfNews" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+                <ScalarProperty Name="idNews" ColumnName="idNews" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="FacultyModel.Position">
+              <MappingFragment StoreEntitySet="Positions">
+                <ScalarProperty Name="codePosition" ColumnName="codePosition" />
+                <ScalarProperty Name="namePosition" ColumnName="namePosition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Specialities">
+            <EntityTypeMapping TypeName="FacultyModel.Speciality">
+              <MappingFragment StoreEntitySet="Speciality">
+                <ScalarProperty Name="idSpeciality" ColumnName="idSpeciality" />
+                <ScalarProperty Name="specialityCode" ColumnName="specialityCode" />
+                <ScalarProperty Name="nameSpec" ColumnName="nameSpec" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Specializations">
+            <EntityTypeMapping TypeName="FacultyModel.Specialization">
+              <MappingFragment StoreEntitySet="Specialization">
+                <ScalarProperty Name="idSpecialization" ColumnName="idSpecialization" />
+                <ScalarProperty Name="specialityCode" ColumnName="specialityCode" />
+                <ScalarProperty Name="specializationCode" ColumnName="specializationCode" />
+                <ScalarProperty Name="nameSpecialization" ColumnName="nameSpecialization" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="FacultyModel.Student">
+              <MappingFragment StoreEntitySet="Student">
+                <ScalarProperty Name="codePerson" ColumnName="codePerson" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="midName" ColumnName="midName" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="dateofBirth" ColumnName="dateofBirth" />
+                <ScalarProperty Name="grupCode" ColumnName="grupCode" />
+                <ScalarProperty Name="addrr" ColumnName="addrr" />
+                <ScalarProperty Name="phoneNum" ColumnName="phoneNum" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="parentPhoneNum" ColumnName="parentPhoneNum" />
+                <ScalarProperty Name="dateBegin" ColumnName="dateBegin" />
+                <ScalarProperty Name="dateEnd" ColumnName="dateEnd" />
+                <ScalarProperty Name="reasonEnd" ColumnName="reasonEnd" />
+                <ScalarProperty Name="isContractor" ColumnName="isContractor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StudentLogins">
+            <EntityTypeMapping TypeName="FacultyModel.StudentLogin">
+              <MappingFragment StoreEntitySet="StudentLogin">
+                <ScalarProperty Name="tabNumPerson" ColumnName="tabNumPerson" />
+                <ScalarProperty Name="loginStr" ColumnName="loginStr" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="studyMarks">
+            <EntityTypeMapping TypeName="FacultyModel.studyMark">
+              <MappingFragment StoreEntitySet="studyMarks">
+                <ScalarProperty Name="idSubj" ColumnName="idSubj" />
+                <ScalarProperty Name="recordId" ColumnName="recordId" />
+                <ScalarProperty Name="studentId" ColumnName="studentId" />
+                <ScalarProperty Name="markSubj" ColumnName="markSubj" />
+                <ScalarProperty Name="createdOn" ColumnName="createdOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subjects">
+            <EntityTypeMapping TypeName="FacultyModel.Subject">
+              <MappingFragment StoreEntitySet="Subjects">
+                <ScalarProperty Name="codeTeacher" ColumnName="codeTeacher" />
+                <ScalarProperty Name="codeSpec" ColumnName="codeSpec" />
+                <ScalarProperty Name="nameSubj" ColumnName="nameSubj" />
+                <ScalarProperty Name="codeSubj" ColumnName="codeSubj" />
+                <ScalarProperty Name="hoursForSubj" ColumnName="hoursForSubj" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysAdmLogs">
+            <EntityTypeMapping TypeName="FacultyModel.SysAdmLog">
+              <MappingFragment StoreEntitySet="SysAdmLog">
+                <ScalarProperty Name="loginStr" ColumnName="loginStr" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

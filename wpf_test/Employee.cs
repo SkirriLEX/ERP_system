@@ -12,23 +12,34 @@ namespace erp
     using System;
     using System.Collections.Generic;
     
-    public partial class Specialization
+    public partial class Employee
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Specialization()
+        public Employee()
         {
+            this.Departments = new HashSet<Department>();
             this.Groups = new HashSet<Group>();
             this.Subjects = new HashSet<Subject>();
         }
     
-        public System.Guid idSpecialization { get; set; }
-        public Nullable<System.Guid> specialityCode { get; set; }
-        public int specializationCode { get; set; }
-        public string nameSpecialization { get; set; }
+        public System.Guid codeEmployee { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public string midName { get; set; }
+        public Nullable<System.DateTime> dateofBirth { get; set; }
+        public int positionCode { get; set; }
+        public string addrr { get; set; }
+        public Nullable<int> phoneNum { get; set; }
+        public string email { get; set; }
+        public System.DateTime dateBegin { get; set; }
+        public Nullable<System.DateTime> dateEnd { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Department> Departments { get; set; }
+        public virtual Position Position { get; set; }
+        public virtual EmployeeLogin EmployeeLogin { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Group> Groups { get; set; }
-        public virtual Speciality Speciality { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Subject> Subjects { get; set; }
     }

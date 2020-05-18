@@ -12,24 +12,24 @@ namespace erp
     using System;
     using System.Collections.Generic;
     
-    public partial class Specialization
+    public partial class Group
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Specialization()
+        public Group()
         {
-            this.Groups = new HashSet<Group>();
-            this.Subjects = new HashSet<Subject>();
+            this.Students = new HashSet<Student>();
         }
     
-        public System.Guid idSpecialization { get; set; }
-        public Nullable<System.Guid> specialityCode { get; set; }
-        public int specializationCode { get; set; }
-        public string nameSpecialization { get; set; }
+        public Nullable<System.Guid> specializationCode { get; set; }
+        public int codeGroup { get; set; }
+        public int learningForm { get; set; }
+        public string nameGroup { get; set; }
+        public int studentLeadId { get; set; }
+        public Nullable<System.Guid> teacherLeadId { get; set; }
     
+        public virtual Employee Employee { get; set; }
+        public virtual Specialization Specialization { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Group> Groups { get; set; }
-        public virtual Speciality Speciality { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Subject> Subjects { get; set; }
+        public virtual ICollection<Student> Students { get; set; }
     }
 }

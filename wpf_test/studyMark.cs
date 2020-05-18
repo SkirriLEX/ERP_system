@@ -12,12 +12,15 @@ namespace erp
     using System;
     using System.Collections.Generic;
     
-    public partial class News
+    public partial class studyMark
     {
-        public int idAuthor { get; set; }
-        public string theme { get; set; }
-        public string textOfNews { get; set; }
-        public System.DateTime createdOn { get; set; }
-        public string idNews { get; set; }
+        public Nullable<int> idSubj { get; set; }
+        public System.Guid recordId { get; set; }
+        public Nullable<int> studentId { get; set; }
+        public Nullable<int> markSubj { get; set; }
+        public Nullable<System.DateTime> createdOn { get; set; }
+    
+        public virtual Student Student { get; set; }
+        public virtual Subject Subject { get; set; }
     }
 }

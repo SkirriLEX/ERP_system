@@ -12,12 +12,9 @@ namespace erp
     using System;
     using System.Collections.Generic;
     
-    public partial class News
+    public partial class SysAdmLog
     {
-        public int idAuthor { get; set; }
-        public string theme { get; set; }
-        public string textOfNews { get; set; }
-        public System.DateTime createdOn { get; set; }
-        public string idNews { get; set; }
+        public string loginStr { get; set; }
+        public string pass { get; set; }
     }
 }

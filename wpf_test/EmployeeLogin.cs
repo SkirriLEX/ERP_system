@@ -12,12 +12,12 @@ namespace erp
     using System;
     using System.Collections.Generic;
     
-    public partial class News
+    public partial class EmployeeLogin
     {
-        public int idAuthor { get; set; }
-        public string theme { get; set; }
-        public string textOfNews { get; set; }
-        public System.DateTime createdOn { get; set; }
-        public string idNews { get; set; }
+        public System.Guid tabNumPerson { get; set; }
+        public string loginStr { get; set; }
+        public string pass { get; set; }
+    
+        public virtual Employee Employee { get; set; }
     }
 }

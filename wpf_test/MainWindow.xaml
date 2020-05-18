@@ -44,12 +44,12 @@
             </TextBlock>
             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                 <TextBlock Name="textBlocklogin" Text="Admin" MaxWidth="150" HorizontalAlignment="Right" Margin="4" FontSize="20" Foreground="#DDFFFFFF"/>
-                <materialDesign:PopupBox HorizontalAlignment="Right" PlacementMode="BottomAndAlignCentres" StaysOpen="false" Foreground="#DDFFFFFF" FontSize="10">
+                <materialDesign:PopupBox HorizontalAlignment="Right" PlacementMode="BottomAndAlignCentres" StaysOpen="false" Foreground="#DDFFFFFF" FontSize="10" Height="30" Margin="0,0,0,-0.113" VerticalAlignment="Top">
                     <StackPanel Width="150">
                         <Button Content="Settings"/>
                         <Button Content="Acount"/>
                         <Separator/>
-                        <Button Content="Log out"/>
+                        <Button Content="Log out" Click="ButtonBase_OnClick"/>
                         <Button x:Name="closeProgram" Content="Close programm" Click="closeProgram_Click"/>
                     </StackPanel >
                 </materialDesign:PopupBox>
@@ -72,100 +72,58 @@
                             <TextBlock Margin="6" Text="Новини"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem >
+                    <ListViewItem Selected="ListViewItem_Selected" >
                         <StackPanel Orientation="Horizontal" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Специализация" Margin="6"/>
+                            <TextBlock Text="Спецальності" Margin="6"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem >
+                    <ListViewItem Selected="ListViewItem_Selected_2" >
                         <StackPanel Orientation="Horizontal" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Должность" Margin="6"/>
+                            <TextBlock Text="Спеціалізації" Margin="6"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem >
+                    <ListViewItem Selected="ListViewItem_Selected_3" >
                         <StackPanel Orientation="Horizontal" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Сотрудник" Margin="6"/>
+                            <TextBlock Margin="6" Text="Співробітники"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem >
+                    <ListViewItem Selected="ListViewItem_Selected_4" >
                         <StackPanel Orientation="Horizontal" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
                             <TextBlock Text="Предмет" Margin="6"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem >
+                    <ListViewItem Selected="ListViewItem_Selected_5" >
                         <StackPanel Orientation="Horizontal" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Данные для входа" Margin="6"/>
+                            <TextBlock Text="Посади" Margin="6"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem >
+                    <ListViewItem Selected="ListViewItem_Selected_6" >
                         <StackPanel Orientation="Horizontal" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
+                            <TextBlock Text="Кафедри" Margin="6"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem >
+                    <ListViewItem Selected="ListViewItem_Selected_7" >
                         <StackPanel Orientation="Horizontal" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
+                            <TextBlock Text="Студенти" Margin="6"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem >
+                    <ListViewItem Selected="ListViewItem_Selected_8" >
                         <StackPanel Orientation="Horizontal" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher" Margin="6"/>
+                            <TextBlock Text="Групи" Margin="6"/>
                         </StackPanel>
                     </ListViewItem>
-                    <ListViewItem >
+                    <ListViewItem Selected="ListViewItem_Selected_10" >
                         <StackPanel Orientation="Horizontal" >
                             <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher8" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher7" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher6" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher5" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher4" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher3" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher2" Margin="6"/>
-                        </StackPanel>
-                    </ListViewItem>
-                    <ListViewItem >
-                        <StackPanel Orientation="Horizontal" >
-                            <materialDesign:PackIcon Kind="Teach" Margin="6"/>
-                            <TextBlock Text="Teacher15" Margin="6"/>
+                            <TextBlock Text="Оцінки студентів" Margin="6"/>
                         </StackPanel>
                     </ListViewItem>
                 </ListView>
@@ -182,5 +140,6 @@
                 </GridView>
             </ListView.View>
         </ListView>
+        <DataGrid Name="DataGridTable" HorizontalAlignment="Left" Height="483" Margin="155,35,0,0" VerticalAlignment="Top" Width="596" Visibility="Hidden"/>
     </Grid>
 </Window>
