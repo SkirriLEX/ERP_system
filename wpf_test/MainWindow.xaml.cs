@@ -61,6 +61,7 @@ namespace erp
         private void ListViewItem_Selected(object sender, RoutedEventArgs e)
         {
             DataGridTable.Visibility = Visibility.Visible;
+            Button_Speciality.Visibility = Visibility.Visible;
 
             var query =
                 from Specialities in dataEntities.Specialities
@@ -233,6 +234,12 @@ namespace erp
                 select new {News.createdOn, News.theme, News.textOfNews};
 
             DataGridTable.ItemsSource = query.ToList();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            var formSpeciality = new AddNewSpeciality();
+            formSpeciality.Show();
         }
     }
 
