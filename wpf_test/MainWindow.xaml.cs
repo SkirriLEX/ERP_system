@@ -74,7 +74,7 @@ namespace erp
 
         private void ListViewItem_Selected_2(object sender, RoutedEventArgs e)
         {
-            DataGridTable.Visibility = Visibility.Visible;
+            Button_Specialization.Visibility = DataGridTable.Visibility = Visibility.Visible;
 
             var query =
                 from Specialization in dataEntities.Specializations
@@ -87,7 +87,7 @@ namespace erp
 
         private void ListViewItem_Selected_3(object sender, RoutedEventArgs e)
         {
-            DataGridTable.Visibility = Visibility.Visible;
+            Button_Employee.Visibility = DataGridTable.Visibility = Visibility.Visible;
 
             var query =
                 from Employee in dataEntities.Employees
@@ -240,6 +240,18 @@ namespace erp
         {
             var formSpeciality = new AddNewSpeciality();
             formSpeciality.Show();
+        }
+
+        private void Button_Specialization_Click(object sender, RoutedEventArgs e)
+        {
+            var formSpec = new AddNewSpecialization();
+            formSpec.Show();
+        }
+
+        private void Button_Employee_OnClick(object sender, RoutedEventArgs e)
+        {
+            var empForm = new AddNewEpmloyee();
+            empForm.Show();
         }
     }
 

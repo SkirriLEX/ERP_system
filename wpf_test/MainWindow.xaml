@@ -143,5 +143,7 @@
         <DataGrid Name="DataGridTable" HorizontalAlignment="Left" Height="483" Margin="155,35,0,0" VerticalAlignment="Top" Width="596" Visibility="Hidden"/>
         <Button Name="Button_news" Content="Додати новину" HorizontalAlignment="Left" Margin="620,40,0,0" VerticalAlignment="Top" Width="131" Click="Button_Click" Visibility="Hidden"/>
         <Button Name="Button_Speciality" Content="Додати спеціальність" HorizontalAlignment="Left" Margin="573,36,0,0" VerticalAlignment="Top" Width="178" Click="Button_Click_1" Visibility="Hidden"/>
+        <Button Name="Button_Specialization"  Content="Додати спеціалізацію" HorizontalAlignment="Left" Margin="573,36,0,0" VerticalAlignment="Top" Width="178" Click="Button_Specialization_Click" Visibility="Hidden"/>
+        <Button Name="Button_Employee" Content="Додати співробітника" HorizontalAlignment="Left" Margin="570,36,0,0" VerticalAlignment="Top" Width="181" Click="Button_Employee_OnClick" Visibility="Hidden"/>
     </Grid>
 </Window>
