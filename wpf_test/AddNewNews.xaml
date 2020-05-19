@@ -7,7 +7,11 @@
         mc:Ignorable="d"
         Title="AddNewNews" Height="450" Width="800">
     <Grid>
-        <Label Content="Тема новини" HorizontalAlignment="Left" Margin="71,71,0,0" VerticalAlignment="Top" Height="28" Width="106" FontStyle="Normal"/>
+        <Label Content="Тема новини" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="28" Width="106" FontStyle="Normal"/>
+        <TextBox Name="themeNewsBox" HorizontalAlignment="Left" Height="46" Margin="10,38,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="277"/>
+        <Label  Content="Текст новини" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top" Width="116"/>
+        <TextBox Name="textNewsBox" HorizontalAlignment="Left" Height="77" Margin="10,139,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="277"/>
+        <Button Content="Додати новину" HorizontalAlignment="Left" Margin="10,301,0,0" VerticalAlignment="Top" Width="158" Click="Button_Click"/>
 
     </Grid>
 </Window>

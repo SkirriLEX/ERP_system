@@ -45,24 +45,11 @@ namespace erp
             
         }
 
-        private void ListViewItem_Selected_1(object sender, RoutedEventArgs e)
-        {
-            Button_addNewNews.Visibility = Visibility.Visible;
-            var query =
-                from News in dataEntities.News
-                orderby News.createdOn ascending
-                select new {News.theme, News.createdOn, News.textOfNews};
-            DataGridTable.Visibility = Visibility.Visible;
-            DataGridTable.ItemsSource = query.ToList();
-            DataGridTable.Columns[0].Header = "Тема новини";
-            DataGridTable.Columns[1].Header = "Дата створення";
-            DataGridTable.Columns[2].Header = "Новина";
-        }
-
-        private void Button_addNewNews_Click(object sender, RoutedEventArgs e)
+        private void Button_add_Click(object sender, RoutedEventArgs e)
         {
             var addWindow = new AddNewNews();
             addWindow.Show();
+
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
@@ -228,6 +215,24 @@ namespace erp
             DataGridTable.Columns[1].Header = "Предмет";
             DataGridTable.Columns[2].Header = "Оцінка";
             DataGridTable.Columns[3].Header = "Дата створення";
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            var formNewNews = new AddNewNews();
+            formNewNews.Show();
+        }
+
+        private void ListViewItem_Selected_1(object sender, RoutedEventArgs e)
+        {
+            Button_news.Visibility = Visibility.Visible;
+            DataGridTable.Visibility = Visibility.Visible;
+
+            var query =
+                from News in dataEntities.News
+                select new {News.createdOn, News.theme, News.textOfNews};
+
+            DataGridTable.ItemsSource = query.ToList();
         }
     }
 

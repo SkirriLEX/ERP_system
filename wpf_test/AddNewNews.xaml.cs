@@ -28,5 +28,22 @@ namespace erp
         {
 
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            using (var context = new FacultyEntities())
+            {
+                var news1 = new News()
+                {
+                    theme = themeNewsBox.Text,
+                    textOfNews = textNewsBox.Text,
+                    createdOn = DateTime.Today,
+                    idNews = Guid.NewGuid().ToString()
+                };
+                context.News.Add(news1);
+                context.SaveChanges();
+            }
+            this.Close();
+        }
     }
 }

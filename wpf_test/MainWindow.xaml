@@ -129,7 +129,7 @@
                 </ListView>
             </StackPanel>
         </Grid>
-        <Button Content="Додати" HorizontalAlignment="Left" Margin="667,36,0,0" VerticalAlignment="Top" Width="84" Name="Button_addNewNews" Click="Button_addNewNews_Click" Visibility="Hidden"/>
+
         <ListView HorizontalAlignment="Left" Height="441" Margin="181,77,0,0" VerticalAlignment="Top" Width="570" Name="ListView_News" Visibility="Hidden">
             <ListView.View>
                 <GridView>
@@ -141,5 +141,6 @@
             </ListView.View>
         </ListView>
         <DataGrid Name="DataGridTable" HorizontalAlignment="Left" Height="483" Margin="155,35,0,0" VerticalAlignment="Top" Width="596" Visibility="Hidden"/>
+        <Button Name="Button_news" Content="Додати новину" HorizontalAlignment="Left" Margin="620,40,0,0" VerticalAlignment="Top" Width="131" Click="Button_Click" Visibility="Hidden"/>
     </Grid>
 </Window>
