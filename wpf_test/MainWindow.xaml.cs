@@ -109,7 +109,7 @@ namespace erp
 
         private void ListViewItem_Selected_4(object sender, RoutedEventArgs e)
         {
-            DataGridTable.Visibility = Visibility.Visible;
+            Button_Subject.Visibility = DataGridTable.Visibility = Visibility.Visible;
 
             var query =
                 from Subject in dataEntities.Subjects
@@ -151,7 +151,7 @@ namespace erp
 
         private void ListViewItem_Selected_7(object sender, RoutedEventArgs e)
         {
-            DataGridTable.Visibility = Visibility.Visible;
+            Button_students.Visibility = DataGridTable.Visibility = Visibility.Visible;
 
             var query =
                 from Student in dataEntities.Students
@@ -252,6 +252,18 @@ namespace erp
         {
             var empForm = new AddNewEpmloyee();
             empForm.Show();
+        }
+
+        private void Button_Subject_OnClick(object sender, RoutedEventArgs e)
+        {
+            var formSubj = new addNewSubj();
+            formSubj.Show();
+        }
+
+        private void Button_students_OnClick(object sender, RoutedEventArgs e)
+        {
+            var addStudForm = new AddNewStud();
+            addStudForm.Show();
         }
     }
 

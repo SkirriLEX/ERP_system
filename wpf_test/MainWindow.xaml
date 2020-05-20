@@ -145,5 +145,7 @@
         <Button Name="Button_Speciality" Content="Додати спеціальність" HorizontalAlignment="Left" Margin="573,36,0,0" VerticalAlignment="Top" Width="178" Click="Button_Click_1" Visibility="Hidden"/>
         <Button Name="Button_Specialization"  Content="Додати спеціалізацію" HorizontalAlignment="Left" Margin="573,36,0,0" VerticalAlignment="Top" Width="178" Click="Button_Specialization_Click" Visibility="Hidden"/>
         <Button Name="Button_Employee" Content="Додати співробітника" HorizontalAlignment="Left" Margin="570,36,0,0" VerticalAlignment="Top" Width="181" Click="Button_Employee_OnClick" Visibility="Hidden"/>
+        <Button Name="Button_Subject" Content="Додати предмет" HorizontalAlignment="Left" Margin="676,40,0,0" VerticalAlignment="Top" Width="75" Click="Button_Subject_OnClick"  Visibility="Hidden"/>
+        <Button Name="Button_students" Content="Додати студента" HorizontalAlignment="Left" Margin="676,40,0,0" VerticalAlignment="Top" Width="75" Click="Button_students_OnClick" Visibility="Hidden"/>
     </Grid>
 </Window>

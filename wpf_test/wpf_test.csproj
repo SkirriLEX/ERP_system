@@ -78,6 +78,12 @@
     <Compile Include="AddNewSpecialization.xaml.cs">
       <DependentUpon>AddNewSpecialization.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddNewStud.xaml.cs">
+      <DependentUpon>AddNewStud.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="addNewSubj.xaml.cs">
+      <DependentUpon>addNewSubj.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Department.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -152,6 +158,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AddNewSpecialization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddNewStud.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="addNewSubj.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
