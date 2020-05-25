@@ -1,9 +1,9 @@
-﻿using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Net;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Windows;
-using System.Data.Entity.Core.Objects;
 using System.Linq;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace erp
 {
@@ -20,7 +20,7 @@ namespace erp
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void closeProgram_Click(object sender, RoutedEventArgs e)
@@ -264,6 +264,20 @@ namespace erp
         {
             var addStudForm = new AddNewStud();
             addStudForm.Show();
+        }
+
+        private void ExportDataGrid_Click(object sender, RoutedEventArgs e)
+        {
+            var dg = DataGridTable;
+            dg.SelectAllCells();
+            dg.ClipboardCopyMode = DataGridClipboardCopyMode.IncludeHeader;
+            ApplicationCommands.Copy.Execute(null, dg);
+            dg.UnselectAllCells();
+            var Clipboardresult = (string)Clipboard.GetData(DataFormats.CommaSeparatedValue);
+            var swObj = new StreamWriter("exportToExcel.csv");
+            swObj.WriteLine(Clipboardresult);
+            swObj.Close();
+            Process.Start("exportToExcel.csv");
         }
     }
 
